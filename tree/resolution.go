@@ -293,6 +293,7 @@ type unresolved struct {
 	scanner.NodeContext
 	err error
 }
+
 type ResolutionContext struct {
 	scope
 	ids
@@ -323,6 +324,10 @@ func NewResolutionContext(res *Resolution, di *DocumentInfo) *ResolutionContext 
 	}
 	ctx.scope = scanner.NewScope(res, res, ctx, di.document, "")
 	return ctx
+}
+
+func (r *ResolutionContext) Info(key string) interface{} {
+	return nil
 }
 
 func (r *ResolutionContext) CallStack() scanner.CallStack {

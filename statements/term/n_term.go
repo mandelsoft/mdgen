@@ -11,6 +11,7 @@ import (
 	"strings"
 
 	"github.com/mandelsoft/mdgen/scanner"
+	"github.com/mandelsoft/mdgen/statements/glossary"
 	"github.com/mandelsoft/mdgen/statements/termdef"
 )
 
@@ -46,9 +47,7 @@ func (s *Statement) Start(p scanner.Parser, e scanner.Element) (scanner.Element,
 		label = true
 		tag = tag[1:]
 	}
-	td := scanner.Lookup[*termdef.TermdefNode](p)
-	glossary := td != nil
-	n := NewTermNode(p, e.Location(), tag, label, glossary, link)
+	n := NewTermNode(p, e.Location(), tag, label, link)
 	p.State.Container.AddNode(n)
 	return p.NextElement()
 }
@@ -75,28 +74,24 @@ type TermNode = *termnode
 
 type termnode struct {
 	scanner.NodeBase
-	term     termdef.TermRef
-	label    bool
-	link     bool
-	glossary bool
+	term  termdef.TermRef
+	label bool
+	link  bool
 }
 
-func NewTermNode(p scanner.Parser, location scanner.Location, tag string, label, glossary bool, link bool) TermNode {
+func NewTermNode(p scanner.Parser, location scanner.Location, tag string, label, link bool) TermNode {
 	term := termdef.MapTermTag(tag)
 	return &termnode{
 		NodeBase: scanner.NewNodeBase(p.Document(), location),
 		term:     term,
 		label:    label,
-		glossary: glossary,
 		link:     link,
 	}
 }
 
 func (n *termnode) Print(gap string) {
 	mode := n.term.Mode()
-	if n.glossary {
-		mode = "glossary"
-	} else if n.label {
+	if n.label {
 		mode = "label"
 	}
 	fmt.Printf("%sTERM %s[%s]\n", gap, n.term.Tag(), mode)
@@ -129,7 +124,8 @@ func (n *termnode) Emit(ctx scanner.ResolutionContext) error {
 	if err != nil {
 		return err
 	}
-	if n.glossary {
+
+	if ctx.Info(glossary.InfoKey) == true {
 		link = "#glossary/" + nctx.term.Tag()
 	}
 	if n.link {

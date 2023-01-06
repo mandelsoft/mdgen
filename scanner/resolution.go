@@ -389,6 +389,7 @@ type Unscoped interface {
 
 	GetContextNodeContext() NodeContext
 	CallStack() CallStack
+	Info(key string) interface{}
 	Writer() Writer
 	Target() string
 	RegisterUnresolved(nctx NodeContext, err error) error
@@ -559,6 +560,28 @@ func (w *writerContext) Writer() Writer {
 
 func NewWriterContext(w Writer, ctx ResolutionContext) ResolutionContext {
 	return &writerContext{ctx, w}
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+type delegationContext struct {
+	ResolutionContext
+	delegate ResolutionContext
+}
+
+func (d *delegationContext) Writer() Writer {
+	return d.delegate.Writer()
+}
+
+func (d *delegationContext) Info(key string) interface{} {
+	if i := d.delegate.Info(key); i != nil {
+		return i
+	}
+	return d.ResolutionContext.Info(key)
+}
+
+func NewEmitDelegationContext(orig ResolutionContext, ctx ResolutionContext) ResolutionContext {
+	return &delegationContext{ctx, orig}
 }
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -7,7 +7,7 @@
 ## A
 
 ### [`anchor`](statements.md#/statement/anchor)<a id="glossary/statement/anchor"/>
-A <a href="#/statements">statement</a> used define a titled anchor.
+A <a href="#glossary/statement">statement</a> used define a titled anchor.
 ### [Anchor](syntax.md#/anchors)<a id="glossary/anchor"/>
 
 A <a href="#glossary/tag">tag</a> used to identify <a href="#glossary/refelem">referencable elements</a>. They can be
@@ -17,9 +17,9 @@ and <a href="#glossary/loca">local anchors</a>.
 ## B
 
 ### [`block`](statements.md#/statement/block)<a id="glossary/statement/block"/>
-A <a href="#/statements">statement</a> used to define a <a href="syntax.md#/textmodules">text module</a>.
+A <a href="#glossary/statement">statement</a> used to define a <a href="#glossary/textmodule">text module</a>.
 ### [`blockref`](statements.md#/statement/blockref)<a id="glossary/statement/blockref"/>
-A <a href="#/statements">statement</a> used to instantiate a <a href="syntax.md#/textmodules">text module</a>.
+A <a href="#glossary/statement">statement</a> used to instantiate a <a href="#glossary/textmodule">text module</a>.
 ## D
 
 ### [Directive](syntax.md#/directives)<a id="glossary/directive"/>
@@ -30,15 +30,15 @@ generation of a document tree.
 ## E
 
 ### [`escape`](statements.md#/statement/escape)<a id="glossary/statement/escape"/>
-A <a href="#/statements">statement</a> used to apply HTML escaping on its content.
+A <a href="#glossary/statement">statement</a> used to apply HTML escaping on its content.
 ## F
 
 ### [`figure`](statements.md#/statement/figure)<a id="glossary/statement/figure"/>
-A <a href="#/statements">statement</a> used add an image to the output.
+A <a href="#glossary/statement">statement</a> used add an image to the output.
 ## G
 
 ### [`glossary`](statements.md#/statement/glossary)<a id="glossary/statement/glossary"/>
-A <a href="#/statements">statement</a> used to generate a glossary for the defined <a href="syntax.md#/terms">terms</a>.
+A <a href="#glossary/statement">statement</a> used to generate a glossary for the defined <a href="#glossary/term">terms</a>.
 ### [Global Anchor](syntax.md#/anchors)<a id="glossary/globa"/>
 
 Location independent anchor globally unique for the <a href="#glossary/sourcetree">source tree</a>.
@@ -50,7 +50,7 @@ Location independent <a href="#glossary/tag">tag</a> globally unique for the com
 ## I
 
 ### [`include`](statements.md#/statement/include)<a id="glossary/statement/include"/>
-A <a href="#/statements">statement</a> used to include the content of a file.
+A <a href="#glossary/statement">statement</a> used to include the content of a file.
 ## K
 
 ### [Keyword](syntax.md#/directives)<a id="glossary/keyword"/>
@@ -60,11 +60,11 @@ The name of a <a href="#glossary/directive">directive</a>.
 ## L
 
 ### [`label`](statements.md#/statement/label)<a id="glossary/statement/label"/>
-A <a href="#/statements">statement</a> used to add the label of the referenced element to the document.
+A <a href="#glossary/statement">statement</a> used to add the label of the referenced element to the document.
 ### [`labeled`](statements.md#/statement/labeled)<a id="glossary/statement/labeled"/>
-A <a href="#/statements">statement</a> used add a tagged element with a caption to the output.
+A <a href="#glossary/statement">statement</a> used add a tagged element with a caption to the output.
 ### [`link`](statements.md#/statement/link)<a id="glossary/statement/link"/>
-A <a href="#/statements">statement</a> used to add a hyperlink to some embedded text.
+A <a href="#glossary/statement">statement</a> used to add a hyperlink to some embedded text.
 ### [Local Anchor](syntax.md#/anchors)<a id="glossary/loca"/>
 
 An <a href="#glossary/anchor">anchor</a> locally valid in a generated document.
@@ -90,7 +90,7 @@ A <a href="#glossary/numberrange">number range</a> controlling a <a href="#gloss
 ## N
 
 ### [`numberrange`](statements.md#/statement/numberrange)<a id="glossary/statement/numberrange"/>
-A <a href="#/statements">statement</a> used to declare and configure <a href="syntax.md#/numberranges">number ranges</a>.
+A <a href="#glossary/statement">statement</a> used to declare and configure <a href="#glossary/numberrange">number ranges</a>.
 ### [Number Range](syntax.md#/numberranges)<a id="glossary/numberrange"/>
 
 A hierarchical labeling mechanism, e.g. used to label sections.
@@ -98,17 +98,17 @@ A hierarchical labeling mechanism, e.g. used to label sections.
 ## R
 
 ### [`ref`](statements.md#/statement/ref)<a id="glossary/statement/ref"/>
-A <a href="#/statements">statement</a> used to add a linked label to the document.
+A <a href="#glossary/statement">statement</a> used to add a linked label to the document.
 ### [Referencable Element](syntax.md#/anchors)<a id="glossary/refelem"/>
 Part of a document, which can be target of
 a hyperlink (see <a href="statements.md#/statements/referencables">→3.1</a>).
 ## S
 
 ### [`section`](statements.md#/statement/section)<a id="glossary/statement/section"/>
-A <a href="#/statements">statement</a> used to describe a structural element in the final document tree.
+A <a href="#glossary/statement">statement</a> used to describe a structural element in the final document tree.
 ### [`sectionref`](statements.md#/statement/sectionref)<a id="glossary/statement/sectionref"/>
-A <a href="#/statements">statement</a> used to link the section structure of another <a href="syntax.md#/sourcedoc">source document</a> into the
-  own section structure. This statement is related to statement <a href="#/statement/section">`section`</a>.
+A <a href="#glossary/statement">statement</a> used to link the section structure of another <a href="#glossary/sourcedoc">source document</a> into the
+  own section structure. This statement is related to statement <a href="#glossary/statement/section">`section`</a>.
 ### [Scope](syntax.md#/scoped)<a id="glossary/scope"/>
 
   A scope is used as namespace to resolve local <a href="#glossary/tag">tags</a> to <a href="#glossary/tagelem">taggable elements</a>.
@@ -133,16 +133,16 @@ A sequence of one or more <a href="#glossary/directive">directives</a>.
 ## T
 
 ### [`template`](statements.md#/statement/template)<a id="glossary/statement/template"/>
-A <a href="#/statements">statement</a> flagging a <a href="syntax.md#/sourcedoc">source document</a> to be omitted
+A <a href="#glossary/statement">statement</a> flagging a <a href="#glossary/sourcedoc">source document</a> to be omitted
   from the generation of a markdown file.
 ### [`term`](statements.md#/statement/term)<a id="glossary/statement/term"/>
-A <a href="#/statements">statement</a> used to output a previously defined <a href="syntax.md#/terms">term</a>.
+A <a href="#glossary/statement">statement</a> used to output a previously defined <a href="#glossary/term">term</a>.
 ### [`termdef`](statements.md#/statement/termdef)<a id="glossary/statement/termdef"/>
-A <a href="#/statements">statement</a> used to define a <a href="syntax.md#/terms">term</a> used in the document tree.
+A <a href="#glossary/statement">statement</a> used to define a <a href="#glossary/term">term</a> used in the document tree.
 ### [`title`](statements.md#/statement/title)<a id="glossary/statement/title"/>
-A <a href="#/statements">statement</a> used to add the title of the referenced element to the document.
+A <a href="#glossary/statement">statement</a> used to add the title of the referenced element to the document.
 ### [`toc`](statements.md#/statement/toc)<a id="glossary/statement/toc"/>
-A <a href="#/statements">statement</a> used add a table of contents}.
+A <a href="#glossary/statement">statement</a> used add a table of contents}.
 ### [Tag](syntax.md#/tags)<a id="glossary/tag"/>
 A short identifier used identify a
 dedicated element in the <a href="#glossary/sourcetree">source tree</a>. There are three kinds
@@ -171,5 +171,5 @@ multiple times all over the document tree.
 ## V
 
 ### [`value`](statements.md#/statement/value)<a id="glossary/statement/value"/>
-A <a href="#/statements">statement</a> used access the argument value of a
+A <a href="#glossary/statement">statement</a> used access the argument value of a
   {term textmodule}} parameter.

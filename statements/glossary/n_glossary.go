@@ -48,6 +48,33 @@ func (s *Statement) Start(p scanner.Parser, e scanner.Element) (scanner.Element,
 
 ////////////////////////////////////////////////////////////////////////////////
 
+const InfoKey = "glossary"
+
+type glossaryContext struct {
+	scanner.ResolutionContext
+	writer scanner.Writer
+}
+
+func newContext(ctx scanner.ResolutionContext, w scanner.Writer) scanner.ResolutionContext {
+	return &glossaryContext{
+		ResolutionContext: ctx,
+		writer:            w,
+	}
+}
+
+func (c *glossaryContext) Info(key string) interface{} {
+	if key == InfoKey {
+		return true
+	}
+	return c.ResolutionContext.Info(key)
+}
+
+func (c *glossaryContext) Writer() scanner.Writer {
+	return c.writer
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
 type GlossaryNode = *glossarynode
 
 type glossarynode struct {
@@ -92,7 +119,7 @@ func (n *glossarynode) ResolveLabels(ctx scanner.ResolutionContext) error {
 		if !strings.HasPrefix(nctx.Term().Tag(), n.tag) {
 			continue
 		}
-		err := nctx.GetNodeSequence().Register(nctx.GetContext())
+		err := nctx.GetNodeSequence().Register(newContext(nctx.GetContext(), nil))
 		if err != nil {
 			return err
 		}
@@ -102,7 +129,7 @@ func (n *glossarynode) ResolveLabels(ctx scanner.ResolutionContext) error {
 		if !strings.HasPrefix(nctx.Term().Tag(), n.tag) {
 			continue
 		}
-		err := nctx.GetNodeSequence().ResolveLabels(nctx.GetContext())
+		err := nctx.GetNodeSequence().ResolveLabels(newContext(nctx.GetContext(), nil))
 		if err != nil {
 			return err
 		}
@@ -111,6 +138,17 @@ func (n *glossarynode) ResolveLabels(ctx scanner.ResolutionContext) error {
 }
 
 func (n *glossarynode) ResolveValues(ctx scanner.ResolutionContext) error {
+	tags := ctx.GetGlobalTags(termdef.GT_TERM)
+	for _, c := range tags {
+		nctx := c.(*termdef.TermDefNodeContext)
+		if !strings.HasPrefix(nctx.Term().Tag(), n.tag) {
+			continue
+		}
+		err := nctx.GetNodeSequence().ResolveValues(newContext(nctx.GetContext(), nil))
+		if err != nil {
+			return err
+		}
+	}
 	return nil
 }
 
@@ -171,7 +209,7 @@ outer:
 				txt = nctx.Term().FormatSingular()
 			}
 			fmt.Fprintf(w, "### [%s](%s)<a id=\"%s\"/>\n", txt, link, "glossary/"+tag)
-			err = nctx.GetNodeSequence().Emit(scanner.NewWriterContext(w, nctx.GetContext()))
+			err = nctx.GetNodeSequence().Emit(newContext(nctx.GetContext(), w))
 			if err != nil {
 				return n.Errorf("term %s: %s", nctx.Term().Tag(), err)
 			}

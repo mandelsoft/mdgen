@@ -33,7 +33,7 @@ test: build
 	@rm -rf tmp/test
 	@mkdir -p tmp/test
 	bin/mdgen src tmp/test
-	diff -ur tmp/test doc
+	diff -ur doc tmp/test
 
 .PHONY: all
 all: test build doc
