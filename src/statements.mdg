@@ -1,0 +1,350 @@
+{{section /statements}}Statements
+Table of Contents
+
+{{toc :#/statements}}
+
+The {{term mdgen}} uses special {{termdef *statement}}statement{{description}}
+A sequence of one or more {{term *directive}}.
+{{endtermdef}} to control the generation of the markdown files.
+A statement is a sequence of one or more {{term *directive}}. If it consists of
+multiple directives, there might be other content in between, which is used
+by the statement to influence and structure the generation of a document tree.
+
+If a statement is composition of multiple directives in mode cases it is finished
+by an appropriate end directive, this uses the {{term keyword}} `end` or alternatively
+the more expressice `end<statement-name>`, for example `\{{link #tag}}Title\{{endlink}}`.
+
+The following statements are used:
+
+{{section /statements/referencables}}Referencable Document Elements
+
+Referencable elements provide {{term *anchor}} which can be used
+to establish hyperlinks with several other {{link #/statements/links}}statements{{endlink}}.
+
+{{section /statements/structure}}Document Structure
+
+As for regular markdown a single document may be hierarchically structured
+in sections. But the {{term mdgen}} additionally supports to span
+a section hierarchy over multiple documents of the {{term sourcetree}}.
+The {{link #/numberranges}}numbering{{endlink}} of the sections will then
+be consistently provided for the complete document tree.
+
+{{blockref section:/statement}}
+  {{arg syn}}`\{{section` [<*anchor*>]`}}` <*title*> *<newline*> ... `\{{endsection}}`{{endarg}}
+  {{arg short}}A {{term statement}} used to describe a structural element in the final document tree.{{endarg}}
+{{arg desc}}
+A section is the structural element of the document tree. It uses the {{term numberrange}} `section` to receive
+a numbering. If sections are nested the sub-level elements get appropriate sub level labels.
+In contrast to the native markdown heading feature sections can carry a logical (stable) {{term anchor}}
+independent of the heading text used by {{link #/statements/links}}other statements{{endlink}} to establish hyperlinks.
+
+The section structure is not limited to a single document, it might span multiple {{term *sourcedoc}}.
+{{endarg}}
+
+{{blockref sectionref:/statement}}
+  {{arg syn}}
+  `\{{*sectionref` <*ref*>`}}` ... `\{{endsectionref}}`\<br>
+  `\{{sectionref` <*ref*>`}}`{{endarg}}
+  {{arg short}}A {{term statement}} used to link the section structure of another {{term sourcedoc}} into the
+  own section structure. This statement is related to statement {{term statement/section}}.{{endarg}}
+{{arg desc}}
+This statement is used to link the section structure of another {{term sourcedoc}} at the actual
+location of the actual {{term sourcedoc}}. The top level section of the document referred to by the
+reference is added to the actual section hierarchy, the target document must have only one top level
+section.
+
+The flagged variant can be used to create an inline toc line in the actual document, see statements
+{{term statement/label}} and {{term statement/title}}. The given reference is set as current
+reference for the nested content.
+
+{{labeled example:reftoc}}Explicit Table of Contents for Linked Documents{{content}}
+```
+### Table Of Contents:
+  \{{*sectionref #/syntax    }}\{{label}} \{{title}}\{{end}} <br/>
+  \{{*sectionref #/statements}}\{{label}} \{{title}}\{{end}} <br/>
+  \{{*sectionref #/examples  }}\{{label}} \{{title}}\{{end}} <br/>
+  \{{link #/glossary}}\{{title #/glossary}}\{{end}} <br/>
+```
+{{endlabeled}}
+{{endarg}}
+{{endsection}}
+
+{{blockref anchor:/statement}}
+  {{arg syn}}
+  `\{{*anchor` [ <*numberrange*> '`:`'] ['`!`'] <*anchor*> `}} <*caption text*> \{{endanchor}}`</br>
+  `\{{anchor` [ <*numberrange*> '`:`'] <*anchor*> `}}{{endarg}}
+  {{arg short}}A {{term statement}} used define a titled anchor.{{endarg}}
+{{arg desc}}
+Define an {{term anchor}} for the actual location. The optional caption text is used as title.
+Additionally the anchor is labeled with the specified {{term numberrange}}, If no
+{{term !numberrange}} is given the name `anchor` is used.
+The title and label is avaiable as tag information, for example for the
+{{term statement/title}} or {{term statement/label}} statement.
+{{endarg}}
+
+{{blockref figure:/statement}}
+  {{arg syn}}`\{{figure` [ <*anchor arg*> ] <*filepath arg*> { <*attribute arg*> } `}} <*caption text*> \{{endfigure}}`{{endarg}}
+  {{arg short}}A {{term statement}} used add an image to the output.{{endarg}}
+{{arg desc}}
+Add a centered image to the output with a caption. This statement uses the {{term numberrange}} to label the
+caprions. The caption prefixed with the label and potential {{term !numberrange}} name abbreviation
+is placed below the image.
+HTML image attributes may be given by additional attribute arguments of the form {{escape}}<name>`=`<value>{{end}},
+for example `width=800`.
+{{endarg}}
+
+{{blockref labeled:/statement}}
+  {{arg syn}}`\{{labeled` <*numberrange*> [ '`:`' <*anchor*> ]  <*mode arg*>`}} <*caption text*>  \{{content}} <*content*> \{{endlabeled}}`{{endarg}}
+  {{arg short}}A {{term statement}} used add a tagged element with a caption to the output.{{endarg}}
+{{arg desc}}
+Add content to the output, which carries a caption and label according to the given {{term numberrange}}.
+The output mode can be influence by a second argument:
+- `box`: (default) the content is placed in a framed box, which is centered together with the caption to visually
+  separate the complete element from the rest of the text flow.
+- `float`: the content just follows the {{term anchor}} followed by a centered caption.
+   So, the content has complete control over its formatting.
+{{endarg}}
+
+{{endsection}}
+
+
+
+{{section /statements/info}}Element Information
+{{blockref label:/statement}}
+  {{arg syn}}`\{{label` [<*ref*>] `}}`{{endarg}}
+  {{arg short}}A {{term statement}} used to add the label of the referenced element to the document.{{endarg}}
+{{arg desc}}
+The label of the referenced element is added to the document. All elements supporting a {{term numberrange}}
+can be used, e.g. a {{term statement/section}}.
+If no reference is given the current reference is used. The used reference is set as current reference.
+{{endarg}}
+
+{{blockref title:/statement}}
+  {{arg syn}}`\{{title` [<*ref*>] `}}`{{endarg}}
+  {{arg short}}A {{term statement}} used to add the title of the referenced element to the document.{{endarg}}
+{{arg desc}}
+The title of the referenced element is added to the document. All elements supporting a {{term numberrange}}
+can be used, e.g. a {{term statement/section}}.
+If no reference is given the current reference is used. The used reference is set as current reference.
+{{endarg}}
+{{endsection}}
+
+
+{{section /statements/links}}Hyperlinks
+
+There are several statements used to generate hyperlinks.
+
+{{blockref link:/statement}}
+  {{arg syn}}`\{{link` <*ref*> `}}` <*content*> '`\{{endlink}}`'{{endarg}}
+  {{arg short}}A {{term statement}} used to add a hyperlink to some embedded text.{{endarg}}
+{{arg desc}}
+Establish a hyperlink to some other part of the document tree on the embedded content. All elements
+providing {{term *anchor}} can be used to link to.
+{{endarg}}
+
+{{blockref ref:/statement}}
+  {{arg syn}}`\{{ref` ['`*`' ['`^`']] <*ref*> `}}`{{endarg}}
+  {{arg short}}A {{term statement}} used to add a linked label to the document.{{endarg}}
+{{arg desc}}
+Establish a hyperlink on the label of a referenced element (see {{ref #/anchors}}).
+If the asterisk (`*`) is given a the label is preceded with the abbreviation text of the
+{{link #/numberranges}}label type{{endlink}}. If additionally the `^` prefix is given, the
+abbreviation text will be converted to upper case first.
+{{endarg}}
+{{endsection}}
+
+
+{{section /statements/terms}}Terms
+
+{{term *Term}} can be used to formally define a {{term tag}} and assign it to  a {{term tag}}.
+This {{term !tag}} can then be used all over the document to substitute the centrally
+defined text and to automatically establish a hyperlink to the section of its definition.
+
+Additionally, the defined {{term !*term}} with their definition texts can then be
+used to automatically generate a glossary for the document tree. For more details see
+{{ref #/terms}}.
+
+{{blockref termdef:/statement}}
+  {{arg syn}}`\{{termdef` ['`*`' | '`-`'] <*tag*>`}}` <*term name as content*> `\{{description}}` <*glossary content*> `\{{endtermdef}}`{{endarg}}
+  {{arg short}}A {{term statement}} used to define a {{term term}} used in the document tree.{{endarg}}
+{{arg desc}}
+The given text is defined as {{term term}} with the given logical {{term tag}}.
+The defined tag can be used all over the document tree with the {{term statement/term}}.
+The definition of a term should be placed at the location, where the term is explained.
+The usage of the term will automatically be linked to the section containing the term definition.
+
+To support the various usage scenarios of the term, the term text should always be
+specified in its singular form. To provides explicit highlighting the term may use
+the markdown formatting characters `*`, `_` or <code>`</code>.
+
+If a term is used the specification of the term tag determines the output mode.
+If an asterisk (`*`) is used the plural form is substituted. The term tag is always
+defined in its lower case form. If the specified tag uses a first upper case letter,
+the upper case form is substituted.
+
+By default the `termdef` statement outputs the defined term according to the output
+mode derived from the tag in a highlighted format to indicate its definition location.
+If the `-` prefix is given, the output is omitted, and the statement just defines
+the term for usage elsewhere.
+its definition.
+{{endarg}}
+
+{{blockref term:/statement}}
+  {{arg syn}}`\{{term` ['`!`'] (['`#`'] | ['`*`']) <*tag*>`}}`{{endarg}}
+  {{arg short}}A {{term statement}} used to output a previously defined {{term term}}.{{endarg}}
+{{arg desc}}
+
+This {{term statement}} outputs a {{term term}} previously defined with the {{term statement/termdef}}
+statement. Unless the prefix `!` a hyperlink to the section defining the term will be added to the term.
+
+The used tag specification determines the output mode. The term tag is always defined
+in its lower case form. If an asterisk (`*`) is used the plural form is substituted,
+if the tag uses a first upper case character, the upper case form is substituted.
+If the prefix `#` is given, instead of the term the label of the section containing
+the term definition is used.
+{{endarg}}
+
+{{blockref glossary:/statement}}
+  {{arg syn}}`\{{glossary` [<*prefix*>]`}}`{{endarg}}
+  {{arg short}}A {{term statement}} used to generate a glossary for the defined {{term *term}}.{{endarg}}
+{{arg desc}}
+
+This {{term statement}} outputs a glossary, an alphabetical index of the used {{term *term}}
+in the document tree. For an example, please refer to our own {{link /glossary}}glossary{{endlink}}.
+
+The optional prefix can be used to restrict the glossary to a dedicated term tag prefix.
+{{endarg}}
+{{endsection}}
+
+{{section /statements/textmodules}}Text Modules
+
+{{term *textmodule}} can be used to define reusable and parameterized block content
+to
+- share the same content at different places in the document tree
+- provide parameterized text patterns for descriptions of the same kind, which
+  should look identical for every incarnation. For example, this complete document is
+  based on a statement pattern.
+
+{{blockref block:/statement}}
+  {{arg syn}}`\{{block` <*tag*>`}}` { <*parameter*> } <*block content*> `\{{endblock}}`
+
+  A parameter might optionally be defaulted. Without a default:
+
+  `\{{param <*name*> { '`,`' <*name*> } `}}`
+
+  and with a default:
+
+  `\{{*param` <*name*> { '`,`' <*name*> } `}}` <*content*> `\{{endparam}}`
+  {{endarg}}
+  {{arg short}}A {{term statement}} used to define a {{term textmodule}}.{{endarg}}
+{{arg desc}}
+
+This {{term statement}} defines a {{term textmodule}}, which can be referred to using the
+specified tag, it might be a {{term globa}} or a {{term loca}}. Optionally
+the block definition may declare parameters. A parameter may be defaulted using the
+flagged syntax for the `param` directive.
+{{endarg}}
+
+
+{{blockref blockref:/statement}}
+  {{arg syn}}`\{{blockref` [ <*name*> '`:`'] <*ref*>`}}` { `\{{arg` <*name*> `}}` <*content*> `\{{endarg}} }`{{endarg}}
+  {{arg short}}A {{term statement}} used to instantiate a {{term textmodule}}.{{endarg}}
+{{arg desc}}
+
+This {{term statement}} instantiates a {{term textmodule}} defined with the
+statement {{term statement/block}}, which can be referred to using the
+specified tag, it might be a {{term globa}} or a {{term loca}}. Optionally
+a name for the instantiation can be set. It is used to label the scope
+provided by the instantiated {{term !textmodule}}. If no explicit name is given,
+an impicit name is generated, numbered according to the instantiation count of
+the referenced block in the actual scope.
+
+{{endarg}}
+
+
+{{blockref value:/statement}}
+  {{arg syn}}`\{{value` ['`*`']<*parameter name*> `}}`{{endarg}}
+  {{arg short}}A {{term statement}} used access the argument value of a
+  {term textmodule}} parameter.{{endarg}}
+{{arg desc}}
+Inside a {{term textmodule}} body this {{term statement}} is used to
+access the argument value of a parameter. Parameter names are resolved
+up the static scope chain, this means an inner {{term !textmodule}} may access
+argument values of outer {{term !*textmodule}}.
+
+If the name is prefixed with a asterisk (`*`) the value of the appropriate
+{{term scope}} attribute is substitute.
+{{endarg}}
+
+{{blockref template:/statement}}
+  {{arg syn}}`\{{template}}`{{endarg}}
+  {{arg short}}A {{term statement}} flagging a {{term sourcedoc}} to be omitted
+  from the generation of a markdown file.{{endarg}}
+{{arg desc}}
+This statement can be used to flag a {{term sourcedoc}} to be omitted
+from the generation of a markdown file. Neverthess, the content is interpreted
+and the {{term *textmodule}} defined in this file are available to be used
+in other {{term !*sourcedoc}}.
+
+{{endarg}}
+
+{{endsection}}
+
+
+{{section /statements/misc}}Miscellaneous Statements
+
+{{blockref numberrange:/statement}}
+  {{arg syn}}`\{{numberrange` <*name*> ['`:`' <*format*>] [ '`:#`' <*starting heading level*>] { <*attribute arg*> } }}
+
+  {{endarg}}
+  {{arg short}}A {{term statement}} used to declare and configure {{term *numberrange}}.{{endarg}}
+{{arg desc}}
+This {{term statement}} declares and/or configures a {{term numberrange}}. It can
+only be used at the top-level {{term scope}} outside of any other {{term !statement}}
+block.
+
+The format can be specified as described in {{ref #/numberranges}}. Optionally the
+heading level can be specified, which should be used for the first hierarch level (default is 1).
+
+The optional atribute arguments are of the form {{escape}}<*attr*> `=` <*value*>{{end}}.
+The following attributes are supported:
+- {{escape}}`master=`<*name*>[`:`<*level*>]{{end}}: the name of the {{term !numberrange}} to be used as {{link #/numberranges}}master{{endlink}}
+- {{escape}}`abbrev=`<*text*>{{end}}: the abbreviation name of the {{term !numberrange}} used to prefix a label.
+{{endarg}}
+
+
+{{blockref toc:/statement}}
+  {{arg syn}}`\{{toc` [<*ref*>] }}
+
+  {{endarg}}
+  {{arg short}}A {{term statement}} used add a table of contents}.{{endarg}}
+{{arg desc}}
+This {{term statement}} outputs a table of contents. If a reference is specified
+the table is limited to the given section.
+{{endarg}}
+
+
+{{blockref include:/statement}}
+  {{arg syn}}`\{{include` <*path argument*> `}}`{{endarg}}
+  {{arg short}}A {{term statement}} used to include the content of a file.{{endarg}}
+{{arg desc}}
+This statement can be used to include the content of a file. The content is
+not interpreted, it is just forwarded to the generated output.
+
+If interpreted content should be provided in a reusable manner a
+{{term textmodule}} has to be used. Using the {{term statement/template}} statement
+the generation of a markdown document for a {{term sourcedoc}} can be omitted.
+{{endarg}}
+
+/###############################################################################
+/# statement escape
+
+{{blockref escape:/statement}}
+  {{arg syn}}`\{{escape}}` <*content*> `\{{endescape}}`{{endarg}}
+  {{arg short}}A {{term statement}} used to apply HTML escaping on its content.{{endarg}}
+{{arg desc}}
+The content of this {{term statement}} is HTML-escaped. Breaking rules (`</br>`)
+are not escaped.
+{{endarg}}
+{{endsection}}
+{{endsection}}

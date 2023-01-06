@@ -1,0 +1,413 @@
+{{section /syntax}}The Document Graph
+Table of Contents
+
+{{toc :#/syntax}}
+
+The *Markdown Generator* maintains a documentation consisting of a set of
+markdown files, which are highly interconnected via hyperlinks.
+Therefore a set of source files will be parsed and transferred into a
+document graph describing all the those connections among parts of the
+involved documents. This graph is then transformed again into a plain
+set of markdown files by generating the appropriate document
+anchors and links.
+
+{{section /filestructure}}File Structure
+
+The generator works on a {{termdef sourcetree}}source tree{{description}}
+A tree of source files under a common root folder containing source files for
+the generator, which build an interconnected documentation.
+{{endtermdef}}.
+
+This is a tree of {{term *sourcedoc}} and other files under a common root
+folder containing source files for the generator, which build a closed
+documentation with hyperlinks among different parts.
+Non-source documents are ignored as long as they are not used
+by `figure` or `include` statements.
+
+
+The outcome of the generation process is a tree of interconnected markdown
+files following the same structure.
+
+{{labeled example:tree}}A typical source tree{{content}}
+```
+{{include includes/tree.txt}}
+```
+
+It contains three source documents denoted by the names
+`/README`, `/chapters/intro` and `/chapters/spec`.
+{{endlabeled}}
+
+{{endsection}}
+
+{{section /sourcedoc}}Source Document
+
+A {{termdef sourcedoc}}source document{{description}}
+A file used a source for the markdown generator. It consists of
+a sequence of {{term *directive}} and markdown text and used the file suffix `.mdg`.
+{{endtermdef}} is a file in the {{term sourcetree}} with the file suffix `.mdg`.
+The *name* of the source document is the path from the root of the
+{{term sourcetree}} to the file with the suffix omitted.
+It will be used to generate an appropriate markdown file with the suffix `.md`.
+
+A {{term !sourcedoc}} consists of a sequence of {{term *directive}} and regular
+{{termdef markdown}}markdown text{{description}}
+Part of a {{term sourcedoc}} used as plain markdown text for the generated
+markdown files.
+{{endtermdef}}.
+
+Line content is omitted after a `{{cs}}` character sequence. Lines starting
+with the comment sequence are completely omitted (see {{ref *#example}}).
+
+Different source documents can be embedded in a common chapter hierarchy
+regardless of their names and locations in the source tree by using
+the `sectionref` statement.
+
+{{endsection}}
+
+{{section /directives}}Directives
+
+The markdown generator uses special {{termdef *directive}}directive{{description}}
+Directives are dedicated markers used by the generator to influence and structure the
+generation of a document tree.
+{{endtermdef}}. A {{term sourcedoc}} consists if a sequence of directives and
+regular markdown text.
+
+A directive consists of a {{termdef keyword}}keyword{{description}}
+The name of a {{term directive}}.
+{{endtermdef}} and argument strings. It is described by the following syntax:
+<div align=center>
+
+  {{escape}}'`\{{`' '` `' ['`*`'] <keyword> {'` `' {'` `'} <arg>} {'` `'} '`}}`'{{endescape}}
+</div>
+
+An argument is a string which may be quoted with double quotes (`"`) to include
+spaces. Additionally the escape character (`\ `) can be use to escape single
+characters. The start sequence `\{{` scan be escaped by a preceding (`\ `)
+character.
+
+A directive can be flagged with the asterisk (`*`) character. This is used by {{term *statement}}
+to indicate an optional nested structure (see {{ref #/statements}}).
+
+A newline after a directive is removed from the following text.
+
+Directives are used to formulate {{term *statement}}, which are used by the generator
+to incluence and structure the generated document tree.
+
+A typical {{term sourcedoc}} could like in {{ref *#example}}.
+
+{{labeled example:example}}A typical source document{{content}}
+**Source File:** README.mdg
+```
+{{cs}}############################################################
+{{cs}} This is a sample source document for the markdown generator
+{{cs}}############################################################
+\{{numberrange section:V1.}}
+\{{numberrange figure:-a master=section:#2 abbrev=fig}}
+
+\{{section}}A Game Changing Tool
+
+\{{section introduction}}Introduction
+For further details see \{{link #specification}}specification section\{{endlink}}.
+\{{endsection}}
+
+\{{section specification}}Specification
+Here are the details. For a common overview, please see \{{ref #introduction}}
+\{{endsection}}
+
+\{{endsection}}
+```
+{{endlabeled}}
+{{endsection}}
+
+{{section /tags}}Tags
+
+A {{termdef tag}}tag{{description}}A short identifier used identify a
+dedicated element in the {{term sourcetree}}. There are three kinds
+of {{term *tagelem}}: {{term *refelem}}, {{term *term}}, and {{term *textmodule}}.
+{{endtermdef}} is short identifier used to identify a
+dedicated {{termdef tagelem}}taggable element{{description}}An identifiable element
+descibed by a {{term statement}} of the {{term mdgen}} in the {{term sourcetree}}.
+{{endtermdef}} in the {{term sourcetree}}. It is described by a {{term statement}}
+of the {{term mdgen}} in a {{term sourcedoc}}.
+
+There are three kinds of taggable elements:
+- {{term *refelem}}: Elements, which might be targets for hyperlinks.
+- {{term *term}}: A formal part of the terminology used in the {{term sourcetree}}.
+- {{term *textmodule}}: A parameterized block of reusable content.
+
+The {{term !*tag}} are maintained in separate namespaces, therefore different
+kinds of elements may carry the same tag.
+
+A {{term !tag}} is a sequence of identifiers separated by a slash ('/') to formulate
+hierarchical {{term !tag}} names. An identifier should start with a lower case letter
+followed by a sequence of digits or lower case letters, for example `statements/referencables`.
+
+There are two flavors of tags:
+- {{termdef *Globtag}}global tag{{description}}
+Location independent {{term tag}} globally unique for the complete {{term sourcetree}}.
+{{endtermdef}} are used to identify locations in a {{term sourcetree}} by a globally
+unique name. This name can be used to refer to the tagged element without
+requiring to know the document, the {{term !tag}} is located in. They always start with
+the slash character (`/`).
+- {{termdef *Loctag}}local tag{{description}}A {{term tag}} locally valid in a
+generated document.{{endtermdef}} are used to identify locations relative to the
+actually generated document. They do not start with a slash character (`/`).
+When used to refer to an element a local tag can pre prefixed by the name of the
+document defining the tag separated by a '#' to refer to elements defined in
+another document.
+
+{{section /anchors}}Anchors for Referencable Elements
+
+{{termdef *Anchor}}anchor{{description}}
+A {{term tag}} used to identify {{term *refelem}}. They can be
+used to establish hyperlinks among documents. There are {{term *globa}}
+and {{term *loca}}.
+{{endtermdef}} are a central concept of the {{term mdgen}}. They are used to
+establish a stable hyperlink structure among various parts of the
+{{term sourcetree}}.
+
+{{term !*Anchor}} can be attached to various types of {{link #/statements/referencables}}{{termdef *refelem}}
+referencable element{{description}}Part of a document, which can be target of
+a hyperlink (see {{ref #/statements/referencables}}).{{endtermdef}}{{endlink}}.
+
+{{term !*Anchor}} are {{term *tag}}, therefore there are again two flavors:
+- {{termdef *Globa}}global anchor{{description}}
+Location independent {{term !anchor}} globally unique for the {{term sourcetree}}.
+{{endtermdef}} are used to identify locations in a document by a globally
+unique name. This name can be used to establish links to this location without
+requiring to know the document, the {{term !anchor}} is located in. They always
+start with the slash character (`/`).
+- {{termdef *Loca}}local anchor{{description}}
+An {{term anchor}} locally valid in a generated document.
+{{endtermdef}} are used to identify {{term !*refelem}} relative to the actually
+generated document. They do not start with a slash character (`/`).
+
+When used, {{term !*anchor}} are always preceded by the number sign (`#`).
+{{term !*Loca}} may be preceded with the name of the source document to refer
+to anchors in other documents. {{term *Sourcedoc}} can be denoted by their absolute
+names, or names relative to the actual document (similar to regular file path names).
+{{endsection}}
+
+{{section /scoped}}Tags and Anchors in Scoped Environments
+
+{{term *Tagelem}} might be defined in {{term *textmodule}}, also. Because
+such modules are intended to be used multiple times, the locally specified
+{{term *tag}} are typically neither unique to the global {{term sourcetree}} nor
+for the actually generated document.
+
+Therefore three concepts are used to resolve this problem:
+- {{termdef *Scope}}scope{{description}}
+  A scope is used as namespace to resolve local {{term *tag}} to {{term *tagelem}}.
+  {{endtermdef}}
+- {{termdef Tagext}}tag extension{{description}}Adding additional namespace parts in
+  front of a a {{term tag}} name.{{endtermdef}}
+- {{termdef Tagcomp}}tag composition{{description}}Composing a {{term tag}} by substitution
+  of various {{term scope}} related attributes to explicitly provide unique names for
+  {{term *tagelem}} in {{term *textmodule}}.{{endtermdef}}
+
+Module instantiations provide a {{term !scope}} for looking up local reference names
+when refering to {{term *refelem}}, {{term *term}} and {{term *textmodule}}.
+
+For {{term !*textmodule}} this is the only way to resolve name conflicts. Only
+top-level definitions are visible for global reuse. Nested {{term *textmodule}} are
+visible for the {{term !*scope}}, they are defined in, only.
+
+For {{term !*refelem}} and {{*term *term}} additionally the second
+mechanism is used. The definition is propagated up the
+dynamic {{term !scope}} chain by prefixing the originally specified {{term tag}}
+step-by-step with the name of the {{term scope}} as additional namespace component.
+Following the dynamic scope chain makes them visible at the document level
+of the initially processed {{term sourcedoc}} ({{term *textmodule}} defined in
+a {{term !sourcedoc}} might be used
+from other {{term !*sourcedoc}}, but the {{term !*tag}} defined in such a
+{{term textmodule}} are not defined in the scope of the document containing
+the definition, but in the one containing the first use of a top-level
+{{term !textmodule}}.
+
+- {{term *loctag}} are prefixed by the scope names up the dynamic scope chain
+  separated by a slash (`/`).
+- {{term *globtag}} are prefixed by the scope names up the dynamic scope chain
+   separated by a slash (`/`) and adding a leading slash to keep a global name.
+   At the document level scope the name of the document is added to provide
+   a name globally unique in the document tree.
+
+In nested {{term !*scope}} {{term *loctag}} are resolved up the static nesting by using
+the unextended names as specified in the {{term !sourcedoc}}.
+
+{{labeled example:anchors}}Anchors in scoped environments{{content}}
+**Source: blocks.mdg**
+
+```
+{{include ../examples/anchorresolution/blocks.mdg}}
+```
+
+**Source: README.mdg**
+
+```
+{{include ../examples/anchorresolution/README.mdg}}
+```
+
+generates anchors global anchors `/README/ref1/bref1/b1`,
+`/README/ref1/bref2/b1`, `/README/ref2/bref1/b1` and `/README/ref2/bref2/b1`
+and local anchors `ref1/a1` and `ref2/a1` for the generated file `README.md`.
+The block tag `b` used in block `a` is resolved in the static scope instance
+of block `a` using the names `ref1` and `ref2`.
+{{endlabeled}}
+
+{{term Tag}} definitions inside a {{term textmodule}} may be composed using scope
+attributes using the syntax {{escape}}`{`<*attribute*>`}`{{end}}, for example
+`/statement/{scope}`. It is possible to compose {{term *loctag}} as well
+as {{term *globtag}}.
+
+The following attributes are supported:
+- `{scope}`: the name of the actual scope
+- `{namespace}`: the complete scope name path up to document level (separated
+   by a slash (`/`).
+
+If {{term tagcomp}} is used, the implicit name extension is omitted and the
+composed names must be unqiue, either globally for {{term !globtag}} or locally
+for a generated document for {{term !*loctag}}.
+
+{{endsection}}
+{{endsection}}
+
+{{section /numberranges}}Number ranges
+
+{{termdef *Numberrange}}number range{{description}}
+A hierarchical labeling mechanism, e.g. used to label sections.
+{{endtermdef}} are another central concept. They are used to provide a potentially
+hierarchical labeling of elements. The standard use case is to provide
+hierarchical section labels as used in this document. Number ranges have names,
+which can be used to refer to them in various {{term *statement}}. The
+number range implicitly use for sections is `section`. There is another one
+used for figures called `figure`.
+
+Besides these implicitly defined ones, it is possible to define an arbitrary
+number of other ones used for dedicated purposes in a document tree using the
+`numberrange` statement.
+
+{{section /labelformats}}Label Formats
+The look and feel of number ranges can be configured. There are several ways
+to express the number format used for the different hierarchy levels:
+
+- Arabic Numbers (type `1`)
+- Roman numbers  (type `i`)
+- Letters (type `a`)
+- Void (type `V`).
+
+Using an upper case type name switches to an upper case format. Additionally
+the level separators can be chosen among the characters `-.+*~/_#°^`.
+
+A complete format specification looks like this:
+
+<div align=center>
+
+{{escape}} [<separator] <type> [<separator>] {<type> [<separator]} {{endescape}}
+</div>
+
+A number range format could, for example look like:
+<div align=center>
+
+`V1.`
+</div>
+
+This leaves the top level sections without a number and use arabic numbers
+for the deeper levels separated by a dot.
+
+If a separator is missing, the level names are not separated by a separator.
+A training separator is used for the deeper levels not specified. A leading
+separator is used for the number range composition, if a number range is concatenated
+to another one.
+
+{{endsection}}
+
+{{section /master}}Cascading Number Ranges
+
+It is possible to control the labeling of a number range from another one.
+The controlled number range is a {{termdef slaverange}}slave number range{{description}}
+A {{term numberrange}} controlled by a {{term masterrange}}.{{endtermdef}}, it
+racts on the actual state of its {{termdef masterrange}}master number range{{description}}
+A {{term numberrange}} controlling a {{term slaverange}}.{{endtermdef}}.
+
+When generating a new label the actual state of its master is observed.
+The numbering is resetted if the master state is changing. The generated label
+is finally a composition of the label of the master suffixed by the label of the
+slave. The concatenation is optionally separated by the leading separator
+character defined for the slave (see {{ref #/labelformats}}).
+The condition to reset the slave numbering can be limits to a dedicated hierarchy
+level for the master.
+
+This can be used for example for numbering figures or examples relative to a (sub)section.
+
+{{labeled example:nr}}The Figure Number Range used in this Documentation{{content}}
+```
+\{{numberrange section:V1.}}
+\{{numberrange example:-a master=section:#2 abbrev=example}}
+```
+
+It is configured to be a slave of the section numbering using letters as number format
+and resetting its numbers
+whenever at least section level 2 changes (the first level is unnumbered (type `V`)).
+Additionally the number range is configured to the name `example` in the label.
+{{endlabeled}}
+
+
+Additionally a number range can be enriched by an abbreviation text.
+This text is, for example, used to output the title for titled elements
+(not sections) or for {{link #/statement/ref}}short references{{endlink}}.
+
+{{endsection}}
+{{endsection}}
+
+
+{{section /terms}}Formalized Terminology
+The {{term mdgen}} supports keeping the terminology used in a document tree consistent.
+Therefore dedicated {{termdef *term}}term{{description}}
+A part of the terminology of the
+{{term sourcetree}} with a dedicated meaning.{{endtermdef}}
+can explicitly be defined with their name and a
+short definition text. Such a term is then denoted by an own {{term tag}}, which can be used
+all over the document tree to use this term in the document content. If the term
+should be changed, just its definition statement has to be adapted.
+
+The term substitution with the {{term statement/term}} statement may specify
+the usages of an upper case and/or plural form of the term.
+The usages of the term will also automatically provide a hyperlink to the section
+defining the term with the {{term statement/termdef}} statement.
+
+Additionally, the defined terms with their definition texts can then be used to automatically
+generate a glossary for the document tree. The index entries and all usages of
+the term automatically provide hyperlinks to the section containing the definition
+of the term.
+
+{{term *Term}} {{term !*tag}} are {{link #/scoped}}scoped{{endlink}} to support their
+definition in {{term *textmodule}}.
+{{endsection}}
+
+
+{{section /textmodules}}Text Modules
+
+A {{termdef textmodule}}text module{{description}}
+Tagged and parameterized reusable block of content, which can be instantiated
+multiple times all over the document tree.
+{{endtermdef}} is a parameterized reusable block of content.
+
+A block definition may define parameters, whose values can be used in the
+block content. A block is defined using the {{term statement/block}} statement.
+
+Block definitions may be nested, a block definition may again declare blocks.
+Instantiating blocks with the {{term statement/blockref}} statement resolves
+the block reference up the static instantiation chain.
+
+Top-level blocks may use {{term *globa}}, nested blocks should use
+{{term *loca}}. {{term Tag}} definitions for
+{{link #/statements/referencables}}referencable elements{{endlink}} in nested
+blocks may use {{term tagcomp}} or are subject to {{term tagext}} according
+ to {{ref #/scoped}}.
+
+In a block argument values for named parameters can be accessed via the
+{{term statement/value}} statement. Values for parameters of outer {{term *scope}}
+are resolvable as long as different parameter names are used.
+
+{{endsection}}
+{{endsection}}

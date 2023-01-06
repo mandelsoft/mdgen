@@ -1,0 +1,27 @@
+{{template}}
+
+/###############################################################################
+/# format the documentation for a markdown generator statement
+/#
+/# interface:
+/#   param syn:    synopsis of the statement
+/#   param short:  short description used in glossary
+/#   param desc:   full description used in section content
+/#   scope:        used as statement name
+/#
+/# This block generates a section for a statement description
+/# - title to the scope name
+/# - with a global tag /statement/{scope} and
+/# - a statement related term statement/{scope}.
+/###############################################################################
+{{block /statement}}
+{{param syn,short,desc}}
+{{section /statement/{scope} }}Statement `{{value *scope}}`
+#### Synopsis
+{{escape}}{{value syn}}{{end}}
+
+{{termdef -statement/{scope} }}`{{value *scope}}`{{description}}{{value short}}{{endtermdef}}
+#### Description
+{{value desc}}
+{{endsection}}
+{{endblock}}

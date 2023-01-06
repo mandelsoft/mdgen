@@ -1,0 +1,2 @@
+{{blockref ref1:#/a}}{{arg pa}}first call{{endarg}}
+{{blockref ref2:#/a}}{{arg pa}}second call{{endarg}}

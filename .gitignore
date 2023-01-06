@@ -1,0 +1,9 @@
+.idea
+.*.sw[pq]
+/local
+/testdata?
+/tmp*
+/bin
+/gen
+
+/mdgen
