@@ -101,7 +101,7 @@ A hierarchical labeling mechanism, e.g. used to label sections.
 A <a href="#/statements">statement</a> used to add a linked label to the document.
 ### [Referencable Element](syntax.md#/anchors)<a id="glossary/refelem"/>
 Part of a document, which can be target of
-a hyperlink (see <a href="statements.md#/statements/referencables">→2.1</a>).
+a hyperlink (see <a href="statements.md#/statements/referencables">→3.1</a>).
 ## S
 
 ### [`section`](statements.md#/statement/section)<a id="glossary/statement/section"/>

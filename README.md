@@ -30,7 +30,7 @@ pain points in markdown:
   dedicated terms are always linked? Don't need to mention that this is a hell
   with pure markdown.
 
-- You want to provide a glossary or are global table of contents?
+- You want to provide a glossary or a global table of contents?
 
 If you feel comfortable with these problems, you can just forget about this
 *Markdown Generator*.

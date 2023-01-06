@@ -32,7 +32,7 @@ pain points in markdown:
   dedicated terms are always linked? Don't need to mention that this is a hell
   with pure markdown.
 
-- You want to provide a glossary or are global table of contents?
+- You want to provide a glossary or a global table of contents?
 
 If you feel comfortable with these problems, you can just forget about this
 *Markdown Generator*.
@@ -40,9 +40,10 @@ If you feel comfortable with these problems, you can just forget about this
 the content instead of the form, then you should have a glimpse on this tool.
 
 ### Table Of Contents:
-  <a href="syntax.md#/syntax">1 The Document Graph</a> <br/>
-  <a href="statements.md#/statements">2 Statements</a> <br/>
-  <a href="examples.md#/examples">3 Examples</a> <br/>
+  <a href="usage.md#/usage">1 Usage</a> <br/>
+  <a href="syntax.md#/syntax">2 The Document Graph</a> <br/>
+  <a href="statements.md#/statements">3 Statements</a> <br/>
+  <a href="examples.md#/examples">4 Examples</a> <br/>
   <a href="glossary.md#/glossary">Glossary</a> <br/>
 
   This tool is a markdown generator using markdown files enriched with new

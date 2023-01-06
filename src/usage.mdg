@@ -1,0 +1,23 @@
+
+{{section /usage}}Usage
+
+The tool can be downloaded from [GitHub](https://github.com/mandelsoft/mdgen/releases).
+
+The usage of the tool is quite simple, it has just two arguments
+
+<div align="center">
+
+{{escape}}`mdgen` <*source folder*> <*target folder*>`{{end}}
+</div>
+
+This documentation is generated from the `src` folder of 
+the project [mandelsoft/mdgen](https://github.com/mandelsoft/mdgen).
+
+The generator evaluates all `.mdg` files in the source folder hierarchy
+and generates appropriate markdown files with the same folder structure
+in the target folder. 
+
+To start, please have a look at the {{link #/syntax}}concept section{{end}}. More details about the available generator statements
+used to control the generation process can be found in the {{link #/statements}}statements section{{end}}.
+
+{{endsection}}

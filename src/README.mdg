@@ -33,7 +33,7 @@ pain points in markdown:
   dedicated terms are always linked? Don't need to mention that this is a hell
   with pure markdown.
 
-- You want to provide a glossary or are global table of contents?
+- You want to provide a glossary or a global table of contents?
 
 If you feel comfortable with these problems, you can just forget about this
 {{termdef mdgen}}*Markdown Generator*{{description}}
@@ -44,6 +44,7 @@ among a set of markdown documents.
 the content instead of the form, then you should have a glimpse on this tool.
 
 ### Table Of Contents:
+  {{*sectionref #/usage     }}{{label}} {{title}}{{end}} <br/>
   {{*sectionref #/syntax    }}{{label}} {{title}}{{end}} <br/>
   {{*sectionref #/statements}}{{label}} {{title}}{{end}} <br/>
   {{*sectionref #/examples  }}{{label}} {{title}}{{end}} <br/>

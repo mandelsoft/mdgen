@@ -1,35 +1,35 @@
 
 <a/><a id="/statements"/><a id="section-1"/>
-## 2 Statements
+## 3 Statements
 Table of Contents
 
- [2.1 Referencable Document Elements](#/statements/referencables)<br>
-&nbsp;&nbsp; [2.1.1 Document Structure](#/statements/structure)<br>
-&nbsp;&nbsp;&nbsp;&nbsp; [2.1.1.1 Statement `section`](#/statement/section)<br>
-&nbsp;&nbsp;&nbsp;&nbsp; [2.1.1.2 Statement `sectionref`](#/statement/sectionref)<br>
-&nbsp;&nbsp; [2.1.2 Statement `anchor`](#/statement/anchor)<br>
-&nbsp;&nbsp; [2.1.3 Statement `figure`](#/statement/figure)<br>
-&nbsp;&nbsp; [2.1.4 Statement `labeled`](#/statement/labeled)<br>
- [2.2 Element Information](#/statements/info)<br>
-&nbsp;&nbsp; [2.2.1 Statement `label`](#/statement/label)<br>
-&nbsp;&nbsp; [2.2.2 Statement `title`](#/statement/title)<br>
- [2.3 Hyperlinks](#/statements/links)<br>
-&nbsp;&nbsp; [2.3.1 Statement `link`](#/statement/link)<br>
-&nbsp;&nbsp; [2.3.2 Statement `ref`](#/statement/ref)<br>
- [2.4 Terms](#/statements/terms)<br>
-&nbsp;&nbsp; [2.4.1 Statement `termdef`](#/statement/termdef)<br>
-&nbsp;&nbsp; [2.4.2 Statement `term`](#/statement/term)<br>
-&nbsp;&nbsp; [2.4.3 Statement `glossary`](#/statement/glossary)<br>
- [2.5 Text Modules](#/statements/textmodules)<br>
-&nbsp;&nbsp; [2.5.1 Statement `block`](#/statement/block)<br>
-&nbsp;&nbsp; [2.5.2 Statement `blockref`](#/statement/blockref)<br>
-&nbsp;&nbsp; [2.5.3 Statement `value`](#/statement/value)<br>
-&nbsp;&nbsp; [2.5.4 Statement `template`](#/statement/template)<br>
- [2.6 Miscellaneous Statements](#/statements/misc)<br>
-&nbsp;&nbsp; [2.6.1 Statement `numberrange`](#/statement/numberrange)<br>
-&nbsp;&nbsp; [2.6.2 Statement `toc`](#/statement/toc)<br>
-&nbsp;&nbsp; [2.6.3 Statement `include`](#/statement/include)<br>
-&nbsp;&nbsp; [2.6.4 Statement `escape`](#/statement/escape)<br>
+ [3.1 Referencable Document Elements](#/statements/referencables)<br>
+&nbsp;&nbsp; [3.1.1 Document Structure](#/statements/structure)<br>
+&nbsp;&nbsp;&nbsp;&nbsp; [3.1.1.1 Statement `section`](#/statement/section)<br>
+&nbsp;&nbsp;&nbsp;&nbsp; [3.1.1.2 Statement `sectionref`](#/statement/sectionref)<br>
+&nbsp;&nbsp; [3.1.2 Statement `anchor`](#/statement/anchor)<br>
+&nbsp;&nbsp; [3.1.3 Statement `figure`](#/statement/figure)<br>
+&nbsp;&nbsp; [3.1.4 Statement `labeled`](#/statement/labeled)<br>
+ [3.2 Element Information](#/statements/info)<br>
+&nbsp;&nbsp; [3.2.1 Statement `label`](#/statement/label)<br>
+&nbsp;&nbsp; [3.2.2 Statement `title`](#/statement/title)<br>
+ [3.3 Hyperlinks](#/statements/links)<br>
+&nbsp;&nbsp; [3.3.1 Statement `link`](#/statement/link)<br>
+&nbsp;&nbsp; [3.3.2 Statement `ref`](#/statement/ref)<br>
+ [3.4 Terms](#/statements/terms)<br>
+&nbsp;&nbsp; [3.4.1 Statement `termdef`](#/statement/termdef)<br>
+&nbsp;&nbsp; [3.4.2 Statement `term`](#/statement/term)<br>
+&nbsp;&nbsp; [3.4.3 Statement `glossary`](#/statement/glossary)<br>
+ [3.5 Text Modules](#/statements/textmodules)<br>
+&nbsp;&nbsp; [3.5.1 Statement `block`](#/statement/block)<br>
+&nbsp;&nbsp; [3.5.2 Statement `blockref`](#/statement/blockref)<br>
+&nbsp;&nbsp; [3.5.3 Statement `value`](#/statement/value)<br>
+&nbsp;&nbsp; [3.5.4 Statement `template`](#/statement/template)<br>
+ [3.6 Miscellaneous Statements](#/statements/misc)<br>
+&nbsp;&nbsp; [3.6.1 Statement `numberrange`](#/statement/numberrange)<br>
+&nbsp;&nbsp; [3.6.2 Statement `toc`](#/statement/toc)<br>
+&nbsp;&nbsp; [3.6.3 Statement `include`](#/statement/include)<br>
+&nbsp;&nbsp; [3.6.4 Statement `escape`](#/statement/escape)<br>
 
 The <a href="README.md#section-1">*Markdown Generator*</a> uses special *statements* to control the generation of the markdown files.
 A statement is a sequence of one or more <a href="syntax.md#/directives">directives</a>. If it consists of
@@ -44,14 +44,14 @@ The following statements are used:
 
 
 <a/><a id="/statements/referencables"/><a id="section-1-1"/>
-### 2.1 Referencable Document Elements
+### 3.1 Referencable Document Elements
 
 Referencable elements provide <a href="syntax.md#/anchors">anchors</a> which can be used
 to establish hyperlinks with several other <a href="#/statements/links">statements</a>.
 
 
 <a/><a id="/statements/structure"/><a id="section-1-1-1"/>
-#### 2.1.1 Document Structure
+#### 3.1.1 Document Structure
 
 As for regular markdown a single document may be hierarchically structured
 in sections. But the <a href="README.md#section-1">*Markdown Generator*</a> additionally supports to span
@@ -61,7 +61,7 @@ be consistently provided for the complete document tree.
 
 
 <a/><a id="/statement/section"/><a id="section-1-1-1-1"/>
-##### 2.1.1.1 Statement `section`
+##### 3.1.1.1 Statement `section`
 #### Synopsis
 `{{section` [&lt;*anchor*&gt;]`}}` &lt;*title*&gt; *&lt;newline*&gt; ... `{{endsection}}`
 
@@ -76,7 +76,7 @@ The section structure is not limited to a single document, it might span multipl
 
 
 <a/><a id="/statement/sectionref"/><a id="section-1-1-1-2"/>
-##### 2.1.1.2 Statement `sectionref`
+##### 3.1.1.2 Statement `sectionref`
 #### Synopsis
 
   `{{*sectionref` &lt;*ref*&gt;`}}` ... `{{endsectionref}}`\&lt;br&gt;
@@ -106,13 +106,13 @@ reference for the nested content.
   {{link #/glossary}}{{title #/glossary}}{{end}} <br/>
 ```
 </td></tr></table>
- Example 2-a: Explicit Table of Contents for Linked Documents
+ Example 3-a: Explicit Table of Contents for Linked Documents
 </br></br>
 </div>
 
 
 <a/><a id="/statement/anchor"/><a id="section-1-1-2"/>
-#### 2.1.2 Statement `anchor`
+#### 3.1.2 Statement `anchor`
 #### Synopsis
 
   `{{*anchor` [ &lt;*numberrange*&gt; &#39;`:`&#39;] [&#39;`!`&#39;] &lt;*anchor*&gt; `}} &lt;*caption text*&gt; {{endanchor}}`</br>
@@ -128,7 +128,7 @@ The title and label is avaiable as tag information, for example for the
 
 
 <a/><a id="/statement/figure"/><a id="section-1-1-3"/>
-#### 2.1.3 Statement `figure`
+#### 3.1.3 Statement `figure`
 #### Synopsis
 `{{figure` [ &lt;*anchor arg*&gt; ] &lt;*filepath arg*&gt; { &lt;*attribute arg*&gt; } `}} &lt;*caption text*&gt; {{endfigure}}`
 
@@ -142,7 +142,7 @@ for example `width=800`.
 
 
 <a/><a id="/statement/labeled"/><a id="section-1-1-4"/>
-#### 2.1.4 Statement `labeled`
+#### 3.1.4 Statement `labeled`
 #### Synopsis
 `{{labeled` &lt;*numberrange*&gt; [ &#39;`:`&#39; &lt;*anchor*&gt; ]  &lt;*mode arg*&gt;`}} &lt;*caption text*&gt;  {{content}} &lt;*content*&gt; {{endlabeled}}`
 
@@ -160,10 +160,10 @@ The output mode can be influence by a second argument:
 
 
 <a/><a id="/statements/info"/><a id="section-1-2"/>
-### 2.2 Element Information
+### 3.2 Element Information
 
 <a/><a id="/statement/label"/><a id="section-1-2-1"/>
-#### 2.2.1 Statement `label`
+#### 3.2.1 Statement `label`
 #### Synopsis
 `{{label` [&lt;*ref*&gt;] `}}`
 
@@ -175,7 +175,7 @@ If no reference is given the current reference is used. The used reference is se
 
 
 <a/><a id="/statement/title"/><a id="section-1-2-2"/>
-#### 2.2.2 Statement `title`
+#### 3.2.2 Statement `title`
 #### Synopsis
 `{{title` [&lt;*ref*&gt;] `}}`
 
@@ -188,13 +188,13 @@ If no reference is given the current reference is used. The used reference is se
 
 
 <a/><a id="/statements/links"/><a id="section-1-3"/>
-### 2.3 Hyperlinks
+### 3.3 Hyperlinks
 
 There are several statements used to generate hyperlinks.
 
 
 <a/><a id="/statement/link"/><a id="section-1-3-1"/>
-#### 2.3.1 Statement `link`
+#### 3.3.1 Statement `link`
 #### Synopsis
 `{{link` &lt;*ref*&gt; `}}` &lt;*content*&gt; &#39;`{{endlink}}`&#39;
 
@@ -205,13 +205,13 @@ providing <a href="syntax.md#/anchors">anchors</a> can be used to link to.
 
 
 <a/><a id="/statement/ref"/><a id="section-1-3-2"/>
-#### 2.3.2 Statement `ref`
+#### 3.3.2 Statement `ref`
 #### Synopsis
 `{{ref` [&#39;`*`&#39; [&#39;`^`&#39;]] &lt;*ref*&gt; `}}`
 
 
 #### Description
-Establish a hyperlink on the label of a referenced element (see <a href="syntax.md#/anchors">→1.4.1</a>).
+Establish a hyperlink on the label of a referenced element (see <a href="syntax.md#/anchors">→2.4.1</a>).
 If the asterisk (`*`) is given a the label is preceded with the abbreviation text of the
 <a href="syntax.md#/numberranges">label type</a>. If additionally the `^` prefix is given, the
 abbreviation text will be converted to upper case first.
@@ -219,7 +219,7 @@ abbreviation text will be converted to upper case first.
 
 
 <a/><a id="/statements/terms"/><a id="section-1-4"/>
-### 2.4 Terms
+### 3.4 Terms
 
 <a href="syntax.md#/terms">Terms</a> can be used to formally define a <a href="syntax.md#/tags">tag</a> and assign it to  a <a href="syntax.md#/tags">tag</a>.
 This tag can then be used all over the document to substitute the centrally
@@ -227,11 +227,11 @@ defined text and to automatically establish a hyperlink to the section of its de
 
 Additionally, the defined terms with their definition texts can then be
 used to automatically generate a glossary for the document tree. For more details see
-<a href="syntax.md#/terms">→1.6</a>.
+<a href="syntax.md#/terms">→2.6</a>.
 
 
 <a/><a id="/statement/termdef"/><a id="section-1-4-1"/>
-#### 2.4.1 Statement `termdef`
+#### 3.4.1 Statement `termdef`
 #### Synopsis
 `{{termdef` [&#39;`*`&#39; | &#39;`-`&#39;] &lt;*tag*&gt;`}}` &lt;*term name as content*&gt; `{{description}}` &lt;*glossary content*&gt; `{{endtermdef}}`
 
@@ -259,7 +259,7 @@ its definition.
 
 
 <a/><a id="/statement/term"/><a id="section-1-4-2"/>
-#### 2.4.2 Statement `term`
+#### 3.4.2 Statement `term`
 #### Synopsis
 `{{term` [&#39;`!`&#39;] ([&#39;`#`&#39;] | [&#39;`*`&#39;]) &lt;*tag*&gt;`}}`
 
@@ -277,7 +277,7 @@ the term definition is used.
 
 
 <a/><a id="/statement/glossary"/><a id="section-1-4-3"/>
-#### 2.4.3 Statement `glossary`
+#### 3.4.3 Statement `glossary`
 #### Synopsis
 `{{glossary` [&lt;*prefix*&gt;]`}}`
 
@@ -291,7 +291,7 @@ The optional prefix can be used to restrict the glossary to a dedicated term tag
 
 
 <a/><a id="/statements/textmodules"/><a id="section-1-5"/>
-### 2.5 Text Modules
+### 3.5 Text Modules
 
 <a href="syntax.md#/textmodules">text modules</a> can be used to define reusable and parameterized block content
 to
@@ -302,7 +302,7 @@ to
 
 
 <a/><a id="/statement/block"/><a id="section-1-5-1"/>
-#### 2.5.1 Statement `block`
+#### 3.5.1 Statement `block`
 #### Synopsis
 `{{block` &lt;*tag*&gt;`}}` { &lt;*parameter*&gt; } &lt;*block content*&gt; `{{endblock}}`
 
@@ -326,7 +326,7 @@ flagged syntax for the `param` directive.
 
 
 <a/><a id="/statement/blockref"/><a id="section-1-5-2"/>
-#### 2.5.2 Statement `blockref`
+#### 3.5.2 Statement `blockref`
 #### Synopsis
 `{{blockref` [ &lt;*name*&gt; &#39;`:`&#39;] &lt;*ref*&gt;`}}` { `{{arg` &lt;*name*&gt; `}}` &lt;*content*&gt; `{{endarg}} }`
 
@@ -345,7 +345,7 @@ the referenced block in the actual scope.
 
 
 <a/><a id="/statement/value"/><a id="section-1-5-3"/>
-#### 2.5.3 Statement `value`
+#### 3.5.3 Statement `value`
 #### Synopsis
 `{{value` [&#39;`*`&#39;]&lt;*parameter name*&gt; `}}`
 
@@ -361,7 +361,7 @@ If the name is prefixed with a asterisk (`*`) the value of the appropriate
 
 
 <a/><a id="/statement/template"/><a id="section-1-5-4"/>
-#### 2.5.4 Statement `template`
+#### 3.5.4 Statement `template`
 #### Synopsis
 `{{template}}`
 
@@ -377,11 +377,11 @@ in other source documents.
 
 
 <a/><a id="/statements/misc"/><a id="section-1-6"/>
-### 2.6 Miscellaneous Statements
+### 3.6 Miscellaneous Statements
 
 
 <a/><a id="/statement/numberrange"/><a id="section-1-6-1"/>
-#### 2.6.1 Statement `numberrange`
+#### 3.6.1 Statement `numberrange`
 #### Synopsis
 `{{numberrange` &lt;*name*&gt; [&#39;`:`&#39; &lt;*format*&gt;] [ &#39;`:#`&#39; &lt;*starting heading level*&gt;] { &lt;*attribute arg*&gt; } }}
 
@@ -393,7 +393,7 @@ This <a href="#/statements">statement</a> declares and/or configures a <a href="
 only be used at the top-level <a href="syntax.md#/scoped">scope</a> outside of any other statement
 block.
 
-The format can be specified as described in <a href="syntax.md#/numberranges">→1.5</a>. Optionally the
+The format can be specified as described in <a href="syntax.md#/numberranges">→2.5</a>. Optionally the
 heading level can be specified, which should be used for the first hierarch level (default is 1).
 
 The optional atribute arguments are of the form &lt;*attr*&gt; `=` &lt;*value*&gt;.
@@ -404,7 +404,7 @@ The following attributes are supported:
 
 
 <a/><a id="/statement/toc"/><a id="section-1-6-2"/>
-#### 2.6.2 Statement `toc`
+#### 3.6.2 Statement `toc`
 #### Synopsis
 `{{toc` [&lt;*ref*&gt;] }}
 
@@ -418,7 +418,7 @@ the table is limited to the given section.
 
 
 <a/><a id="/statement/include"/><a id="section-1-6-3"/>
-#### 2.6.3 Statement `include`
+#### 3.6.3 Statement `include`
 #### Synopsis
 `{{include` &lt;*path argument*&gt; `}}`
 
@@ -434,7 +434,7 @@ the generation of a markdown document for a <a href="syntax.md#/sourcedoc">sourc
 
 
 <a/><a id="/statement/escape"/><a id="section-1-6-4"/>
-#### 2.6.4 Statement `escape`
+#### 3.6.4 Statement `escape`
 #### Synopsis
 `{{escape}}` &lt;*content*&gt; `{{endescape}}`
 

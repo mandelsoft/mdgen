@@ -1,19 +1,19 @@
 
 <a/><a id="/syntax"/><a id="section-1"/>
-## 1 The Document Graph
+## 2 The Document Graph
 Table of Contents
 
- [1.1 File Structure](#/filestructure)<br>
- [1.2 Source Document](#/sourcedoc)<br>
- [1.3 Directives](#/directives)<br>
- [1.4 Tags](#/tags)<br>
-&nbsp;&nbsp; [1.4.1 Anchors for Referencable Elements](#/anchors)<br>
-&nbsp;&nbsp; [1.4.2 Tags and Anchors in Scoped Environments](#/scoped)<br>
- [1.5 Number ranges](#/numberranges)<br>
-&nbsp;&nbsp; [1.5.1 Label Formats](#/labelformats)<br>
-&nbsp;&nbsp; [1.5.2 Cascading Number Ranges](#/master)<br>
- [1.6 Formalized Terminology](#/terms)<br>
- [1.7 Text Modules](#/textmodules)<br>
+ [2.1 File Structure](#/filestructure)<br>
+ [2.2 Source Document](#/sourcedoc)<br>
+ [2.3 Directives](#/directives)<br>
+ [2.4 Tags](#/tags)<br>
+&nbsp;&nbsp; [2.4.1 Anchors for Referencable Elements](#/anchors)<br>
+&nbsp;&nbsp; [2.4.2 Tags and Anchors in Scoped Environments](#/scoped)<br>
+ [2.5 Number ranges](#/numberranges)<br>
+&nbsp;&nbsp; [2.5.1 Label Formats](#/labelformats)<br>
+&nbsp;&nbsp; [2.5.2 Cascading Number Ranges](#/master)<br>
+ [2.6 Formalized Terminology](#/terms)<br>
+ [2.7 Text Modules](#/textmodules)<br>
 
 The *Markdown Generator* maintains a documentation consisting of a set of
 markdown files, which are highly interconnected via hyperlinks.
@@ -25,7 +25,7 @@ anchors and links.
 
 
 <a/><a id="/filestructure"/><a id="section-1-1"/>
-### 1.1 File Structure
+### 2.1 File Structure
 
 The generator works on a *source tree*.
 
@@ -59,14 +59,14 @@ files following the same structure.
 It contains three source documents denoted by the names
 `/README`, `/chapters/intro` and `/chapters/spec`.
 </td></tr></table>
- Example 1-a: A typical source tree
+ Example 2-a: A typical source tree
 </br></br>
 </div>
 
 
 
 <a/><a id="/sourcedoc"/><a id="section-1-2"/>
-### 1.2 Source Document
+### 2.2 Source Document
 
 A *source document* is a file in the <a href="#/filestructure">source tree</a> with the file suffix `.mdg`.
 The *name* of the source document is the path from the root of the
@@ -77,7 +77,7 @@ A source document consists of a sequence of <a href="#/directives">directives</a
 *markdown text*.
 
 Line content is omitted after a `/#` character sequence. Lines starting
-with the comment sequence are completely omitted (see <a href="#example">→example 1-b</a>).
+with the comment sequence are completely omitted (see <a href="#example">→example 2-b</a>).
 
 Different source documents can be embedded in a common chapter hierarchy
 regardless of their names and locations in the source tree by using
@@ -86,7 +86,7 @@ the `sectionref` statement.
 
 
 <a/><a id="/directives"/><a id="section-1-3"/>
-### 1.3 Directives
+### 2.3 Directives
 
 The markdown generator uses special *directives*. A <a href="#/sourcedoc">source document</a> consists if a sequence of directives and
 regular markdown text.
@@ -103,14 +103,14 @@ characters. The start sequence `{{` scan be escaped by a preceding (`\ `)
 character.
 
 A directive can be flagged with the asterisk (`*`) character. This is used by <a href="statements.md#/statements">statements</a>
-to indicate an optional nested structure (see <a href="statements.md#/statements">→2</a>).
+to indicate an optional nested structure (see <a href="statements.md#/statements">→3</a>).
 
 A newline after a directive is removed from the following text.
 
 Directives are used to formulate <a href="statements.md#/statements">statements</a>, which are used by the generator
 to incluence and structure the generated document tree.
 
-A typical <a href="#/sourcedoc">source document</a> could like in <a href="#example">→example 1-b</a>.
+A typical <a href="#/sourcedoc">source document</a> could like in <a href="#example">→example 2-b</a>.
 
 
 <a/><a id="example"/><a id="example-2"/>
@@ -138,13 +138,13 @@ Here are the details. For a common overview, please see {{ref #introduction}}
 {{endsection}}
 ```
 </td></tr></table>
- Example 1-b: A typical source document
+ Example 2-b: A typical source document
 </br></br>
 </div>
 
 
 <a/><a id="/tags"/><a id="section-1-4"/>
-### 1.4 Tags
+### 2.4 Tags
 
 A *tag* is short identifier used to identify a
 dedicated *taggable element* in the <a href="#/filestructure">source tree</a>. It is described by a <a href="statements.md#/statements">statement</a>
@@ -175,7 +175,7 @@ another document.
 
 
 <a/><a id="/anchors"/><a id="section-1-4-1"/>
-#### 1.4.1 Anchors for Referencable Elements
+#### 2.4.1 Anchors for Referencable Elements
 
 *Anchors* are a central concept of the <a href="README.md#section-1">*Markdown Generator*</a>. They are used to
 establish a stable hyperlink structure among various parts of the
@@ -198,7 +198,7 @@ names, or names relative to the actual document (similar to regular file path na
 
 
 <a/><a id="/scoped"/><a id="section-1-4-2"/>
-#### 1.4.2 Tags and Anchors in Scoped Environments
+#### 2.4.2 Tags and Anchors in Scoped Environments
 
 <a href="#/tags">Taggable elements</a> might be defined in <a href="#/textmodules">text modules</a>, also. Because
 such modules are intended to be used multiple times, the locally specified
@@ -275,7 +275,7 @@ and local anchors `ref1/a1` and `ref2/a1` for the generated file `README.md`.
 The block tag `b` used in block `a` is resolved in the static scope instance
 of block `a` using the names `ref1` and `ref2`.
 </td></tr></table>
- Example 1-c: Anchors in scoped environments
+ Example 2-c: Anchors in scoped environments
 </br></br>
 </div>
 
@@ -296,7 +296,7 @@ for a generated document for local tags.
 
 
 <a/><a id="/numberranges"/><a id="section-1-5"/>
-### 1.5 Number ranges
+### 2.5 Number ranges
 
 *Number ranges* are another central concept. They are used to provide a potentially
 hierarchical labeling of elements. The standard use case is to provide
@@ -311,7 +311,7 @@ number of other ones used for dedicated purposes in a document tree using the
 
 
 <a/><a id="/labelformats"/><a id="section-1-5-1"/>
-#### 1.5.1 Label Formats
+#### 2.5.1 Label Formats
 The look and feel of number ranges can be configured. There are several ways
 to express the number format used for the different hierarchy levels:
 
@@ -347,7 +347,7 @@ to another one.
 
 
 <a/><a id="/master"/><a id="section-1-5-2"/>
-#### 1.5.2 Cascading Number Ranges
+#### 2.5.2 Cascading Number Ranges
 
 It is possible to control the labeling of a number range from another one.
 The controlled number range is a *slave number range*, it
@@ -357,7 +357,7 @@ When generating a new label the actual state of its master is observed.
 The numbering is resetted if the master state is changing. The generated label
 is finally a composition of the label of the master suffixed by the label of the
 slave. The concatenation is optionally separated by the leading separator
-character defined for the slave (see <a href="#/labelformats">→1.5.1</a>).
+character defined for the slave (see <a href="#/labelformats">→2.5.1</a>).
 The condition to reset the slave numbering can be limits to a dedicated hierarchy
 level for the master.
 
@@ -378,7 +378,7 @@ and resetting its numbers
 whenever at least section level 2 changes (the first level is unnumbered (type `V`)).
 Additionally the number range is configured to the name `example` in the label.
 </td></tr></table>
- Example 1-d: The Figure Number Range used in this Documentation
+ Example 2-d: The Figure Number Range used in this Documentation
 </br></br>
 </div>
 
@@ -391,7 +391,7 @@ This text is, for example, used to output the title for titled elements
 
 
 <a/><a id="/terms"/><a id="section-1-6"/>
-### 1.6 Formalized Terminology
+### 2.6 Formalized Terminology
 The <a href="README.md#section-1">*Markdown Generator*</a> supports keeping the terminology used in a document tree consistent.
 Therefore dedicated *terms*
 can explicitly be defined with their name and a
@@ -415,7 +415,7 @@ definition in <a href="#/textmodules">text modules</a>.
 
 
 <a/><a id="/textmodules"/><a id="section-1-7"/>
-### 1.7 Text Modules
+### 2.7 Text Modules
 
 A *text module* is a parameterized reusable block of content.
 
@@ -430,7 +430,7 @@ Top-level blocks may use <a href="#/anchors">global anchors</a>, nested blocks s
 <a href="#/anchors">local anchors</a>. <a href="#/tags">Tag</a> definitions for
 <a href="statements.md#/statements/referencables">referencable elements</a> in nested
 blocks may use <a href="#/scoped">tag composition</a> or are subject to <a href="#/scoped">tag extension</a> according
- to <a href="#/scoped">→1.4.2</a>.
+ to <a href="#/scoped">→2.4.2</a>.
 
 In a block argument values for named parameters can be accessed via the
 <a href="statements.md#/statement/value">`value`</a> statement. Values for parameters of outer <a href="#/scoped">scopes</a>
