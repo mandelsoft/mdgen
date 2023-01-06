@@ -174,8 +174,8 @@ func (n *tocnode) Emit(ctx scanner.ResolutionContext) error {
 		if info.Label().Name() != "" {
 			title = info.Label().Name() + " " + title
 		}
-		gap := fmt.Sprintf("%*s", (e.Level()-minlvl)*2, "")
-		fmt.Fprintf(w, "%s [%s](%s)<br>\n", strings.ReplaceAll(gap, " ", "&nbsp;"), title, link)
+		gap := fmt.Sprintf("%*s", (e.Level()-minlvl)*2+2, "")
+		fmt.Fprintf(w, "%s [%s](%s)<br>\n", strings.ReplaceAll(gap, " ", "&nbsp;&nbsp;"), title, link)
 	}
 	return nil
 }

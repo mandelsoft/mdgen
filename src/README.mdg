@@ -44,15 +44,15 @@ among a set of markdown documents.
 the content instead of the form, then you should have a glimpse on this tool.
 
 ### Table Of Contents:
-  {{*sectionref #/usage     }}{{label}} {{title}}{{end}} <br/>
-  {{*sectionref #/syntax    }}{{label}} {{title}}{{end}} <br/>
-  {{*sectionref #/statements}}{{label}} {{title}}{{end}} <br/>
-  {{*sectionref #/examples  }}{{label}} {{title}}{{end}} <br/>
-  {{link #/glossary}}{{title #/glossary}}{{end}} <br/>
+&nbsp;&nbsp;  {{*sectionref #/usage     }}{{label}} {{title}}{{end}} <br/>
+&nbsp;&nbsp;  {{*sectionref #/syntax    }}{{label}} {{title}}{{end}} <br/>
+&nbsp;&nbsp;  {{*sectionref #/statements}}{{label}} {{title}}{{end}} <br/>
+&nbsp;&nbsp;  {{*sectionref #/examples  }}{{label}} {{title}}{{end}} <br/>
+&nbsp;&nbsp;  {{link #/glossary}}{{title #/glossary}}{{end}} <br/>
 
   This tool is a markdown generator using markdown files enriched with new
   {{term *keyword}} to create pure interlinked markdown files.
 
 {{endsection}}
-{{*sectionref #/glossary}}{{end}} <br/>
+{{sectionref #/glossary}}
 

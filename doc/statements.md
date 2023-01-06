@@ -1,35 +1,35 @@
 
 <a/><a id="/statements"/><a id="section-1"/>
 ## 3 Statements
-Table of Contents
+### Table of Contents
 
- [3.1 Referencable Document Elements](#/statements/referencables)<br>
-&nbsp;&nbsp; [3.1.1 Document Structure](#/statements/structure)<br>
-&nbsp;&nbsp;&nbsp;&nbsp; [3.1.1.1 Statement `section`](#/statement/section)<br>
-&nbsp;&nbsp;&nbsp;&nbsp; [3.1.1.2 Statement `sectionref`](#/statement/sectionref)<br>
-&nbsp;&nbsp; [3.1.2 Statement `anchor`](#/statement/anchor)<br>
-&nbsp;&nbsp; [3.1.3 Statement `figure`](#/statement/figure)<br>
-&nbsp;&nbsp; [3.1.4 Statement `labeled`](#/statement/labeled)<br>
- [3.2 Element Information](#/statements/info)<br>
-&nbsp;&nbsp; [3.2.1 Statement `label`](#/statement/label)<br>
-&nbsp;&nbsp; [3.2.2 Statement `title`](#/statement/title)<br>
- [3.3 Hyperlinks](#/statements/links)<br>
-&nbsp;&nbsp; [3.3.1 Statement `link`](#/statement/link)<br>
-&nbsp;&nbsp; [3.3.2 Statement `ref`](#/statement/ref)<br>
- [3.4 Terms](#/statements/terms)<br>
-&nbsp;&nbsp; [3.4.1 Statement `termdef`](#/statement/termdef)<br>
-&nbsp;&nbsp; [3.4.2 Statement `term`](#/statement/term)<br>
-&nbsp;&nbsp; [3.4.3 Statement `glossary`](#/statement/glossary)<br>
- [3.5 Text Modules](#/statements/textmodules)<br>
-&nbsp;&nbsp; [3.5.1 Statement `block`](#/statement/block)<br>
-&nbsp;&nbsp; [3.5.2 Statement `blockref`](#/statement/blockref)<br>
-&nbsp;&nbsp; [3.5.3 Statement `value`](#/statement/value)<br>
-&nbsp;&nbsp; [3.5.4 Statement `template`](#/statement/template)<br>
- [3.6 Miscellaneous Statements](#/statements/misc)<br>
-&nbsp;&nbsp; [3.6.1 Statement `numberrange`](#/statement/numberrange)<br>
-&nbsp;&nbsp; [3.6.2 Statement `toc`](#/statement/toc)<br>
-&nbsp;&nbsp; [3.6.3 Statement `include`](#/statement/include)<br>
-&nbsp;&nbsp; [3.6.4 Statement `escape`](#/statement/escape)<br>
+&nbsp;&nbsp;&nbsp;&nbsp; [3.1 Referencable Document Elements](#/statements/referencables)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [3.1.1 Document Structure](#/statements/structure)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [3.1.1.1 Statement `section`](#/statement/section)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [3.1.1.2 Statement `sectionref`](#/statement/sectionref)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [3.1.2 Statement `anchor`](#/statement/anchor)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [3.1.3 Statement `figure`](#/statement/figure)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [3.1.4 Statement `labeled`](#/statement/labeled)<br>
+&nbsp;&nbsp;&nbsp;&nbsp; [3.2 Element Information](#/statements/info)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [3.2.1 Statement `label`](#/statement/label)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [3.2.2 Statement `title`](#/statement/title)<br>
+&nbsp;&nbsp;&nbsp;&nbsp; [3.3 Hyperlinks](#/statements/links)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [3.3.1 Statement `link`](#/statement/link)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [3.3.2 Statement `ref`](#/statement/ref)<br>
+&nbsp;&nbsp;&nbsp;&nbsp; [3.4 Terms](#/statements/terms)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [3.4.1 Statement `termdef`](#/statement/termdef)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [3.4.2 Statement `term`](#/statement/term)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [3.4.3 Statement `glossary`](#/statement/glossary)<br>
+&nbsp;&nbsp;&nbsp;&nbsp; [3.5 Text Modules](#/statements/textmodules)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [3.5.1 Statement `block`](#/statement/block)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [3.5.2 Statement `blockref`](#/statement/blockref)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [3.5.3 Statement `value`](#/statement/value)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [3.5.4 Statement `template`](#/statement/template)<br>
+&nbsp;&nbsp;&nbsp;&nbsp; [3.6 Miscellaneous Statements](#/statements/misc)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [3.6.1 Statement `numberrange`](#/statement/numberrange)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [3.6.2 Statement `toc`](#/statement/toc)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [3.6.3 Statement `include`](#/statement/include)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [3.6.4 Statement `escape`](#/statement/escape)<br>
 
 The <a href="README.md#section-1">*Markdown Generator*</a> uses special *statements* to control the generation of the markdown files.
 A statement is a sequence of one or more <a href="syntax.md#/directives">directives</a>. If it consists of

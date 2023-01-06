@@ -40,14 +40,13 @@ If you feel comfortable with these problems, you can just forget about this
 the content instead of the form, then you should have a glimpse on this tool.
 
 ### Table Of Contents:
-  <a href="usage.md#/usage">1 Usage</a> <br/>
-  <a href="syntax.md#/syntax">2 The Document Graph</a> <br/>
-  <a href="statements.md#/statements">3 Statements</a> <br/>
-  <a href="examples.md#/examples">4 Examples</a> <br/>
-  <a href="glossary.md#/glossary">Glossary</a> <br/>
+&nbsp;&nbsp;  <a href="usage.md#/usage">1 Usage</a> <br/>
+&nbsp;&nbsp;  <a href="syntax.md#/syntax">2 The Document Graph</a> <br/>
+&nbsp;&nbsp;  <a href="statements.md#/statements">3 Statements</a> <br/>
+&nbsp;&nbsp;  <a href="examples.md#/examples">4 Examples</a> <br/>
+&nbsp;&nbsp;  <a href="glossary.md#/glossary">Glossary</a> <br/>
 
   This tool is a markdown generator using markdown files enriched with new
   <a href="syntax.md#/directives">keywords</a> to create pure interlinked markdown files.
 
- <br/>
 

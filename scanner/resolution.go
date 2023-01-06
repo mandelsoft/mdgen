@@ -564,24 +564,36 @@ func NewWriterContext(w Writer, ctx ResolutionContext) ResolutionContext {
 
 ////////////////////////////////////////////////////////////////////////////////
 
-type delegationContext struct {
+type DelegationContext struct {
 	ResolutionContext
 	delegate ResolutionContext
 }
 
-func (d *delegationContext) Writer() Writer {
+func (d *DelegationContext) Writer() Writer {
+	if d.delegate == nil {
+		return d.ResolutionContext.Writer()
+	}
 	return d.delegate.Writer()
 }
 
-func (d *delegationContext) Info(key string) interface{} {
-	if i := d.delegate.Info(key); i != nil {
-		return i
+func (d *DelegationContext) DetermineLink(l utils2.Link) (string, error) {
+	if d.delegate == nil {
+		return d.ResolutionContext.DetermineLink(l)
+	}
+	return d.delegate.DetermineLink(l)
+}
+
+func (d *DelegationContext) Info(key string) interface{} {
+	if d.delegate != nil {
+		if i := d.delegate.Info(key); i != nil {
+			return i
+		}
 	}
 	return d.ResolutionContext.Info(key)
 }
 
-func NewEmitDelegationContext(orig ResolutionContext, ctx ResolutionContext) ResolutionContext {
-	return &delegationContext{ctx, orig}
+func NewDelegationContext(orig ResolutionContext, ctx ResolutionContext) *DelegationContext {
+	return &DelegationContext{ctx, orig}
 }
 
 ////////////////////////////////////////////////////////////////////////////////

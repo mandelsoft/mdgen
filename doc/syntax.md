@@ -1,19 +1,19 @@
 
 <a/><a id="/syntax"/><a id="section-1"/>
 ## 2 The Document Graph
-Table of Contents
+### Table of Contents
 
- [2.1 File Structure](#/filestructure)<br>
- [2.2 Source Document](#/sourcedoc)<br>
- [2.3 Directives](#/directives)<br>
- [2.4 Tags](#/tags)<br>
-&nbsp;&nbsp; [2.4.1 Anchors for Referencable Elements](#/anchors)<br>
-&nbsp;&nbsp; [2.4.2 Tags and Anchors in Scoped Environments](#/scoped)<br>
- [2.5 Number ranges](#/numberranges)<br>
-&nbsp;&nbsp; [2.5.1 Label Formats](#/labelformats)<br>
-&nbsp;&nbsp; [2.5.2 Cascading Number Ranges](#/master)<br>
- [2.6 Formalized Terminology](#/terms)<br>
- [2.7 Text Modules](#/textmodules)<br>
+&nbsp;&nbsp;&nbsp;&nbsp; [2.1 File Structure](#/filestructure)<br>
+&nbsp;&nbsp;&nbsp;&nbsp; [2.2 Source Document](#/sourcedoc)<br>
+&nbsp;&nbsp;&nbsp;&nbsp; [2.3 Directives](#/directives)<br>
+&nbsp;&nbsp;&nbsp;&nbsp; [2.4 Tags](#/tags)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [2.4.1 Anchors for Referencable Elements](#/anchors)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [2.4.2 Tags and Anchors in Scoped Environments](#/scoped)<br>
+&nbsp;&nbsp;&nbsp;&nbsp; [2.5 Number ranges](#/numberranges)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [2.5.1 Label Formats](#/labelformats)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [2.5.2 Cascading Number Ranges](#/master)<br>
+&nbsp;&nbsp;&nbsp;&nbsp; [2.6 Formalized Terminology](#/terms)<br>
+&nbsp;&nbsp;&nbsp;&nbsp; [2.7 Text Modules](#/textmodules)<br>
 
 The *Markdown Generator* maintains a documentation consisting of a set of
 markdown files, which are highly interconnected via hyperlinks.
