@@ -47,14 +47,14 @@ func (r *resolvedRef) Anchor() string {
 var _ scanner.ResolvedRef = (*resolvedRef)(nil)
 
 type StructInfo struct {
-	document scanner.Document
-	ranges   map[string]scanner.NumberRange
+	docinfo *DocumentInfo
+	ranges  map[string]scanner.NumberRange
 }
 
-func NewStructInfo(d scanner.Document) *StructInfo {
+func NewStructInfo(di *DocumentInfo) *StructInfo {
 	return &StructInfo{
-		document: d,
-		ranges:   map[string]scanner.NumberRange{},
+		docinfo: di,
+		ranges:  map[string]scanner.NumberRange{},
 	}
 }
 
@@ -65,14 +65,14 @@ type NumberRangeInfo struct {
 }
 
 type RootInfo struct {
-	document scanner.Document
-	ranges   map[string]*NumberRangeInfo
+	docinfo *DocumentInfo
+	ranges  map[string]*NumberRangeInfo
 }
 
-func NewRootInfo(d scanner.Document) *RootInfo {
+func NewRootInfo(di *DocumentInfo) *RootInfo {
 	return &RootInfo{
-		document: d,
-		ranges:   map[string]*NumberRangeInfo{},
+		docinfo: di,
+		ranges:  map[string]*NumberRangeInfo{},
 	}
 }
 
@@ -133,7 +133,7 @@ func (i *DocumentInfo) Emit(w scanner.Writer, target string) error {
 }
 
 func (i *DocumentInfo) IsRoot() bool {
-	return i.rootinfo.document == i.document
+	return i.rootinfo.docinfo == i
 }
 
 func (i *DocumentInfo) Walk(f scanner.Resolver) error {
@@ -294,6 +294,35 @@ type unresolved struct {
 	err error
 }
 
+type docref struct {
+	location scanner.Location
+	docinfo  *DocumentInfo
+	link     utils2.Link
+}
+type docrefs struct {
+	order []*docref
+	links map[utils2.Link]*docref
+}
+
+func newDocRefs() *docrefs {
+	return &docrefs{
+		links: map[utils2.Link]*docref{},
+	}
+}
+
+func (r *docrefs) Add(link utils2.Link, loc scanner.Location) error {
+	if cur := r.links[link]; cur != nil {
+		return fmt.Errorf("%s: document ref %q already requested by %s", loc, link, cur.location)
+	}
+	cur := &docref{
+		location: loc,
+		link:     link,
+	}
+	r.order = append(r.order, cur)
+	r.links[link] = cur
+	return nil
+}
+
 type ResolutionContext struct {
 	scope
 	ids
@@ -303,7 +332,8 @@ type ResolutionContext struct {
 
 	docinfo *DocumentInfo
 
-	docrefs      map[utils2.Link]scanner.Document
+	docrefs *docrefs
+
 	numberranges utils2.Set[string]
 	writer       scanner.Writer
 	target       string
@@ -317,9 +347,9 @@ func NewResolutionContext(res *Resolution, di *DocumentInfo) *ResolutionContext 
 	ctx := &ResolutionContext{
 		resolution:   res,
 		docinfo:      di,
+		docrefs:      newDocRefs(),
 		ids:          scanner.Ids{},
 		callstack:    scanner.NewCallStack(),
-		docrefs:      map[utils2.Link]scanner.Document{},
 		numberranges: utils2.Set[string]{},
 	}
 	ctx.scope = scanner.NewScope(res, res, ctx, di.document, "")
@@ -351,7 +381,7 @@ func (r *ResolutionContext) GetParentDocument() scanner.Document {
 	if p == nil {
 		return nil
 	}
-	return p.document
+	return p.docinfo.document
 }
 
 func (r *ResolutionContext) GetDocumentForLink(l utils2.Link) scanner.Document {
@@ -373,13 +403,8 @@ func (c *ResolutionContext) RequestNumberRange(typ string) {
 	c.numberranges.Add(typ)
 }
 
-func (c *ResolutionContext) RequestDocument(link utils2.Link, d scanner.Document) error {
-	r := c.docrefs[link]
-	if r != nil {
-		return fmt.Errorf("document ref %q already requested by %s", link, d.GetRefPath())
-	}
-	c.docrefs[link] = d
-	return nil
+func (c *ResolutionContext) RequestDocument(link utils2.Link, loc scanner.Location) error {
+	return c.docrefs.Add(link, loc)
 }
 
 func (r *ResolutionContext) LookupTag(typ string, tag string) scanner.NodeContext {
@@ -412,6 +437,10 @@ func (r *ResolutionContext) SetNumberRangeFor(d scanner.Document, id scanner.Tag
 	return next.Current()
 }
 
+func (r *ResolutionContext) GetRootContext() scanner.ResolutionContext {
+	return r.docinfo.rootinfo.docinfo.context
+}
+
 func (r *ResolutionContext) GetLabelInfosForType(typ string) map[labels.LabelId]scanner.TreeLabelInfo {
 	result := map[labels.LabelId]scanner.TreeLabelInfo{}
 	for _, id := range r.scope.GetIdsForType(typ) {
@@ -438,7 +467,7 @@ func (r *ResolutionContext) appendIdsForType(typ string, result map[labels.Label
 		result[id] = info
 	}
 	for _, di := range r.resolution.documents {
-		if di.structinfo != nil && di.structinfo.document == r.docinfo.document {
+		if di.structinfo != nil && di.structinfo.docinfo == r.docinfo {
 			di.context.appendIdsForType(typ, result)
 		}
 	}

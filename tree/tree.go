@@ -152,35 +152,39 @@ func (t *tree) ResolveBlocks(res *Resolution) error {
 }
 
 func (t *tree) ResolveStructural(res *Resolution) error {
+	found := map[scanner.Document]*docref{}
 	for _, di := range res.documents {
-		for l, d := range di.context.docrefs {
+		for l, ref := range di.context.docrefs.links {
 			var target scanner.Document
 			if l.IsTag() {
 				ri := res.refindex[l]
 				if ri == nil {
-					return fmt.Errorf("structural tag reference %q in %s cannot be resolved", l, d.Source())
+					return fmt.Errorf("%s: structural tag reference %q cannot be resolved", ref.location, di.Source())
 				}
 				target = ri.Context().GetDocument()
 			} else {
 				target = t.documents[l.Path()]
 				if target == nil {
-					return fmt.Errorf("structural document reference %q in %s cannot be resolved", l, d.Source())
+					return fmt.Errorf("%s: structural document reference %q cannot be resolved", ref.location, di.Source())
 				}
 			}
-			di := res.documents[target.GetRefPath()]
-			if di.structinfo != nil {
-				return fmt.Errorf("duplicate structural usage of document %s: %s and %s", target.Source(), di.structinfo.document.Source(), d.Source())
+			ti := res.documents[target.GetRefPath()]
+			if ti.structinfo != nil {
+				return fmt.Errorf("%s: duplicate structural usage of document %s: %s", ref.location, target.Source(), found[target].location)
 			}
-			fmt.Printf("%s: found structural usage in %s\n", target.Source(), d.Source())
-			found := false
+			fmt.Printf("%s: found structural usage in %s\n", target.Source(), di.Source())
+			sect := false
 			for _, n := range target.GetNodes() {
 				if _, ok := n.(section.SectionNode); ok {
-					if found {
-						fmt.Printf("structural document %s used in %s may contain only one top level section\n", target.Source(), d.Source())
+					if sect {
+						return fmt.Errorf("%s: structural document %s may contain only one top level section\n", ref.location, target.Source())
 					}
+					sect = true
 				}
 			}
-			di.structinfo = NewStructInfo(d)
+			ti.structinfo = NewStructInfo(di)
+			ref.docinfo = ti
+			found[target] = ref
 		}
 	}
 	return nil
@@ -188,9 +192,17 @@ func (t *tree) ResolveStructural(res *Resolution) error {
 
 func (t *tree) ResolveNumberRanges(res *Resolution) error {
 	for _, di := range res.documents {
-		err := t.resolveNumberRanges(res, di, utils.History{})
+		err := t.resolveDocumentOrder(res, di, utils.History{})
 		if err != nil {
 			return err
+		}
+	}
+	for _, di := range res.documents {
+		if di.IsRoot() {
+			err := t.resolveNumberRanges(di)
+			if err != nil {
+				return err
+			}
 		}
 	}
 
@@ -202,6 +214,33 @@ func (t *tree) ResolveNumberRanges(res *Resolution) error {
 			}
 		}
 	}
+	return nil
+}
+
+func (t *tree) resolveDocumentOrder(res *Resolution, di *DocumentInfo, hist utils.History) error {
+	if di.rootinfo != nil {
+		return nil
+	}
+
+	hist, cycle := hist.Add(di.Source())
+	if cycle != nil {
+		return fmt.Errorf("structural cycle %s", hist)
+	}
+
+	var root *RootInfo
+	master := di.structinfo
+	if master != nil {
+		err := t.resolveDocumentOrder(res, res.documents[master.docinfo.GetRefPath()], hist)
+		if err != nil {
+			return err
+		}
+		root = res.documents[master.docinfo.GetRefPath()].rootinfo
+		fmt.Printf("%s: sub structure for %s\n", di.Source(), root.docinfo.Source())
+	} else {
+		fmt.Printf("%s: root document\n", di.Source())
+		root = NewRootInfo(di)
+	}
+	di.rootinfo = root
 	return nil
 }
 
@@ -229,30 +268,8 @@ func (t *tree) resolveLabels(di *DocumentInfo, nr *NumberRangeInfo, hist utils.H
 	return nil
 }
 
-func (t *tree) resolveNumberRanges(res *Resolution, di *DocumentInfo, hist utils.History) error {
-	if di.rootinfo != nil {
-		return nil
-	}
-
-	hist, cycle := hist.Add(di.Source())
-	if cycle != nil {
-		return fmt.Errorf("structural cycle %s", hist)
-	}
-
-	var root *RootInfo
-	master := di.structinfo
-	if master != nil {
-		err := t.resolveNumberRanges(res, res.documents[master.document.GetRefPath()], hist)
-		if err != nil {
-			return err
-		}
-		root = res.documents[master.document.GetRefPath()].rootinfo
-		fmt.Printf("%s: sub structure for %s\n", di.Source(), root.document.Source())
-	} else {
-		fmt.Printf("%s: root document\n", di.Source())
-		root = NewRootInfo(di.document)
-	}
-
+func (t *tree) resolveNumberRanges(di *DocumentInfo) error {
+	root := di.rootinfo
 	fmt.Printf("%s: found numberranges: %s\n", di.Source(), strings.Join(utils.SortedMapKeys(di.context.numberranges), ", "))
 	rules := di.document.GetLabelRules()
 	for typ := range di.context.numberranges {
@@ -318,8 +335,6 @@ func (t *tree) resolveNumberRanges(res *Resolution, di *DocumentInfo, hist utils
 		}
 	}
 
-	di.rootinfo = root
-
 	for _, nr := range root.ranges {
 		err := checkCycle(di, nr, nil)
 		if err != nil {
@@ -327,7 +342,18 @@ func (t *tree) resolveNumberRanges(res *Resolution, di *DocumentInfo, hist utils
 		}
 	}
 	fmt.Printf("  resolve %s\n", di.GetRefPath())
-	return di.Walk(scanner.Resolve[scanner.LabelResolver](di.context))
+	err := di.Walk(scanner.Resolve[scanner.LabelResolver](di.context))
+	if err != nil {
+		return err
+	}
+
+	for _, ref := range di.context.docrefs.order {
+		err := t.resolveNumberRanges(ref.docinfo)
+		if err != nil {
+			return err
+		}
+	}
+	return nil
 }
 
 func checkCycle(di *DocumentInfo, nr *NumberRangeInfo, hist utils.History) error {

@@ -109,7 +109,7 @@ func (n *sectionrefnode) Register(ctx scanner.ResolutionContext) error {
 		return err
 	}
 	ctx.SetNodeContext(n, nctx)
-	err = ctx.RequestDocument(nctx.GetLink(), ctx.GetDocument())
+	err = ctx.RequestDocument(nctx.GetLink(), n.Location())
 	if err != nil {
 		return err
 	}

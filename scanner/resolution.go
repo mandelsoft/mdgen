@@ -374,10 +374,11 @@ func LinkFor(ri RefInfo, preferred ...string) utils2.Link {
 type Unscoped interface {
 	GetDocument() Document
 	GetParentDocument() Document
+	GetRootContext() ResolutionContext
 	GetDocumentForLink(l utils2.Link) Document
 
 	NextId(typ string) labels.Rule
-	RequestDocument(link utils2.Link, d Document) error
+	RequestDocument(link utils2.Link, location Location) error
 	RequestNumberRange(typ string)
 	GetNumberRange(typ string) NumberRange
 	SetNumberRangeFor(d Document, id TaggedId, typ string, nr NumberRange) HierarchyLabel

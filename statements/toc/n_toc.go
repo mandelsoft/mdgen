@@ -135,7 +135,7 @@ func (n *tocnode) Emit(ctx scanner.ResolutionContext) error {
 			}
 		}
 	} else {
-		list = TreeTOCIds(ctx, n.typ)
+		list = TreeTOCIds(ctx.GetRootContext(), n.typ)
 	}
 
 	if len(list) == 0 {
