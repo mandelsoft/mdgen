@@ -1,0 +1,13 @@
+{{template}}
+
+{{block /a}}{{param pa}}
+{{block b}}{{param pb}}
+{{*anchor /b1}}This is instance {{value pb}} of block b in {{value pa}}{{endanchor}}
+{{endblock}}
+
+{{*anchor a1}}This is instance {{value pa}} of block a{{endanchor}}
+{{blockref bref1:#b}}{{arg pb}}first call{{endarg}}
+{{blockref bref2:#b}}{{arg pb}}second call{{endarg}}
+
+
+{{endblock}}

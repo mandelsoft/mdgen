@@ -7,8 +7,10 @@
 package tree
 
 import (
+	"fmt"
 	"io"
 
+	"github.com/mandelsoft/filepath/pkg/filepath"
 	"github.com/mandelsoft/vfs/pkg/osfs"
 	"github.com/mandelsoft/vfs/pkg/vfs"
 )
@@ -34,7 +36,7 @@ func NewFileTreeWriter(path string, fss ...vfs.FileSystem) (TreeWriter, error) {
 
 	err := fs.MkdirAll(path, 0755)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("cannot target dir %s: %w", path, err)
 	}
 	return &fileTreeWriter{
 		root: path,
@@ -44,6 +46,10 @@ func NewFileTreeWriter(path string, fss ...vfs.FileSystem) (TreeWriter, error) {
 
 func (w *fileTreeWriter) Document(refpath string) (io.WriteCloser, string, error) {
 	path := w.root + refpath + ".md"
+	err := w.fs.MkdirAll(filepath.Dir(path), 0755)
+	if err != nil {
+		return nil, path, fmt.Errorf("cannot create dir %s: %w", filepath.Dir(path), err)
+	}
 	f, err := w.fs.OpenFile(path, vfs.O_WRONLY|vfs.O_TRUNC|vfs.O_CREATE, 0644)
 	return f, path, err
 }

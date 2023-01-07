@@ -247,9 +247,9 @@ the unextended names as specified in the {{term !sourcedoc}}.
 {{include ../examples/anchorresolution/README.mdg}}
 ```
 
-generates anchors global anchors `/README/ref1/bref1/b1`,
+generates {{term *globa}} `/README/ref1/bref1/b1`,
 `/README/ref1/bref2/b1`, `/README/ref2/bref1/b1` and `/README/ref2/bref2/b1`
-and local anchors `ref1/a1` and `ref2/a1` for the generated file `README.md`.
+and {{term *loca}} `ref1/a1` and `ref2/a1` for the generated file `README.md`.
 The block tag `b` used in block `a` is resolved in the static scope instance
 of block `a` using the names `ref1` and `ref2`.
 {{endlabeled}}

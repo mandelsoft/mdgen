@@ -30,6 +30,7 @@ build: ${SOURCES}
 .PHONY: test
 test: build
 	go test ./...
+	hack/test
 	@rm -rf tmp/test
 	@mkdir -p tmp/test
 	bin/mdgen src tmp/test

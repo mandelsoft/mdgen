@@ -10,6 +10,7 @@ import (
 	_ "github.com/mandelsoft/mdgen/statements/anchor"
 	_ "github.com/mandelsoft/mdgen/statements/block"
 	_ "github.com/mandelsoft/mdgen/statements/blockref"
+	_ "github.com/mandelsoft/mdgen/statements/center"
 	_ "github.com/mandelsoft/mdgen/statements/escape"
 	_ "github.com/mandelsoft/mdgen/statements/figure"
 	_ "github.com/mandelsoft/mdgen/statements/glossary"

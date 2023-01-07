@@ -2,7 +2,7 @@
 
 <a/><a id="/glossary"/><a id="section-1"/>
 # 1 Glossary
-[A](a) &nbsp;[B](b) &nbsp;C &nbsp;[D](d) &nbsp;[E](e) &nbsp;[F](f) &nbsp;[G](g) &nbsp;H &nbsp;[I](i) &nbsp;J &nbsp;[K](k) &nbsp;[L](l) &nbsp;[M](m) &nbsp;[N](n) &nbsp;O &nbsp;P &nbsp;Q &nbsp;[R](r) &nbsp;[S](s) &nbsp;[T](t) &nbsp;U &nbsp;[V](v) &nbsp;W &nbsp;X &nbsp;Y &nbsp;Z &nbsp;
+[A](a) &nbsp;[B](b) &nbsp;[C](c) &nbsp;[D](d) &nbsp;[E](e) &nbsp;[F](f) &nbsp;[G](g) &nbsp;H &nbsp;[I](i) &nbsp;J &nbsp;[K](k) &nbsp;[L](l) &nbsp;[M](m) &nbsp;[N](n) &nbsp;O &nbsp;P &nbsp;Q &nbsp;[R](r) &nbsp;[S](s) &nbsp;[T](t) &nbsp;U &nbsp;[V](v) &nbsp;W &nbsp;X &nbsp;Y &nbsp;Z &nbsp;
 
 ## A
 
@@ -20,6 +20,10 @@ and <a href="#glossary/loca">local anchors</a>.
 A <a href="#glossary/statement">statement</a> used to define a <a href="#glossary/textmodule">text module</a>.
 ### [`blockref`](statements.md#/statement/blockref)<a id="glossary/statement/blockref"/>
 A <a href="#glossary/statement">statement</a> used to instantiate a <a href="#glossary/textmodule">text module</a>.
+## C
+
+### [`center`](statements.md#/statement/center)<a id="glossary/statement/center"/>
+A <a href="#glossary/statement">statement</a> used to center the embedded content lines.
 ## D
 
 ### [Directive](syntax.md#/directives)<a id="glossary/directive"/>
@@ -142,7 +146,7 @@ A <a href="#glossary/statement">statement</a> used to define a <a href="#glossar
 ### [`title`](statements.md#/statement/title)<a id="glossary/statement/title"/>
 A <a href="#glossary/statement">statement</a> used to add the title of the referenced element to the document.
 ### [`toc`](statements.md#/statement/toc)<a id="glossary/statement/toc"/>
-A <a href="#glossary/statement">statement</a> used add a table of contents}.
+A <a href="#glossary/statement">statement</a> used to add a table of contents.
 ### [Tag](syntax.md#/tags)<a id="glossary/tag"/>
 A short identifier used identify a
 dedicated element in the <a href="#glossary/sourcetree">source tree</a>. There are three kinds

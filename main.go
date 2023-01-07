@@ -7,11 +7,9 @@
 package main
 
 import (
-	"bytes"
 	"fmt"
 	"os"
 
-	"github.com/mandelsoft/mdgen/scanner"
 	"github.com/mandelsoft/mdgen/tree"
 	"github.com/mandelsoft/mdgen/version"
 )
@@ -59,17 +57,6 @@ func Tree() {
 		fmt.Fprintf(os.Stderr, "Error: %s\n", err)
 		os.Exit(1)
 	}
-
-	fmt.Printf("--------------\n")
-
-	buf := bytes.NewBuffer(nil)
-
-	err = t.GetDocument("/README").Emit(scanner.NewWriter(buf), "tmp/out")
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error: %s\n", err)
-		os.Exit(1)
-	}
-	//	fmt.Printf("%s\n", buf.String())
 
 	tw, err := tree.NewFileTreeWriter(dst)
 	if err != nil {

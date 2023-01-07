@@ -25,11 +25,13 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [3.5.2 Statement `blockref`](#/statement/blockref)<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [3.5.3 Statement `value`](#/statement/value)<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [3.5.4 Statement `template`](#/statement/template)<br>
-&nbsp;&nbsp;&nbsp;&nbsp; [3.6 Miscellaneous Statements](#/statements/misc)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [3.6.1 Statement `numberrange`](#/statement/numberrange)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [3.6.2 Statement `toc`](#/statement/toc)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [3.6.3 Statement `include`](#/statement/include)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [3.6.4 Statement `escape`](#/statement/escape)<br>
+&nbsp;&nbsp;&nbsp;&nbsp; [3.6 Formatting Hints](#/statements/formatting)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [3.6.1 Statement `center`](#/statement/center)<br>
+&nbsp;&nbsp;&nbsp;&nbsp; [3.7 Miscellaneous Statements](#/statements/misc)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [3.7.1 Statement `numberrange`](#/statement/numberrange)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [3.7.2 Statement `toc`](#/statement/toc)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [3.7.3 Statement `include`](#/statement/include)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [3.7.4 Statement `escape`](#/statement/escape)<br>
 
 The <a href="README.md#section-1">*Markdown Generator*</a> uses special *statements* to control the generation of the markdown files.
 A statement is a sequence of one or more <a href="syntax.md#/directives">directives</a>. If it consists of
@@ -376,12 +378,26 @@ in other source documents.
 
 
 
-<a/><a id="/statements/misc"/><a id="section-1-6"/>
-### 3.6 Miscellaneous Statements
+<a/><a id="/statements/formatting"/><a id="section-1-6"/>
+### 3.6 Formatting Hints
 
 
-<a/><a id="/statement/numberrange"/><a id="section-1-6-1"/>
-#### 3.6.1 Statement `numberrange`
+<a/><a id="/statement/center"/><a id="section-1-6-1"/>
+#### 3.6.1 Statement `center`
+#### Synopsis
+`{{center}}` &lt;*content*&gt; `{{endcenter}}`
+
+
+#### Description
+This <a href="#/statements">statement</a> centers the lines of the embedded content.
+
+
+<a/><a id="/statements/misc"/><a id="section-1-7"/>
+### 3.7 Miscellaneous Statements
+
+
+<a/><a id="/statement/numberrange"/><a id="section-1-7-1"/>
+#### 3.7.1 Statement `numberrange`
 #### Synopsis
 `{{numberrange` &lt;*name*&gt; [&#39;`:`&#39; &lt;*format*&gt;] [ &#39;`:#`&#39; &lt;*starting heading level*&gt;] { &lt;*attribute arg*&gt; } }}
 
@@ -403,12 +419,10 @@ The following attributes are supported:
 
 
 
-<a/><a id="/statement/toc"/><a id="section-1-6-2"/>
-#### 3.6.2 Statement `toc`
+<a/><a id="/statement/toc"/><a id="section-1-7-2"/>
+#### 3.7.2 Statement `toc`
 #### Synopsis
-`{{toc` [&lt;*ref*&gt;] }}
-
-  
+`{{toc` [&lt;*ref*&gt;] `}}`
 
 
 #### Description
@@ -417,8 +431,8 @@ the table is limited to the given section.
 
 
 
-<a/><a id="/statement/include"/><a id="section-1-6-3"/>
-#### 3.6.3 Statement `include`
+<a/><a id="/statement/include"/><a id="section-1-7-3"/>
+#### 3.7.3 Statement `include`
 #### Synopsis
 `{{include` &lt;*path argument*&gt; `}}`
 
@@ -433,8 +447,8 @@ the generation of a markdown document for a <a href="syntax.md#/sourcedoc">sourc
 
 
 
-<a/><a id="/statement/escape"/><a id="section-1-6-4"/>
-#### 3.6.4 Statement `escape`
+<a/><a id="/statement/escape"/><a id="section-1-7-4"/>
+#### 3.7.4 Statement `escape`
 #### Synopsis
 `{{escape}}` &lt;*content*&gt; `{{endescape}}`
 

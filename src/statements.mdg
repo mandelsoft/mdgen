@@ -291,6 +291,16 @@ in other {{term !*sourcedoc}}.
 {{endsection}}
 
 
+{{section /statements/formatting}}Formatting Hints
+
+{{blockref center:/statement}}
+  {{arg syn}}`\{{center}}` <*content*> `\{{endcenter}}`{{endarg}}
+  {{arg short}}A {{term statement}} used to center the embedded content lines.{{endarg}}
+{{arg desc}}
+This {{term statement}} centers the lines of the embedded content.
+{{endarg}}
+{{endsection}}
+
 {{section /statements/misc}}Miscellaneous Statements
 
 {{blockref numberrange:/statement}}
@@ -314,10 +324,8 @@ The following attributes are supported:
 
 
 {{blockref toc:/statement}}
-  {{arg syn}}`\{{toc` [<*ref*>] }}
-
-  {{endarg}}
-  {{arg short}}A {{term statement}} used add a table of contents}.{{endarg}}
+  {{arg syn}}`\{{toc` [<*ref*>] `}}`{{endarg}}
+  {{arg short}}A {{term statement}} used to add a table of contents.{{endarg}}
 {{arg desc}}
 This {{term statement}} outputs a table of contents. If a reference is specified
 the table is limited to the given section.

@@ -1,0 +1,58 @@
+#!/bin/bash -e
+#
+# SPDX-FileCopyrightText: 2023 Mandelsoft.
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+
+
+root="$(realpath "$(dirname "${BASH_SOURCE[0]}")/..")"
+
+cd "$root"/tests
+
+if [ "$2" == "-v" ]; then
+   opts="--doc"
+   shift
+fi
+
+if [ $# -eq 0 ]; then
+  tests=( * )
+else
+  tests=( "$@" )
+fi
+
+execute()
+{
+  echo "testing $1..."
+  rm -rf "$root/tmp/tests/$1"
+  if [ -n "$opts" ]; then
+    "$root"/bin/mdgen $opts "$1/src" "$root/tmp/tests/$1"
+  else
+    "$root"/bin/mdgen "$1/src" "$root/tmp/tests/$1" >/dev/null
+  fi
+  diff -ur "$1/doc" "$root/tmp/tests/$1"
+}
+
+#set -x
+fail=0
+succ=0
+for t in "${tests[@]}"; do
+  if ! execute "$t"; then
+    (( ++fail ))
+    echo "FAILED:  $t"
+  else
+    (( ++succ ))
+    echo "SUCCESS: $t"
+  fi
+done
+
+echo "Failed $fail/$(( fail+succ ))"
+
+if [ $fail -gt 0 ]; then
+  exit 1
+else
+  exit 0
+fi
+
+
+

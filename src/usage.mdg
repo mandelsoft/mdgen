@@ -5,10 +5,9 @@ The tool can be downloaded from [GitHub](https://github.com/mandelsoft/mdgen/rel
 
 The usage of the tool is quite simple, it has just two arguments
 
-<div align="center">
-
+{{center}}
 {{escape}}`mdgen` <*source folder*> <*target folder*>`{{end}}
-</div>
+{{end}}
 
 This documentation is generated from the `src` folder of 
 the project [mandelsoft/mdgen](https://github.com/mandelsoft/mdgen).

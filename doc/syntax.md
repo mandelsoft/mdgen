@@ -267,11 +267,21 @@ the unextended names as specified in the source document.
 ```
 {{blockref ref1:#/a}}{{arg pa}}first call{{endarg}}
 {{blockref ref2:#/a}}{{arg pa}}second call{{endarg}}
+
+Defined Global Anchors:
+- {{link #/ref1/bref1/b1}}/ref1/bref1/b1{{end}}
+- {{link #/ref1/bref2/b1}}/ref1/bref2/b1{{end}}
+- {{link #/ref2/bref1/b1}}/ref2/bref1/b1{{end}}
+- {{link #/ref2/bref2/b1}}/ref2/bref2/b1{{end}}
+
+Defined Local Anchors:
+- {{link README#ref1/a1}}#ref1/a1{{end}}
+- {{link README#ref2/a1}}#ref1/a1{{end}}
 ```
 
-generates anchors global anchors `/README/ref1/bref1/b1`,
+generates <a href="#/anchors">global anchors</a> `/README/ref1/bref1/b1`,
 `/README/ref1/bref2/b1`, `/README/ref2/bref1/b1` and `/README/ref2/bref2/b1`
-and local anchors `ref1/a1` and `ref2/a1` for the generated file `README.md`.
+and <a href="#/anchors">local anchors</a> `ref1/a1` and `ref2/a1` for the generated file `README.md`.
 The block tag `b` used in block `a` is resolved in the static scope instance
 of block `a` using the names `ref1` and `ref2`.
 </td></tr></table>
