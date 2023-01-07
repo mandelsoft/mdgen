@@ -1,0 +1,10 @@
+
+{{toc}}
+
+{{section doc}}Document
+{{termdef doc}}document{{description}}A document with {{term term}} {{ref #sub}}{{endtermdef}}
+{{section sub}}Sub
+{{blockref #/a}}{{arg a}}{{termdef term}}term{{description}}{{link #sub}}a section{{endlink}} in a {{term doc}} (see {{ref #doc}}){{endtermdef}}{{ref #sub}}{{endarg}}
+{{endsection}}
+{{endsection}}
+{{sectionref #/glossary}}

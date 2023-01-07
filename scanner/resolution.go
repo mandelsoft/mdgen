@@ -375,12 +375,13 @@ type Unscoped interface {
 	GetDocument() Document
 	GetParentDocument() Document
 	GetDocumentForLink(l utils2.Link) Document
+
 	NextId(typ string) labels.Rule
 	RequestDocument(link utils2.Link, d Document) error
 	RequestNumberRange(typ string)
 	GetNumberRange(typ string) NumberRange
 	SetNumberRangeFor(d Document, id TaggedId, typ string, nr NumberRange) HierarchyLabel
-	GetLabelInfosForType(typ string) map[labels.LabelId]TreeLabelInfo
+	//GetLabelInfosForType(typ string) map[labels.LabelId]TreeLabelInfo
 	GetIdsForTypeInTree(typ string) map[labels.LabelId]TreeLabelInfo
 	DetermineLinkPath(src, rp string) (string, error)
 	DetermineLink(l utils2.Link) (string, error)
@@ -564,40 +565,6 @@ func NewWriterContext(w Writer, ctx ResolutionContext) ResolutionContext {
 
 ////////////////////////////////////////////////////////////////////////////////
 
-type DelegationContext struct {
-	ResolutionContext
-	delegate ResolutionContext
-}
-
-func (d *DelegationContext) Writer() Writer {
-	if d.delegate == nil {
-		return d.ResolutionContext.Writer()
-	}
-	return d.delegate.Writer()
-}
-
-func (d *DelegationContext) DetermineLink(l utils2.Link) (string, error) {
-	if d.delegate == nil {
-		return d.ResolutionContext.DetermineLink(l)
-	}
-	return d.delegate.DetermineLink(l)
-}
-
-func (d *DelegationContext) Info(key string) interface{} {
-	if d.delegate != nil {
-		if i := d.delegate.Info(key); i != nil {
-			return i
-		}
-	}
-	return d.ResolutionContext.Info(key)
-}
-
-func NewDelegationContext(orig ResolutionContext, ctx ResolutionContext) *DelegationContext {
-	return &DelegationContext{ctx, orig}
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
 type BufferContext struct {
 	ResolutionContext
 	buffer bytes.Buffer
@@ -683,23 +650,23 @@ func (v *Value) GetContext() ResolutionContext {
 type scoped = Scope
 type unscoped = Unscoped
 
-type staticcontext struct {
+type StaticContext struct {
 	scoped
 	unscoped
 }
 
-func NewStaticContext(scope Scope, unscoped Unscoped) *staticcontext {
-	return &staticcontext{
+func NewStaticContext(scope Scope, unscoped Unscoped) *StaticContext {
+	return &StaticContext{
 		scoped:   scope,
 		unscoped: unscoped,
 	}
 }
 
-func (c *staticcontext) SetScope(s Scope) {
+func (c *StaticContext) SetScope(s Scope) {
 	c.scoped = s
 }
 
-func (c *staticcontext) Parent() ResolutionContext {
+func (c *StaticContext) Parent() ResolutionContext {
 	return c.unscoped.(ResolutionContext)
 }
 

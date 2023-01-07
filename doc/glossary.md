@@ -1,7 +1,7 @@
 
 
 <a/><a id="/glossary"/><a id="section-1"/>
-# 1 Glossary
+# Glossary
 [A](a) &nbsp;[B](b) &nbsp;[C](c) &nbsp;[D](d) &nbsp;[E](e) &nbsp;[F](f) &nbsp;[G](g) &nbsp;H &nbsp;[I](i) &nbsp;J &nbsp;[K](k) &nbsp;[L](l) &nbsp;[M](m) &nbsp;[N](n) &nbsp;O &nbsp;P &nbsp;Q &nbsp;[R](r) &nbsp;[S](s) &nbsp;[T](t) &nbsp;U &nbsp;[V](v) &nbsp;W &nbsp;X &nbsp;Y &nbsp;Z &nbsp;
 
 ## A

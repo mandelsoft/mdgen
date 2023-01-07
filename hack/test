@@ -46,11 +46,12 @@ for t in "${tests[@]}"; do
   fi
 done
 
-echo "Failed $fail/$(( fail+succ ))"
 
 if [ $fail -gt 0 ]; then
+  echo "Failed $fail/$(( fail+succ ))"
   exit 1
 else
+  echo "Succeeded $succ/$(( fail+succ ))"
   exit 0
 fi
 

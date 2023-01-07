@@ -92,7 +92,7 @@ func NewTermDefNodeContext(n *TermdefNode, ctx scanner.ResolutionContext, rctx *
 		resolved: nctx,
 		TermRef:  ref,
 	}
-	fmt.Printf("#### scope %s: register term %q[%s] (node %p) %t\n", ctx.GetScope().GetNamespace(), nctx.term.tag, n.term.tag, nctx, explicit)
+	//fmt.Printf("#### scope %s: register term %q[%s] (node %p) %t\n", ctx.GetScope().GetNamespace(), nctx.term.tag, n.term.tag, nctx, explicit)
 	err = ctx.RegisterTag(GT_TERM, nctx.term.tag, nctx, explicit)
 	return nctx, err
 }

@@ -135,7 +135,7 @@ func (n *tocnode) Emit(ctx scanner.ResolutionContext) error {
 			}
 		}
 	} else {
-		list = DocTOCIds(ctx, n.typ)
+		list = TreeTOCIds(ctx, n.typ)
 	}
 
 	if len(list) == 0 {
@@ -193,10 +193,6 @@ func (e TocEntry) Level() int {
 }
 func (e TocEntry) Id() scanner.TaggedId {
 	return e.id
-}
-
-func DocTOCIds(ctx scanner.ResolutionContext, typ string) []TocEntry {
-	return prepareTOCIds(ctx.GetLabelInfosForType(typ))
 }
 
 func TreeTOCIds(ctx scanner.ResolutionContext, typ string) []TocEntry {

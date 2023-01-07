@@ -51,12 +51,12 @@ func (s *Statement) Start(p scanner.Parser, e scanner.Element) (scanner.Element,
 const InfoKey = "glossary"
 
 type glossaryContext struct {
-	scanner.DelegationContext
+	*scanner.StaticContext
 }
 
 func newContext(orig scanner.ResolutionContext, ctx scanner.ResolutionContext) scanner.ResolutionContext {
 	return &glossaryContext{
-		DelegationContext: *scanner.NewDelegationContext(orig, ctx),
+		StaticContext: scanner.NewStaticContext(ctx, orig),
 	}
 }
 
@@ -64,7 +64,7 @@ func (c *glossaryContext) Info(key string) interface{} {
 	if key == InfoKey {
 		return true
 	}
-	return c.DelegationContext.Info(key)
+	return c.StaticContext.Info(key)
 }
 
 ////////////////////////////////////////////////////////////////////////////////

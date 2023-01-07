@@ -1,0 +1,4 @@
+{{template}}
+{{block /b}}{{param b}}
+{{value b}}
+{{endblock}}

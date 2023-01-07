@@ -1,0 +1,9 @@
+
+{{toc}}
+
+{{section /doc}}Document
+{{section sub}}Sub
+{{blockref #/a}}{{arg a}}{{termdef term}}term{{description}}{{link #sub}}my section{{endlink}}{{endtermdef}}{{ref #sub}}{{endarg}}
+{{endsection}}
+{{endsection}}
+{{sectionref #/glossary}}

@@ -45,6 +45,10 @@ func (s *Statement) Start(p scanner.Parser, e scanner.Element) (scanner.Element,
 	if e.IsFlagged() {
 		p.State = p.State.Sub(n)
 		p.State.SetLastTag(tag)
+	} else {
+		{
+			p.State.Container.AddNode(n)
+		}
 	}
 	return p.NextElement()
 }

@@ -141,7 +141,7 @@ func (n *valuenode) ResolveValues(ctx scanner.ResolutionContext) error {
 func (n *valuenode) Emit(ctx scanner.ResolutionContext) error {
 	if !n.attr {
 		nctx := scanner.GetNodeContext[*ValueNodeContext](ctx, n)
-		return nctx.value.Emit(scanner.NewDelegationContext(ctx, nctx.ctx))
+		return nctx.value.Emit(scanner.NewStaticContext(nctx.ctx, ctx))
 	}
 	w := ctx.Writer()
 	fmt.Fprintf(w, "%s", scanner.GetContextAttr(n.tag, ctx))

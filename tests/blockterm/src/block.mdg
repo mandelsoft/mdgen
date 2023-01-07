@@ -1,0 +1,4 @@
+{{template}}
+{{block /a}}{{param a}}
+This is {{value a}}
+{{endblock}}

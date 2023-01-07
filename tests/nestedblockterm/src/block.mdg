@@ -1,0 +1,7 @@
+{{template}}
+{{block /a}}{{param a}}
+{{block b}}{{param b}}
+{{value b}} {{value a}}
+{{endblock}}
+{{blockref b}}{{arg b}}This is a{{end}}
+{{endblock}}

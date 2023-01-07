@@ -177,7 +177,7 @@ func NewResolution(docs map[string]scanner.Document) *Resolution {
 }
 
 func (r *Resolution) RegisterTag(typ string, tag string, nctx scanner.NodeContext, explicit bool) error {
-	fmt.Printf("*** registering global %s %q\n", typ, tag)
+	// fmt.Printf("*** registering global %s %q\n", typ, tag)
 	m := r.tagged[typ]
 	if m == nil {
 		m = map[string]scanner.NodeContext{}
@@ -427,7 +427,6 @@ func (r *ResolutionContext) GetIdsForTypeInTree(typ string) map[labels.LabelId]s
 		for di.structinfo != nil {
 			di = r.resolution.documents[di.structinfo.document.GetRefPath()]
 		}
-
 	*/
 	result := map[labels.LabelId]scanner.TreeLabelInfo{}
 	di.context.appendIdsForType(typ, result)
