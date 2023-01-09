@@ -133,6 +133,11 @@ func (s *scanner) Next() (rune, error) {
 	return s.next()
 }
 
+func (s *scanner) Push(r rune) {
+	s.lookAhead = string(r) + s.lookAhead
+	s.column--
+}
+
 func (s *scanner) next() (rune, error) {
 	if s.lookAhead != "" {
 		r, size := utf8.DecodeRuneInString(s.lookAhead)

@@ -12,6 +12,9 @@ pain points in markdown:
   change the section header without invalidating the links
   all over the document tree.
 
+- Subsections of different sections may not use the same title, if they
+  should be usable as link target.
+
 - The different font sizes of section headers are nice but do not really
   help to understand the document structure, because the difference
   in the size is only recognizable in a direct comparison, but does

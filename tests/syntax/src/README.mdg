@@ -1,0 +1,4 @@
+{{syntax}}
+\\\{\\\{  [*]<keyword>{   <arg>}  \\\}\\\}
+<keyword>=<digit>{<digit>|<letter>}
+{{end}}

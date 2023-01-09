@@ -8,3 +8,4 @@ This document shows examples for the <a href="syntax.md#/syntax">generator synta
 &nbsp;&nbsp;&nbsp;&nbsp; [2-c Anchors in scoped environments](syntax.md#anchors)<br>
 &nbsp;&nbsp;&nbsp;&nbsp; [2-d The Figure Number Range used in this Documentation](syntax.md#nr)<br>
 &nbsp;&nbsp;&nbsp;&nbsp; [3-a Explicit Table of Contents for Linked Documents](statements.md#reftoc)<br>
+&nbsp;&nbsp;&nbsp;&nbsp; [3-b An example for a syntax expression](statements.md#syntaxexpr)<br>

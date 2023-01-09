@@ -296,30 +296,31 @@ func (p *tokenizer) NextElement() (Element, error) {
 }
 
 func (p *tokenizer) parseTokenStart() (string, location, bool, error) {
-	mask := 0
+	mask := false
 	text := ""
 	loc := p.scanner.Location()
 	p.scanner.SkipComment()
 	for p.scanner.Consume("\\") {
-		mask++
+		if mask {
+			text += "\\"
+		}
+		mask = !mask
+	}
+	if mask {
+		r, err := p.scanner.Next()
+		if err != nil {
+			return text, loc, false, err
+		}
+		if r == '{' || r == '\n' || r == '}' {
+			text += string(r)
+		} else {
+			text += "\\"
+			p.scanner.Push(r)
+		}
 	}
 	p.scanner.SkipComment()
 	if p.scanner.Match("{{") {
-		for mask > 1 {
-			text += "\\"
-			mask -= 2
-		}
-		if mask != 0 {
-			text += "{{"
-			p.scanner.Consume("{{")
-		} else {
-			return text, p.scanner.Location(), true, nil
-		}
-	} else {
-		for mask > 0 {
-			text += "\\"
-			mask--
-		}
+		return text, p.scanner.Location(), true, nil
 	}
 	if text == "" {
 		p.scanner.SkipComment()

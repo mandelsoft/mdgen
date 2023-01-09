@@ -32,6 +32,7 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [3.7.2 Statement `toc`](#/statement/toc)<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [3.7.3 Statement `include`](#/statement/include)<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [3.7.4 Statement `escape`](#/statement/escape)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [3.7.5 Statement `syntax`](#/statement/syntax)<br>
 &nbsp;&nbsp;&nbsp;&nbsp; [3.8 Symbols](#/symbols)<br>
 
 The <a href="README.md#section-1">*Markdown Generator*</a> uses special *statements* to control the generation of the markdown files.
@@ -455,6 +456,93 @@ the generation of a markdown document for a <a href="syntax.md#/sourcedoc">sourc
 #### Description
 The content of this <a href="#/statements">statement</a> is HTML-escaped. Breaking rules (`</br>`)
 are not escaped.
+
+
+
+<a/><a id="/statement/syntax"/><a id="section-1-7-5"/>
+#### 3.7.5 Statement `syntax`
+#### Synopsis
+`{{syntax}}` &lt;*expression*&gt; `{{endsyntax}}`
+
+
+#### Description
+  It might be a line-based list of EBNF-like rules or simple EBNF-like expressions.
+
+  <table><tr><td>
+  <div>
+
+&lt;*expression*&gt; = [ &lt;*identifier*&gt; '`=`' ] &lt;*syntaxexpr*&gt;</br>
+</div>
+</td><td>
+  for a rule
+  </td></tr><tr><td>
+    <div>
+
+'`{`' &lt;*syntaxexpr*&gt; '`}`' [ '`+`' ]</br>
+</div>
+</td><td> an arbitray number of occurrences,
+    if a (`+`) is added, at least one occurrence is required.
+  </td></tr><tr><td>
+  <div>
+
+'`[`' &lt;*syntaxexpr*&gt; '`]`'</br>
+</div>
+ </td><td>an optional expression.
+   </td></tr><tr><td>
+  <div>
+
+'`<`' &lt;*identifier*&gt; '`>`'</br>
+</div>
+</td><td>an identifier for a rule.
+   </td></tr><tr><td>
+   <div>
+
+&lt;*literal*&gt;</br>
+</div>
+</td><td>any other character sequence is taken a literal.
+    </td></tr><tr><td>
+      <div>
+
+&lt;*syntaxexpr*&gt; '`|`' &lt;*syntaxexpr*&gt;</br>
+</div>
+</td><td>the left or the right expression.
+   </td></tr><tr><td>
+   one space</td><td> a single space.
+   </td></tr><tr><td>
+      two spaces</td><td> an arbitrary number of spaces</td></tr><tr><td>
+      three spaces</td><td>at least one space.
+  </td></tr></table>
+
+
+  
+<a/><a id="syntaxexpr"/><a id="example-2"/>
+<div align="center"><table><tr><td>
+
+
+  <div align="center">
+
+  ```
+  "<argument>{   <argument>}"
+  ```
+  </div>
+
+  is rendered as
+  <div align="center">
+
+  <div>
+
+&lt;*argument*&gt; { {'` `'}+ &lt;*argument*&gt; }</br>
+</div>
+
+  </div>
+
+  </td></tr></table>
+ Example 3-b: An example for a syntax expression
+</br></br>
+</div>
+
+  
+
 
 
 <a/><a id="/symbols"/><a id="section-1-8"/>

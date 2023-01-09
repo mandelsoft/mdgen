@@ -107,6 +107,8 @@ A <a href="#glossary/statement">statement</a> used to describe a structural elem
 ### [`sectionref`](statements.md#/statement/sectionref)<a id="glossary/statement/sectionref"/>
 A <a href="#glossary/statement">statement</a> used to link the section structure of another <a href="#glossary/sourcedoc">source document</a> into the
   own section structure. This statement is related to statement <a href="#glossary/statement/section">`section`</a>.
+### [`syntax`](statements.md#/statement/syntax)<a id="glossary/statement/syntax"/>
+A <a href="#glossary/statement">statement</a> used render simple syntax expressions.
 ### [Scope](syntax.md#/scoped)<a id="glossary/scope"/>
   A scope is used as namespace to resolve local <a href="#glossary/tag">tags</a> to <a href="#glossary/tagelem">taggable elements</a>.
   

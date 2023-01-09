@@ -9,7 +9,10 @@ package utils
 import (
 	"fmt"
 	"strings"
+	"unicode"
 )
+
+var plus = true
 
 func Syntax(s string) (string, error) {
 	result := ""
@@ -19,6 +22,24 @@ func Syntax(s string) (string, error) {
 	msk := false
 	ins := false
 	brk := []string{}
+	pls := false
+
+	if strings.HasPrefix(s, "<") {
+		var i int
+		var c rune
+		for i, c = range s[1:] {
+			if c == '>' {
+				break
+			}
+			if !unicode.IsLetter(c) && !unicode.IsDigit(c) {
+				break
+			}
+		}
+		if s[i+1] == '>' && len(s) > i+2 && s[i+2] == '=' {
+			result = fmt.Sprintf("&lt;*%s*&gt; =", s[1:i+1])
+			s = s[i+3:]
+		}
+	}
 
 	for i, c := range s {
 		p := string(c)
@@ -56,13 +77,17 @@ func Syntax(s string) (string, error) {
 		case '[', '{', '(':
 			result = textSyntax(result, &txt)
 			brk = append(brk, p)
-			result += " " + p
+			if len(result) > 0 {
+				result += " "
+			}
+			result += p
 		case ']', '}', ')':
-			o := "{"
+			o := "("
 			if c == ']' {
 				o = "["
-			} else if c == ')' {
-				o = "("
+			} else if c == '}' {
+				o = "{"
+				pls = true
 			}
 			if len(brk) == 0 {
 				return "", fmt.Errorf("no open %s at %d", o, i+1)
@@ -73,12 +98,20 @@ func Syntax(s string) (string, error) {
 			result = textSyntax(result, &txt)
 			result += " " + p
 			brk = brk[:len(brk)-1]
+			continue
+		case '+':
+			if pls {
+				result += "+"
+				break
+			}
+			fallthrough
 		default:
 			if txt == "" {
 				srt = i + 1
 			}
 			txt += p
 		}
+		pls = false
 	}
 	if ins {
 		return "", fmt.Errorf("unfinished symbol at %d", srt)
@@ -115,10 +148,21 @@ func textSyntax(pre string, s *string) string {
 						result += "{'` `'} "
 					} else {
 						if q {
-							result += " `' {'` `'} "
+							if !plus {
+								result += " "
+							}
+							result += "`' "
 							q = false
 						} else {
-							result += "'` `' {'` `'} "
+							if !plus {
+								result += "'` `' "
+							}
+						}
+						result += "{'` `'}"
+						if !plus {
+							result += " "
+						} else {
+							result += "+ "
 						}
 					}
 				} else {
@@ -149,9 +193,21 @@ func textSyntax(pre string, s *string) string {
 		result += "{'` `'}"
 	case 3:
 		if q {
-			result += " `' {'` `'}"
+			if !plus {
+				result += " "
+			}
+			result += "`' {'` `'}"
+			if plus {
+				result += "+"
+			}
 		} else {
-			result += "'` `' {'` `'}"
+			if !plus {
+				result += "'` `' "
+			}
+			result += "{'` `'}"
+			if plus {
+				result += "+"
+			}
 		}
 	}
 	*s = ""

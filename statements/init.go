@@ -22,6 +22,7 @@ import (
 	_ "github.com/mandelsoft/mdgen/statements/section"
 	_ "github.com/mandelsoft/mdgen/statements/sectionref"
 	_ "github.com/mandelsoft/mdgen/statements/symbol"
+	_ "github.com/mandelsoft/mdgen/statements/syntax"
 	_ "github.com/mandelsoft/mdgen/statements/term"
 	_ "github.com/mandelsoft/mdgen/statements/termdef"
 	_ "github.com/mandelsoft/mdgen/statements/title"

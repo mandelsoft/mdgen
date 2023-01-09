@@ -25,28 +25,59 @@ var _ = Describe("syntax", func() {
 	It("simple spaces", func() {
 		Expect(Syntax(" ")).To(Equal("'` `'"))
 		Expect(Syntax("  ")).To(Equal("{'` `'}"))
-		Expect(Syntax("   ")).To(Equal("'` `' {'` `'}"))
+		if plus {
+			Expect(Syntax("   ")).To(Equal("{'` `'}+"))
+		} else {
+			Expect(Syntax("   ")).To(Equal("'` `' {'` `'}"))
+		}
 	})
 	It("intermediate spaces", func() {
 		Expect(Syntax("a b")).To(Equal("'`a b`'"))
 		Expect(Syntax("a  b")).To(Equal("'`a`' {'` `'} '`b`'"))
-		Expect(Syntax("a   b")).To(Equal("'`a `' {'` `'} '`b`'"))
+		if plus {
+			Expect(Syntax("a   b")).To(Equal("'`a`' {'` `'}+ '`b`'"))
+		} else {
+			Expect(Syntax("a   b")).To(Equal("'`a `' {'` `'} '`b`'"))
+		}
 	})
 	It("leading spaces", func() {
 		Expect(Syntax(" b")).To(Equal("'` b`'"))
 		Expect(Syntax("  b")).To(Equal("{'` `'} '`b`'"))
-		Expect(Syntax("   b")).To(Equal("'` `' {'` `'} '`b`'"))
+		if plus {
+			Expect(Syntax("   b")).To(Equal("{'` `'}+ '`b`'"))
+		} else {
+			Expect(Syntax("   b")).To(Equal("'` `' {'` `'} '`b`'"))
+		}
 	})
 	It("trailing spaces", func() {
 		Expect(Syntax("a ")).To(Equal("'`a `'"))
 		Expect(Syntax("a  ")).To(Equal("'`a`' {'` `'}"))
-		Expect(Syntax("a   ")).To(Equal("'`a `' {'` `'}"))
+		if plus {
+			Expect(Syntax("a   ")).To(Equal("'`a`' {'` `'}+"))
+		} else {
+			Expect(Syntax("a   ")).To(Equal("'`a `' {'` `'}"))
+		}
 	})
 	It("escape", func() {
 		Expect(Syntax("\\{\\{")).To(Equal("'`{{`'"))
 	})
 	It("some complex thing", func() {
-		Expect(Syntax("\\{\\{  [*]<keyword>   <arg>{   <arg>}  \\}\\}")).To(Equal("'`{{`' {'` `'} [ '`*`' ] &lt;*keyword*&gt; '` `' {'` `'} &lt;*arg*&gt; { '` `' {'` `'} &lt;*arg*&gt; } {'` `'} '`}}`'"))
+		if plus {
+			Expect(Syntax("\\{\\{  [*]<keyword>   <arg>{   <arg>}  \\}\\}")).To(Equal("'`{{`' {'` `'} [ '`*`' ] &lt;*keyword*&gt; {'` `'}+ &lt;*arg*&gt; { {'` `'}+ &lt;*arg*&gt; } {'` `'} '`}}`'"))
+		} else {
+			Expect(Syntax("\\{\\{  [*]<keyword>   <arg>{   <arg>}  \\}\\}")).To(Equal("'`{{`' {'` `'} [ '`*`' ] &lt;*keyword*&gt; '` `' {'` `'} &lt;*arg*&gt; { '` `' {'` `'} &lt;*arg*&gt; } {'` `'} '`}}`'"))
+		}
+	})
+
+	It("plus", func() {
+		Expect(Syntax("{a}+b")).To(Equal("{ '`a`' }+ '`b`'"))
+		Expect(Syntax("{a}\\+b")).To(Equal("{ '`a`' } '`+b`'"))
+		Expect(Syntax("{a}\\++b")).To(Equal("{ '`a`' } '`++b`'"))
+		Expect(Syntax("[a]+b")).To(Equal("[ '`a`' ] '`+b`'"))
+	})
+
+	It("rule", func() {
+		Expect(Syntax("<rule>=a")).To(Equal("&lt;*rule*&gt; = '`a`'"))
 	})
 
 })
