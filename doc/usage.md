@@ -1,3 +1,6 @@
+[Simple Markdown Generator](README.md)
+
+---
 
 
 <a/><a id="/usage"/><a id="section-1"/>

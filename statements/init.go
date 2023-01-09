@@ -18,6 +18,7 @@ import (
 	_ "github.com/mandelsoft/mdgen/statements/label"
 	_ "github.com/mandelsoft/mdgen/statements/labeled"
 	_ "github.com/mandelsoft/mdgen/statements/link"
+	_ "github.com/mandelsoft/mdgen/statements/pagehistory"
 	_ "github.com/mandelsoft/mdgen/statements/ref"
 	_ "github.com/mandelsoft/mdgen/statements/section"
 	_ "github.com/mandelsoft/mdgen/statements/sectionref"

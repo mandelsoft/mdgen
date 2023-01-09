@@ -1,3 +1,7 @@
+[Simple Markdown Generator](README.md)
+
+---
+
 
 <a/><a id="/syntax"/><a id="section-1"/>
 ## 2 The Document Graph

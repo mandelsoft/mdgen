@@ -375,9 +375,14 @@ func LinkFor(ri RefInfo, preferred ...string) utils2.Link {
 	return utils2.NewLink(ri.GetRefPath(), anchor)
 }
 
+type DocumentInfo interface {
+	GetRefPath() string
+	GetParentDocument() DocumentInfo
+}
+
 type Unscoped interface {
 	GetDocument() Document
-	GetParentDocument() Document
+	GetParentDocument() DocumentInfo
 	GetRootContext() ResolutionContext
 	GetDocumentForLink(l utils2.Link) Document
 

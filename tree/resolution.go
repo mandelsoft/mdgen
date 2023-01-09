@@ -122,6 +122,13 @@ func (i *DocumentInfo) GetRefPath() string {
 	return i.document.GetRefPath()
 }
 
+func (i *DocumentInfo) GetParentDocument() scanner.DocumentInfo {
+	if i.structinfo == nil {
+		return nil
+	}
+	return i.structinfo.docinfo
+}
+
 func (i *DocumentInfo) Source() string {
 	return i.document.Source()
 }
@@ -376,12 +383,12 @@ func (r *ResolutionContext) GetDocument() scanner.Document {
 	return r.docinfo.document
 }
 
-func (r *ResolutionContext) GetParentDocument() scanner.Document {
+func (r *ResolutionContext) GetParentDocument() scanner.DocumentInfo {
 	p := r.docinfo.structinfo
 	if p == nil {
 		return nil
 	}
-	return p.docinfo.document
+	return p.docinfo
 }
 
 func (r *ResolutionContext) GetDocumentForLink(l utils2.Link) scanner.Document {
