@@ -9,7 +9,6 @@
 ### [`anchor`](statements.md#/statement/anchor)<a id="glossary/statement/anchor"/>
 A <a href="#glossary/statement">statement</a> used define a titled anchor.
 ### [Anchor](syntax.md#/anchors)<a id="glossary/anchor"/>
-
 A <a href="#glossary/tag">tag</a> used to identify <a href="#glossary/refelem">referencable elements</a>. They can be
 used to establish hyperlinks among documents. There are <a href="#glossary/globa">global anchors</a>
 and <a href="#glossary/loca">local anchors</a>.
@@ -24,10 +23,11 @@ A <a href="#glossary/statement">statement</a> used to instantiate a <a href="#gl
 
 ### [`center`](statements.md#/statement/center)<a id="glossary/statement/center"/>
 A <a href="#glossary/statement">statement</a> used to center the embedded content lines.
+### [`cs`](statements.md#/symbols)<a id="glossary/statement/cs"/>
+A <a href="#glossary/statement">statement</a> emitting the (c)omment (s)tart sequence (`/#`) comment. 
 ## D
 
 ### [Directive](syntax.md#/directives)<a id="glossary/directive"/>
-
 Directives are dedicated markers used by the generator to influence and structure the
 generation of a document tree.
 
@@ -44,11 +44,9 @@ A <a href="#glossary/statement">statement</a> used add an image to the output.
 ### [`glossary`](statements.md#/statement/glossary)<a id="glossary/statement/glossary"/>
 A <a href="#glossary/statement">statement</a> used to generate a glossary for the defined <a href="#glossary/term">terms</a>.
 ### [Global Anchor](syntax.md#/anchors)<a id="glossary/globa"/>
-
 Location independent anchor globally unique for the <a href="#glossary/sourcetree">source tree</a>.
 
 ### [Global Tag](syntax.md#/tags)<a id="glossary/globtag"/>
-
 Location independent <a href="#glossary/tag">tag</a> globally unique for the complete <a href="#glossary/sourcetree">source tree</a>.
 
 ## I
@@ -58,7 +56,6 @@ A <a href="#glossary/statement">statement</a> used to include the content of a f
 ## K
 
 ### [Keyword](syntax.md#/directives)<a id="glossary/keyword"/>
-
 The name of a <a href="#glossary/directive">directive</a>.
 
 ## L
@@ -70,7 +67,6 @@ A <a href="#glossary/statement">statement</a> used add a tagged element with a c
 ### [`link`](statements.md#/statement/link)<a id="glossary/statement/link"/>
 A <a href="#glossary/statement">statement</a> used to add a hyperlink to some embedded text.
 ### [Local Anchor](syntax.md#/anchors)<a id="glossary/loca"/>
-
 An <a href="#glossary/anchor">anchor</a> locally valid in a generated document.
 
 ### [Local Tag](syntax.md#/tags)<a id="glossary/loctag"/>
@@ -79,24 +75,22 @@ generated document.
 ## M
 
 ### [*Markdown Generator*](README.md#section-1)<a id="glossary/mdgen"/>
-
 The tool this documentation is for. It maintains consistent hyperlinks
 among a set of markdown documents.
 
 ### [Markdown Text](syntax.md#/sourcedoc)<a id="glossary/markdown"/>
-
 Part of a <a href="#glossary/sourcedoc">source document</a> used as plain markdown text for the generated
 markdown files.
 
 ### [Master Number Range](syntax.md#/master)<a id="glossary/masterrange"/>
-
 A <a href="#glossary/numberrange">number range</a> controlling a <a href="#glossary/slaverange">slave number range</a>.
 ## N
 
+### [`nl`](statements.md#/symbols)<a id="glossary/statement/nl"/>
+A <a href="#glossary/statement">statement</a> emitting a newline character
 ### [`numberrange`](statements.md#/statement/numberrange)<a id="glossary/statement/numberrange"/>
 A <a href="#glossary/statement">statement</a> used to declare and configure <a href="#glossary/numberrange">number ranges</a>.
 ### [Number Range](syntax.md#/numberranges)<a id="glossary/numberrange"/>
-
 A hierarchical labeling mechanism, e.g. used to label sections.
 
 ## R
@@ -114,24 +108,19 @@ A <a href="#glossary/statement">statement</a> used to describe a structural elem
 A <a href="#glossary/statement">statement</a> used to link the section structure of another <a href="#glossary/sourcedoc">source document</a> into the
   own section structure. This statement is related to statement <a href="#glossary/statement/section">`section`</a>.
 ### [Scope](syntax.md#/scoped)<a id="glossary/scope"/>
-
   A scope is used as namespace to resolve local <a href="#glossary/tag">tags</a> to <a href="#glossary/tagelem">taggable elements</a>.
   
 ### [Slave Number Range](syntax.md#/master)<a id="glossary/slaverange"/>
-
 A <a href="#glossary/numberrange">number range</a> controlled by a <a href="#glossary/masterrange">master number range</a>.
 ### [Source Document](syntax.md#/sourcedoc)<a id="glossary/sourcedoc"/>
-
 A file used a source for the markdown generator. It consists of
 a sequence of <a href="#glossary/directive">directives</a> and markdown text and used the file suffix `.mdg`.
 
 ### [Source Tree](syntax.md#/filestructure)<a id="glossary/sourcetree"/>
-
 A tree of source files under a common root folder containing source files for
 the generator, which build an interconnected documentation.
 
 ### [Statement](statements.md#/statements)<a id="glossary/statement"/>
-
 A sequence of one or more <a href="#glossary/directive">directives</a>.
 
 ## T
@@ -164,11 +153,9 @@ An identifiable element
 descibed by a <a href="#glossary/statement">statement</a> of the <a href="#glossary/mdgen">*Markdown Generator*</a> in the <a href="#glossary/sourcetree">source tree</a>.
 
 ### [Term](syntax.md#/terms)<a id="glossary/term"/>
-
 A part of the terminology of the
 <a href="#glossary/sourcetree">source tree</a> with a dedicated meaning.
 ### [Text Module](syntax.md#/textmodules)<a id="glossary/textmodule"/>
-
 Tagged and parameterized reusable block of content, which can be instantiated
 multiple times all over the document tree.
 

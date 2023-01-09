@@ -1,0 +1,6 @@
+{{template}}
+{{block /test}}{{param a}}
+{{section /glob/{a} }}Test {{value a}}
+This is test {{value a}}.
+{{endsection}}
+{{endblock}}

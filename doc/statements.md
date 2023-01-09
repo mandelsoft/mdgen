@@ -32,6 +32,7 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [3.7.2 Statement `toc`](#/statement/toc)<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [3.7.3 Statement `include`](#/statement/include)<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [3.7.4 Statement `escape`](#/statement/escape)<br>
+&nbsp;&nbsp;&nbsp;&nbsp; [3.8 Symbols](#/symbols)<br>
 
 The <a href="README.md#section-1">*Markdown Generator*</a> uses special *statements* to control the generation of the markdown files.
 A statement is a sequence of one or more <a href="syntax.md#/directives">directives</a>. If it consists of
@@ -80,7 +81,6 @@ The section structure is not limited to a single document, it might span multipl
 <a/><a id="/statement/sectionref"/><a id="section-1-1-1-2"/>
 ##### 3.1.1.2 Statement `sectionref`
 #### Synopsis
-
   `{{*sectionref` &lt;*ref*&gt;`}}` ... `{{endsectionref}}`\&lt;br&gt;
   `{{sectionref` &lt;*ref*&gt;`}}`
 
@@ -116,7 +116,6 @@ reference for the nested content.
 <a/><a id="/statement/anchor"/><a id="section-1-1-2"/>
 #### 3.1.2 Statement `anchor`
 #### Synopsis
-
   `{{*anchor` [ &lt;*numberrange*&gt; &#39;`:`&#39;] [&#39;`!`&#39;] &lt;*anchor*&gt; `}} &lt;*caption text*&gt; {{endanchor}}`</br>
   `{{anchor` [ &lt;*numberrange*&gt; &#39;`:`&#39;] &lt;*anchor*&gt; `}}
 
@@ -456,3 +455,11 @@ the generation of a markdown document for a <a href="syntax.md#/sourcedoc">sourc
 #### Description
 The content of this <a href="#/statements">statement</a> is HTML-escaped. Breaking rules (`</br>`)
 are not escaped.
+
+
+<a/><a id="/symbols"/><a id="section-1-8"/>
+### 3.8 Symbols
+
+The following <a href="syntax.md#/directives">directives</a> provide fixed symbols:
+- `nl`: The newline character.
+- `cs`: The start sequence (`/#`) of a comment.

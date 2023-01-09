@@ -10,6 +10,12 @@ import (
 	"github.com/mandelsoft/mdgen/scanner"
 )
 
+func init() {
+	scanner.Keywords.Register("arg", true)
+	scanner.Keywords.Register("endarg", true)
+
+}
+
 func ParseArg(p scanner.Parser, b BlockRefNode, e scanner.Element) (scanner.Element, error) {
 
 	name, err := e.Tag("argument name")

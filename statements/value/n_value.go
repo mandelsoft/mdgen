@@ -147,3 +147,13 @@ func (n *valuenode) Emit(ctx scanner.ResolutionContext) error {
 	fmt.Fprintf(w, "%s", scanner.GetContextAttr(n.tag, ctx))
 	return nil
 }
+
+func (n *valuenode) EvaluateStatic(ctx scanner.ResolutionContext) error {
+	if !n.attr {
+		nctx := scanner.GetNodeContext[*ValueNodeContext](ctx, n)
+		return nctx.value.EvaluateStatic(scanner.NewStaticContext(nctx.ctx, ctx))
+	}
+	w := ctx.Writer()
+	fmt.Fprintf(w, "%s", scanner.GetContextAttr(n.tag, ctx))
+	return nil
+}

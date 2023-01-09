@@ -35,3 +35,7 @@ func (n *textnode) Emit(ctx ResolutionContext) error {
 	fmt.Fprintf(w, "%s", n.text)
 	return nil
 }
+
+func (n *textnode) EvaluateStatic(ctx ResolutionContext) error {
+	return n.Emit(ctx)
+}

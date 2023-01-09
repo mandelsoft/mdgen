@@ -22,7 +22,7 @@ This is a tree of {{term *sourcedoc}} and other files under a common root
 folder containing source files for the generator, which build a closed
 documentation with hyperlinks among different parts.
 Non-source documents are ignored as long as they are not used
-by `figure` or `include` statements.
+by {{term statement/figure}} or {{term statement/include}} statements.
 
 
 The outcome of the generation process is a tree of interconnected markdown
@@ -77,7 +77,7 @@ The name of a {{term directive}}.
 {{endtermdef}} and argument strings. It is described by the following syntax:
 <div align=center>
 
-  {{escape}}'`\{{`' '` `' ['`*`'] <keyword> {'` `' {'` `'} <arg>} {'` `'} '`}}`'{{endescape}}
+  {{escape}}'`\{{`' {'` `'} ['`*`'] <keyword> {'` `' {'` `'} <arg>} {'` `'} '`}}`'{{endescape}}
 </div>
 
 An argument is a string which may be quoted with double quotes (`"`) to include
@@ -254,19 +254,25 @@ The block tag `b` used in block `a` is resolved in the static scope instance
 of block `a` using the names `ref1` and `ref2`.
 {{endlabeled}}
 
+{{section /tagcomp}}
 {{term Tag}} definitions inside a {{term textmodule}} may be composed using scope
-attributes using the syntax {{escape}}`{`<*attribute*>`}`{{end}}, for example
+attributes and arguments using the syntax {{escape}}`{`<*attribute*>`}`{{end}}, for example
 `/statement/{scope}`. It is possible to compose {{term *loctag}} as well
 as {{term *globtag}}.
 
-The following attributes are supported:
+The following scope attributes are supported:
 - `{scope}`: the name of the actual scope
 - `{namespace}`: the complete scope name path up to document level (separated
    by a slash (`/`).
 
+Argument values are allowed as long as they contain only text nodes, value nodes
+or {{term *textmodule}} containing only those node. The resulting text must not contain
+newlines.
+
 If {{term tagcomp}} is used, the implicit name extension is omitted and the
 composed names must be unqiue, either globally for {{term !globtag}} or locally
 for a generated document for {{term !*loctag}}.
+{{endsection}}
 
 {{endsection}}
 {{endsection}}

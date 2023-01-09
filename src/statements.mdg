@@ -355,4 +355,11 @@ The content of this {{term statement}} is HTML-escaped. Breaking rules (`</br>`)
 are not escaped.
 {{endarg}}
 {{endsection}}
+
+{{section /symbols}}Symbols
+
+The following {{term *directive}} provide fixed symbols:
+- {{termdef statement/nl}}`nl`{{description}}A {{term statement}} emitting a newline character{{endtermdef}}: The newline character.
+- {{termdef statement/cs}}`cs`{{description}}A {{term statement}} emitting the (c)omment (s)tart sequence (`{{cs}}`) comment. {{endtermdef}}: The start sequence (`{{cs}}`) of a comment.
+{{endsection}}
 {{endsection}}

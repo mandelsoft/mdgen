@@ -18,7 +18,7 @@ import (
 func init() {
 	scanner.Tokens.RegisterStatement(NewStatement())
 
-	scanner.Keywords.Register("description")
+	scanner.Keywords.Register("description", true)
 
 }
 

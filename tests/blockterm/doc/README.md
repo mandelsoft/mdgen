@@ -9,6 +9,4 @@
 
 <a/><a id="sub"/><a id="section-1-1"/>
 ## 1.1 Sub
-
 This is *term*<a href="#sub">→1.1</a>
-

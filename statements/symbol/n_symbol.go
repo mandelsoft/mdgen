@@ -61,3 +61,7 @@ func (n *node) Emit(ctx scanner.ResolutionContext) error {
 	fmt.Fprintf(ctx.Writer(), n.symbol)
 	return nil
 }
+func (n *node) EvaluateStatic(ctx scanner.ResolutionContext) error {
+	fmt.Fprintf(ctx.Writer(), n.symbol)
+	return nil
+}

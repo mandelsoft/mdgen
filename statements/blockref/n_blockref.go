@@ -15,10 +15,7 @@ import (
 )
 
 func init() {
-	scanner.Tokens.RegisterStatement(NewStatement())
-
-	scanner.Keywords.Register("arg")
-	scanner.Keywords.Register("endarg")
+	scanner.Tokens.RegisterStatement(NewStatement(), true, true)
 
 }
 
@@ -218,4 +215,10 @@ func (n *blockrefnode) Emit(ctx scanner.ResolutionContext) error {
 	nctx := scanner.GetNodeContext[*BlockRefNodeContext](ctx, n)
 	nctx.ctx.SetWriter(ctx.Writer())
 	return nctx.ctx.blockctx.GetNodeSequence().Emit(nctx.ctx)
+}
+
+func (n *blockrefnode) EvaluateStatic(ctx scanner.ResolutionContext) error {
+	nctx := scanner.GetNodeContext[*BlockRefNodeContext](ctx, n)
+	nctx.ctx.SetWriter(ctx.Writer())
+	return nctx.ctx.blockctx.GetNodeSequence().EvaluateStatic(nctx.ctx)
 }

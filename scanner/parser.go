@@ -34,8 +34,12 @@ type NodeBase struct {
 	document *document
 }
 
-func (n NodeBase) GetDocument() Document {
+func (n *NodeBase) GetDocument() Document {
 	return n.document
+}
+
+func (n *NodeBase) EvaluateStatic(ctx ResolutionContext) error {
+	return n.Errorf("no static evaluation possible")
 }
 
 func NewNodeBase(d Document, location Location) NodeBase {
@@ -57,6 +61,7 @@ type NodeSequence interface {
 	LabelResolver
 	ValueResolver
 	Emitter
+	StaticEvaluator
 
 	Print(gap string)
 }
@@ -135,6 +140,10 @@ func (c *nodesequence) Emit(ctx ResolutionContext) error {
 	return c.Walk(Resolve[Emitter](ctx))
 }
 
+func (c *nodesequence) EvaluateStatic(ctx ResolutionContext) error {
+	return c.Walk(Resolve[StaticEvaluator](ctx))
+}
+
 type NodeContainerBase struct {
 	NodeBase
 	InventoryContainer
@@ -164,6 +173,10 @@ func (c *NodeContainerBase) Type() string {
 func (c *NodeContainerBase) Print(gap string) {
 	fmt.Printf("%snodes: \n", gap)
 	c.NodeSequence.Print(gap + "  ")
+}
+
+func (c *NodeContainerBase) EvaluateStatic(ctx ResolutionContext) error {
+	return c.NodeBase.EvaluateStatic(ctx)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -196,8 +209,11 @@ type tokens struct {
 	tokens map[string]Token
 }
 
-func (t *tokens) Register(name string, tok Token) {
+func (t *tokens) Register(name string, tok Token, skipnl ...bool) {
 	t.tokens[name] = tok
+	if utils.Optional(skipnl...) {
+		SkipNewline.Register(name)
+	}
 }
 
 func (t *tokens) Get(name string) Token {
@@ -208,8 +224,11 @@ var Tokens = &tokens{map[string]Token{}}
 
 type keywords map[string]bool
 
-func (k keywords) Register(name string) {
+func (k keywords) Register(name string, skipnl ...bool) {
 	k[name] = true
+	if utils.Optional(skipnl...) {
+		SkipNewline.Register(name)
+	}
 }
 
 var Keywords = keywords{}
@@ -225,10 +244,17 @@ type Finisher interface {
 	End(p Parser, e Element) (Element, error)
 }
 
-func (t *tokens) RegisterStatement(s Statement) {
-	t.Register(s.Name(), s.Start)
+func (t *tokens) RegisterStatement(s Statement, skipnl ...bool) {
+	start, end := false, false
+	if len(skipnl) > 0 {
+		start = skipnl[0]
+	}
+	if len(skipnl) > 1 {
+		end = skipnl[1]
+	}
+	t.Register(s.Name(), s.Start, start)
 	if e, ok := s.(Finisher); ok {
-		t.Register("end"+s.Name(), e.End)
+		t.Register("end"+s.Name(), e.End, end)
 	}
 }
 

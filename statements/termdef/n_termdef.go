@@ -18,7 +18,7 @@ import (
 const GT_TERM = "term"
 
 func init() {
-	scanner.Tokens.RegisterStatement(NewStatement())
+	scanner.Tokens.RegisterStatement(NewStatement(), true)
 }
 
 type Statement struct {

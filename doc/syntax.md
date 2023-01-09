@@ -9,6 +9,7 @@
 &nbsp;&nbsp;&nbsp;&nbsp; [2.4 Tags](#/tags)<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [2.4.1 Anchors for Referencable Elements](#/anchors)<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [2.4.2 Tags and Anchors in Scoped Environments](#/scoped)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [2.4.2.1 <a href="#/tags">Tag</a> definitions inside a <a href="#/textmodules"></a> may be composed using scope](#/tagcomp)<br>
 &nbsp;&nbsp;&nbsp;&nbsp; [2.5 Number ranges](#/numberranges)<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [2.5.1 Label Formats](#/labelformats)<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [2.5.2 Cascading Number Ranges](#/master)<br>
@@ -33,7 +34,7 @@ This is a tree of <a href="#/sourcedoc">source documents</a> and other files und
 folder containing source files for the generator, which build a closed
 documentation with hyperlinks among different parts.
 Non-source documents are ignored as long as they are not used
-by `figure` or `include` statements.
+by <a href="statements.md#/statement/figure">`figure`</a> or <a href="statements.md#/statement/include">`include`</a> statements.
 
 
 The outcome of the generation process is a tree of interconnected markdown
@@ -94,7 +95,7 @@ regular markdown text.
 A directive consists of a *keyword* and argument strings. It is described by the following syntax:
 <div align=center>
 
-  &#39;`{{`&#39; &#39;` `&#39; [&#39;`*`&#39;] &lt;keyword&gt; {&#39;` `&#39; {&#39;` `&#39;} &lt;arg&gt;} {&#39;` `&#39;} &#39;`}}`&#39;
+  &#39;`{{`&#39; {&#39;` `&#39;} [&#39;`*`&#39;] &lt;keyword&gt; {&#39;` `&#39; {&#39;` `&#39;} &lt;arg&gt;} {&#39;` `&#39;} &#39;`}}`&#39;
 </div>
 
 An argument is a string which may be quoted with double quotes (`"`) to include
@@ -289,15 +290,21 @@ of block `a` using the names `ref1` and `ref2`.
 </br></br>
 </div>
 
-<a href="#/tags">Tag</a> definitions inside a <a href="#/textmodules">text module</a> may be composed using scope
-attributes using the syntax `{`&lt;*attribute*&gt;`}`, for example
+
+<a/><a id="/tagcomp"/><a id="section-1-4-2-1"/>
+##### 2.4.2.1 <a href="#/tags">Tag</a> definitions inside a <a href="#/textmodules"></a> may be composed using scope
+attributes and arguments using the syntax `{`&lt;*attribute*&gt;`}`, for example
 `/statement/{scope}`. It is possible to compose <a href="#/tags">local tags</a> as well
 as <a href="#/tags">global tags</a>.
 
-The following attributes are supported:
+The following scope attributes are supported:
 - `{scope}`: the name of the actual scope
 - `{namespace}`: the complete scope name path up to document level (separated
    by a slash (`/`).
+
+Argument values are allowed as long as they contain only text nodes, value nodes
+or <a href="#/textmodules">text modules</a> containing only those node. The resulting text must not contain
+newlines.
 
 If <a href="#/scoped">tag composition</a> is used, the implicit name extension is omitted and the
 composed names must be unqiue, either globally for global tag or locally

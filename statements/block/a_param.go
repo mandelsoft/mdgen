@@ -12,6 +12,11 @@ import (
 	"github.com/mandelsoft/mdgen/scanner"
 )
 
+func init() {
+	scanner.Keywords.Register("param", true)
+	scanner.Keywords.Register("endparam", true)
+}
+
 func ParseParam(p scanner.Parser, n *blocknode, e scanner.Element) (scanner.Element, error) {
 	name, err := e.Tag("parameter name")
 	if err != nil {

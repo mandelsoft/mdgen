@@ -24,6 +24,14 @@ type element struct {
 	location
 }
 
+type skipNewline map[string]bool
+
+func (s skipNewline) Register(k string) {
+	s[k] = true
+}
+
+var SkipNewline = skipNewline{}
+
 func NewToken(token string, tags []string, location Location, flagged bool) Element {
 	return &element{
 		flagged:  flagged,
@@ -280,7 +288,7 @@ func (p *tokenizer) NextElement() (Element, error) {
 	if p.scanner.Match("\\\n") {
 		p.scanner.Consume("\\")
 	} else {
-		if p.scanner.Match("\n") && loc.column <= 1 {
+		if p.scanner.Match("\n") && (loc.column <= 1 || SkipNewline[token]) {
 			p.scanner.Consume("\n")
 		}
 	}

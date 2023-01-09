@@ -19,11 +19,7 @@ import (
 const BLOCK_TYPE = "block"
 
 func init() {
-	scanner.Tokens.RegisterStatement(NewStatement())
-
-	scanner.Keywords.Register("param")
-	scanner.Keywords.Register("endparam")
-
+	scanner.Tokens.RegisterStatement(NewStatement(), true, true)
 }
 
 type Statement struct {

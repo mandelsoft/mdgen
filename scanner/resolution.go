@@ -37,6 +37,10 @@ type Emitter interface {
 	Emit(ResolutionContext) error
 }
 
+type StaticEvaluator interface {
+	EvaluateStatic(ResolutionContext) error
+}
+
 func Resolve[R any](ctx ResolutionContext) Resolver {
 	return func(n Node) error {
 		if _, ok := n.(R); ok {
@@ -503,10 +507,24 @@ func EvaluateTag(ctx ResolutionContext, tag string) (string, bool, error) {
 				if n == "" {
 					return "", explicit, fmt.Errorf("empty tag substitution")
 				}
-				if !ContextAttrs[n] {
-					return "", explicit, fmt.Errorf("invalid tag substitution %q", n)
+				if ContextAttrs[n] {
+					r += GetContextAttr(n, ctx)
+				} else {
+					if v := ctx.LookupValue(n); v != nil {
+						bctx := NewBufferContext(ctx)
+						err := v.EvaluateStatic(bctx)
+						if err != nil {
+							return "", explicit, err
+						}
+						t := strings.TrimSpace(bctx.String())
+						if strings.Contains(t, "\n") {
+							return "", explicit, fmt.Errorf("tag substitution contains a newline")
+						}
+						r += strings.TrimSpace(bctx.String())
+					} else {
+						return "", explicit, fmt.Errorf("invalid tag substitution %q", n)
+					}
 				}
-				r += GetContextAttr(n, ctx)
 				explicit = true
 			} else {
 				n += string(c)
