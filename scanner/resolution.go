@@ -175,24 +175,24 @@ func (c *LabeledNodeContextBase[N]) ResolveLabels(ctx ResolutionContext) error {
 }
 
 func (c *LabeledNodeContextBase[N]) ResolveValues(ctx ResolutionContext) error {
-	if c.titlenodes == nil {
-		return nil
-	}
-	err := c.titlenodes.ResolveValues(ctx)
-	if err != nil {
-		return err
-	}
+	title := ""
+	if c.titlenodes != nil {
+		err := c.titlenodes.ResolveValues(ctx)
+		if err != nil {
+			return err
+		}
 
-	buf := NewBufferContext(ctx)
-	err = c.titlenodes.Emit(buf)
-	if err != nil {
-		ctx.RegisterUnresolved(c, err)
-		return nil
-	}
-	title := strings.TrimSpace(buf.String())
-	i := strings.Index(title, "\n")
-	if i >= 0 {
-		return c.Errorf("resolved title contains newline")
+		buf := NewBufferContext(ctx)
+		err = c.titlenodes.Emit(buf)
+		if err != nil {
+			ctx.RegisterUnresolved(c, err)
+			return nil
+		}
+		title = strings.TrimSpace(buf.String())
+		i := strings.Index(title, "\n")
+		if i >= 0 {
+			return c.Errorf("resolved title contains newline")
+		}
 	}
 	c.title = &title
 	return nil

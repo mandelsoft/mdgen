@@ -87,20 +87,6 @@ func (l Link) Abs(base string, global bool) (Link, error) {
 	return r, nil
 }
 
-func ExtendAnchor(a string, ns string) (string, error) {
-	if a == "" || ns == "" {
-		return a, nil
-	}
-	b := ns
-	if strings.HasPrefix(ns, "/") {
-		b = ns[1:]
-		if strings.HasPrefix(path.Join(b, a), ".") {
-			return a, fmt.Errorf("anchor %q outside of tree %q", a, ns)
-		}
-	}
-	return path.Join(ns, a), nil
-}
-
 func ParseAbsoluteLink(link string, base string, global bool) (Link, error) {
 	l, err := ParseLink(link)
 	if err != nil {

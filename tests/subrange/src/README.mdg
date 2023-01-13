@@ -1,0 +1,29 @@
+
+{{numberrange example:a.i}}
+
+{{section a}}Section
+
+{{labeled example:e1}}First example{{content}}
+Content of Example 1
+{{endlabeled}}
+
+{{subrange example}}
+{{labeled example:e2}}Second example{{content}}
+Content of Example 2
+{{endlabeled}}
+{{labeled example:e3}}Third example{{content}}
+Content of Example 3
+{{endlabeled}}
+{{endsubrange}}
+
+{{subrange example}}Variants Of Examples
+{{labeled example:e4}}Forth example{{content}}
+Content of Example 4
+{{endlabeled}}
+{{labeled example:e5}}Fifth example{{content}}
+Content of Example 5
+{{endlabeled}}
+{{endsubrange}}
+
+{{toc example}}
+{{endsection}}

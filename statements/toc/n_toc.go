@@ -160,6 +160,7 @@ func (n *tocnode) Emit(ctx scanner.ResolutionContext) error {
 	}
 
 	w := ctx.Writer()
+	offset := []int{0}
 	for _, e := range list {
 		info := e.info
 		rt := info.Title()
@@ -167,15 +168,24 @@ func (n *tocnode) Emit(ctx scanner.ResolutionContext) error {
 			return n.Errorf("unresolved title for %s:%s", info.GetRefPath(), info.Anchors()[0])
 		}
 		title := *rt
-		link, err := ctx.DetermineLink(e.info.Link())
-		if err != nil {
-			return n.Errorf("cannot resolve link for %s %s: %s", n.typ, info.Label().Id(), err.Error())
+		lvl := e.Level() - minlvl
+		if len(offset) <= lvl+1 {
+			offset = append(offset, 0)
 		}
-		if info.Label().Name() != "" {
-			title = info.Label().Name() + " " + title
+		if len(title) == 0 {
+			offset[lvl+1] = offset[lvl] + 1
+		} else {
+			offset[lvl+1] = offset[lvl]
+			link, err := ctx.DetermineLink(e.info.Link())
+			if err != nil {
+				return n.Errorf("cannot resolve link for %s %s: %s", n.typ, info.Label().Id(), err.Error())
+			}
+			if info.Label().Name() != "" {
+				title = info.Label().Name() + " " + title
+			}
+			gap := fmt.Sprintf("%*s", (lvl-offset[lvl])*2+2, "")
+			fmt.Fprintf(w, "%s [%s](%s)<br>\n", strings.ReplaceAll(gap, " ", "&nbsp;&nbsp;"), title, link)
 		}
-		gap := fmt.Sprintf("%*s", (e.Level()-minlvl)*2+2, "")
-		fmt.Fprintf(w, "%s [%s](%s)<br>\n", strings.ReplaceAll(gap, " ", "&nbsp;&nbsp;"), title, link)
 	}
 	return nil
 }

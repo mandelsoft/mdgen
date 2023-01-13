@@ -106,6 +106,19 @@ The output mode can be influence by a second argument:
    So, the content has complete control over its formatting.
 {{endarg}}
 
+{{blockref subrange:/statement}}
+  {{arg syn}}`\{{subrange` <*name*> ['`:`' <*tag*>] `}}` [<*title>] <newline> <*content*> `\{{endsubrange}}`
+  {{endarg}}
+  {{arg short}}A {{term statement}} used to open a new sub level for a {{term *numberrange}}.{{endarg}}
+{{arg desc}}
+This {{term statement}} increments the current index of the given {{term numberrange}}
+and provides a new sub level for the enclosed content. It basically works like
+a {{term statement/section}}, but uses an arbitrary {{term !numberrange}} and may omit a title.
+If no title is given, it is omitted from the table of contents (including the indentation) emitted by
+the statement {{term statement/toc}}, but it still provides an {{term anchor}}
+for the document location.
+{{endarg}}
+
 {{endsection}}
 
 
@@ -322,7 +335,6 @@ The following attributes are supported:
 - {{escape}}`master=`<*name*>[`:`<*level*>]{{end}}: the name of the {{term !numberrange}} to be used as {{link #/numberranges}}master{{endlink}}
 - {{escape}}`abbrev=`<*text*>{{end}}: the abbreviation name of the {{term !numberrange}} used to prefix a label.
 {{endarg}}
-
 
 {{blockref toc:/statement}}
   {{arg syn}}`\{{toc` [<*ref*>] `}}`{{endarg}}

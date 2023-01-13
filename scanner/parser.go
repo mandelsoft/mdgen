@@ -226,8 +226,8 @@ type keywords map[string]bool
 
 func (k keywords) Register(name string, skipnl ...bool) {
 	k[name] = true
-	if utils.Optional(skipnl...) {
-		SkipNewline.Register(name)
+	if len(skipnl) > 0 {
+		SkipNewline.Register(name, utils.Optional(skipnl...))
 	}
 }
 

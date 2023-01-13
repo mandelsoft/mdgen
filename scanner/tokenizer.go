@@ -12,6 +12,8 @@ import (
 	"io"
 	"strings"
 	"unicode"
+
+	"github.com/mandelsoft/mdgen/utils"
 )
 
 type Element = *element
@@ -26,8 +28,12 @@ type element struct {
 
 type skipNewline map[string]bool
 
-func (s skipNewline) Register(k string) {
-	s[k] = true
+func (s skipNewline) Register(k string, skipnl ...bool) {
+	skip := true
+	if len(skipnl) > 0 {
+		skip = utils.Optional(skipnl...)
+	}
+	s[k] = skip
 }
 
 var SkipNewline = skipNewline{}
@@ -288,7 +294,8 @@ func (p *tokenizer) NextElement() (Element, error) {
 	if p.scanner.Match("\\\n") {
 		p.scanner.Consume("\\")
 	} else {
-		if p.scanner.Match("\n") && (loc.column <= 1 || SkipNewline[token]) {
+		skip, set := SkipNewline[token]
+		if !set && p.scanner.Match("\n") && (loc.column <= 1) || skip {
 			p.scanner.Consume("\n")
 		}
 	}

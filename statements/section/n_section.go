@@ -29,11 +29,8 @@ func NewStatement() *Statement {
 
 func (s *Statement) Start(p scanner.Parser, e scanner.Element) (scanner.Element, error) {
 	tag, err := e.OptionalTag("tag")
-	if tag != "" {
-		tag, err = utils2.ExtendAnchor(tag, "")
-		if err != nil {
-			return nil, e.Errorf("%s", err.Error())
-		}
+	if err != nil {
+		return nil, e.Errorf("%s", err.Error())
 	}
 
 	if err = scanner.ForbidNesting[sectionref.SectionRefNode]("sectionref", p, e); err != nil {

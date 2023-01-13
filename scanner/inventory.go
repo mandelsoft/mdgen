@@ -33,11 +33,13 @@ func NewTaggedNodeSet() *TaggedNodeSet {
 }
 
 func (c *TaggedNodeSet) Register(n TaggedNode) error {
-	if f := c.anchors[n.Tag()]; f != nil {
-		return n.Errorf("duplicate usage of tag %q (%s)", n.Tag(), f.Location())
+	if n.Tag() != "" {
+		if f := c.anchors[n.Tag()]; f != nil {
+			return n.Errorf("duplicate usage of tag %q (%s)", n.Tag(), f.Location())
+		}
+		c.anchors[n.Tag()] = n
 	}
 	c.tagged[n.Id()] = n
-	c.anchors[n.Tag()] = n
 	return nil
 }
 

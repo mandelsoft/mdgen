@@ -14,6 +14,7 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [3.1.2 Statement `anchor`](#/statement/anchor)<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [3.1.3 Statement `figure`](#/statement/figure)<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [3.1.4 Statement `labeled`](#/statement/labeled)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [3.1.5 Statement `subrange`](#/statement/subrange)<br>
 &nbsp;&nbsp;&nbsp;&nbsp; [3.2 Element Information](#/statements/info)<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [3.2.1 Statement `label`](#/statement/label)<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [3.2.2 Statement `title`](#/statement/title)<br>
@@ -160,6 +161,22 @@ The output mode can be influence by a second argument:
   separate the complete element from the rest of the text flow.
 - `float`: the content just follows the <a href="syntax.md#/anchors">anchor</a> followed by a centered caption.
    So, the content has complete control over its formatting.
+
+
+<a/><a id="/statement/subrange"/><a id="section-1-1-5"/>
+#### 3.1.5 Statement `subrange`
+#### Synopsis
+`{{subrange` &lt;*name*&gt; [&#39;`:`&#39; &lt;*tag*&gt;] `}}` [&lt;*title&gt;] &lt;newline&gt; &lt;*content*&gt; `{{endsubrange}}`
+  
+
+
+#### Description
+This <a href="#/statements">statement</a> increments the current index of the given <a href="syntax.md#/numberranges">number range</a>
+and provides a new sub level for the enclosed content. It basically works like
+a <a href="#/statement/section">`section`</a>, but uses an arbitrary number range and may omit a title.
+If no title is given, it is omitted from the table of contents (including the indentation) emitted by
+the statement <a href="#/statement/toc">`toc`</a>, but it still provides an <a href="syntax.md#/anchors">anchor</a>
+for the document location.
 
 
 
@@ -420,7 +437,6 @@ The optional atribute arguments are of the form &lt;*attr*&gt; `=` &lt;*value*&g
 The following attributes are supported:
 - `master=`&lt;*name*&gt;[`:`&lt;*level*&gt;]: the name of the number range to be used as <a href="syntax.md#/numberranges">master</a>
 - `abbrev=`&lt;*text*&gt;: the abbreviation name of the number range used to prefix a label.
-
 
 
 <a/><a id="/statement/toc"/><a id="section-1-7-2"/>
