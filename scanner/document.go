@@ -42,6 +42,9 @@ func (d LabelRules) RequestNumberRanges(ctx ResolutionContext) {
 		ctx.RequestNumberRange(t)
 	}
 }
+func (d LabelRules) GetLabelRule(typ string) *LabelRuleInfo {
+	return d[typ]
+}
 
 func (d LabelRules) SetLabelRule(loc *Location, typ string, abbrev, sep string, rule labels.Rule, lvl int) error {
 	old := d[typ]

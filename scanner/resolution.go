@@ -561,11 +561,13 @@ func LookupContext(ctx ResolutionContext, c func(ctx ResolutionContext) bool) Re
 	return nil
 }
 
-func LookupNodeContext[N NodeContext](ctx ResolutionContext) N {
-	var zero N
+func LookupNodeContext[C NodeContext, N Node](ctx ResolutionContext) C {
+	var zero C
 	for ctx != nil {
-		if nctx, ok := ctx.GetContextNodeContext().(N); ok {
-			return nctx
+		if nctx, ok := ctx.GetContextNodeContext().(C); ok {
+			if _, ok := nctx.GetNode().(N); ok {
+				return nctx
+			}
 		}
 		ctx = ctx.Parent()
 	}

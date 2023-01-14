@@ -10,6 +10,7 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/mandelsoft/mdgen/render"
 	"github.com/mandelsoft/mdgen/scanner"
 	"github.com/mandelsoft/mdgen/statements/glossary"
 	"github.com/mandelsoft/mdgen/statements/termdef"
@@ -118,7 +119,6 @@ func (n *termnode) ResolveLabels(ctx scanner.ResolutionContext) error {
 
 func (n *termnode) Emit(ctx scanner.ResolutionContext) error {
 	nctx := scanner.GetNodeContext[*TermNodeContext](ctx, n)
-	w := ctx.Writer()
 	ref := nctx.term.GetLink()
 	link, err := ctx.DetermineLink(ref)
 	if err != nil {
@@ -128,20 +128,26 @@ func (n *termnode) Emit(ctx scanner.ResolutionContext) error {
 	if ctx.Info(glossary.InfoKey) == true {
 		link = "#glossary/" + nctx.term.Tag()
 	}
-	if n.link {
-		fmt.Fprintf(w, "<a href=\"%s\">", link)
-	}
-	if n.label {
-		label := ctx.GetLinkInfo(ref).Label().Name()
-		if label == "" {
-			return n.Errorf("no label found for term %q", nctx.term.Tag())
+
+	content := func(ctx scanner.ResolutionContext) error {
+		out := ""
+		if n.label {
+			label := ctx.GetLinkInfo(ref).Label().Name()
+			if label == "" {
+				return n.Errorf("no label found for term %q", nctx.term.Tag())
+			}
+			out = label
+		} else {
+			out = nctx.term.Format()
 		}
-		fmt.Fprintf(w, "%s", label)
-	} else {
-		fmt.Fprintf(w, "%s", nctx.term.Format())
+		fmt.Fprint(ctx.Writer(), out)
+		return nil
 	}
+
 	if n.link {
-		fmt.Fprintf(w, "</a>")
+		render.Current.Link(ctx, link, content)
+	} else {
+		content(ctx)
 	}
 	return nil
 }

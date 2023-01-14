@@ -159,13 +159,13 @@ func (t *tree) ResolveStructural(res *Resolution) error {
 			if l.IsTag() {
 				ri := res.refindex[l]
 				if ri == nil {
-					return fmt.Errorf("%s: structural tag reference %q cannot be resolved", ref.location, di.Source())
+					return fmt.Errorf("%s: structural tag reference %q cannot be resolved", ref.location, l)
 				}
 				target = ri.Context().GetDocument()
 			} else {
 				target = t.documents[l.Path()]
 				if target == nil {
-					return fmt.Errorf("%s: structural document reference %q cannot be resolved", ref.location, di.Source())
+					return fmt.Errorf("%s: structural document reference %q cannot be resolved", ref.location, l)
 				}
 			}
 			ti := res.documents[target.GetRefPath()]
@@ -175,7 +175,7 @@ func (t *tree) ResolveStructural(res *Resolution) error {
 			fmt.Printf("%s: found structural usage in %s\n", target.Source(), di.Source())
 			sect := false
 			for _, n := range target.GetNodes() {
-				if _, ok := n.(section.SectionNode); ok {
+				if _, ok := n.(section.Node); ok {
 					if sect {
 						return fmt.Errorf("%s: structural document %s may contain only one top level section\n", ref.location, target.Source())
 					}
@@ -329,7 +329,12 @@ func (t *tree) resolveNumberRanges(di *DocumentInfo) error {
 			root.ranges[typ] = nr
 		} else {
 			if l != nil {
-				return fmt.Errorf("%s: document level %s numberrange not possible for sub document", di.Source(), typ)
+				if l.Rule != nil {
+					return fmt.Errorf("%s: document level %s numberrange not possible for sub document", di.Source(), typ)
+				}
+				if l.Level >= 0 {
+					outer.SetRule(l.Separator, outer.GetRule().WithLevel(l.Level))
+				}
 			}
 			fmt.Printf("%s: found reused number range %s from root document\n", di.Source(), typ)
 		}

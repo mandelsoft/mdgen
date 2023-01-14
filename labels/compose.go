@@ -15,7 +15,11 @@ type composeRule struct {
 var _ Rule = (*composeRule)(nil)
 
 func NewComposeRule(prefix Rule, sep string, label Rule) Rule {
-	return &composeRule{base: prefix, sep: sep, current: label}
+	lvl := prefix.Level() + 1
+	if label.Level() >= 0 {
+		lvl = label.Level()
+	}
+	return &composeRule{base: prefix, sep: sep, current: label.WithLevel(lvl)}
 }
 
 func (l *composeRule) Format() string {

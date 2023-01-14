@@ -12,6 +12,7 @@ import (
 	"unicode"
 	"unicode/utf8"
 
+	"github.com/mandelsoft/mdgen/render"
 	"github.com/mandelsoft/mdgen/scanner"
 	"github.com/mandelsoft/mdgen/utils"
 )
@@ -113,28 +114,28 @@ func (n *Refnode) Emit(ctx scanner.ResolutionContext) error {
 	if err != nil {
 		return err
 	}
-	w := ctx.Writer()
-	fmt.Fprintf(w, "<a href=\"%s\">", link)
-
-	abbrev := ""
-	if n.abbrev {
-		abbrev = nctx.RefInfo.Abbrev()
-		if abbrev != "" {
-			if n.upper {
-				r, i := utf8.DecodeRuneInString(abbrev)
-				abbrev = string(unicode.ToTitle(r)) + abbrev[i:]
+	label := func(ctx scanner.ResolutionContext) error {
+		abbrev := ""
+		if n.abbrev {
+			abbrev = nctx.RefInfo.Abbrev()
+			if abbrev != "" {
+				if n.upper {
+					r, i := utf8.DecodeRuneInString(abbrev)
+					abbrev = string(unicode.ToTitle(r)) + abbrev[i:]
+				}
+				abbrev += " "
 			}
-			abbrev += " "
 		}
+
+		label := nctx.RefInfo.Label().Name()
+		if label != "" {
+			label = abbrev + label
+		}
+		var c rune = 0x2192
+
+		fmt.Fprintf(ctx.Writer(), "%s%s", string(c), label)
+		return nil
 	}
 
-	label := nctx.RefInfo.Label().Name()
-	if label != "" {
-		label = abbrev + label
-	}
-	var c rune = 0x2192
-
-	fmt.Fprintf(w, "%s%s", string(c), label)
-	fmt.Fprintf(w, "</a>")
-	return nil
+	return render.Current.Link(ctx, link, label)
 }

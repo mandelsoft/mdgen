@@ -9,6 +9,7 @@ package sectionref
 import (
 	"fmt"
 
+	"github.com/mandelsoft/mdgen/render"
 	"github.com/mandelsoft/mdgen/scanner"
 	"github.com/mandelsoft/mdgen/utils"
 )
@@ -133,18 +134,15 @@ func (n *sectionrefnode) ResolveLabels(ctx scanner.ResolutionContext) error {
 
 func (n *sectionrefnode) Emit(ctx scanner.ResolutionContext) error {
 	nctx := scanner.GetNodeContext[*SectionRefNodeContext](ctx, n)
-	w := ctx.Writer()
 	link, err := nctx.Link(ctx)
 	if err != nil {
 		return n.Location().Errorf("section ref: %s", err)
 	}
 	if len(n.NodeSequence.GetNodes()) > 0 {
-		fmt.Fprintf(w, "<a href=\"%s\">", link)
-		err = n.NodeSequence.Emit(ctx)
-		if err != nil {
-			return err
+		content := func(ctx scanner.ResolutionContext) error {
+			return n.NodeSequence.Emit(ctx)
 		}
-		fmt.Fprintf(w, "</a>")
+		render.Current.Link(ctx, link, content)
 	}
 	return nil
 }

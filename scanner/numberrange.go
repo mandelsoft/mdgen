@@ -95,7 +95,11 @@ type NumberRange interface {
 	// Actual return the latest entry available for the number range
 	Actual() HierarchyLabel
 
+	GetRule() labels.Rule
 	SetRule(sep string, rule labels.Rule)
+
+	SetWeight(int)
+	GetWeight() int
 	CreateLabels(rule labels.Rule)
 }
 
@@ -133,6 +137,14 @@ func (n *numberrange) Level() int {
 	return n.level
 }
 
+func (n *numberrange) GetRule() labels.Rule {
+	return n.rule
+}
+
+func (n *numberrange) GetWeight() int {
+	return n.weight
+}
+
 func (n *numberrange) Abbrev() string {
 	return n.abbrev
 }
@@ -153,6 +165,10 @@ func (n *numberrange) Sub() NumberRange {
 		parent:      n.current,
 		weight:      -1,
 	}
+}
+
+func (n *numberrange) SetWeight(lvl int) {
+	n.weight = lvl
 }
 
 func (n *numberrange) SetRule(sep string, rule labels.Rule) {

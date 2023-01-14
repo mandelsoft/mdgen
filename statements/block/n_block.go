@@ -44,7 +44,7 @@ func (s *Statement) Start(p scanner.Parser, e scanner.Element) (scanner.Element,
 	if err = scanner.ForbidNesting[sectionref.SectionRefNode]("sectionref", p, e); err != nil {
 		return nil, err
 	}
-	if err = scanner.ForbidNesting[section.SectionNode]("section", p, e); err != nil {
+	if err = scanner.ForbidNesting[section.Node]("section", p, e); err != nil {
 		return nil, err
 	}
 

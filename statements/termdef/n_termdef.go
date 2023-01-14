@@ -12,6 +12,7 @@ import (
 
 	"github.com/mandelsoft/mdgen/scanner"
 	"github.com/mandelsoft/mdgen/statements/section"
+	"github.com/mandelsoft/mdgen/statements/subrange"
 	utils2 "github.com/mandelsoft/mdgen/utils"
 )
 
@@ -75,10 +76,10 @@ type TermDefNodeContext struct {
 	format       string
 	singular     string
 	plural       string
-	referencable *section.SectionNodeContext
+	referencable *subrange.NodeContext
 }
 
-func NewTermDefNodeContext(n *TermdefNode, ctx scanner.ResolutionContext, rctx *section.SectionNodeContext) (*TermDefNodeContext, error) {
+func NewTermDefNodeContext(n *TermdefNode, ctx scanner.ResolutionContext, rctx *subrange.NodeContext) (*TermDefNodeContext, error) {
 	nctx := &TermDefNodeContext{
 		NodeContextBase: scanner.NewNodeContextBase(n, ctx),
 		ctx:             ctx,
@@ -147,7 +148,7 @@ func (n *TermdefNode) Print(gap string) {
 }
 
 func (n *TermdefNode) Register(ctx scanner.ResolutionContext) error {
-	rctx := scanner.LookupNodeContext[*section.SectionNodeContext](ctx)
+	rctx := scanner.LookupNodeContext[*subrange.NodeContext, section.Node](ctx)
 	if rctx == nil {
 		return n.Errorf("no anchor section found for term")
 	}

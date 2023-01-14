@@ -1,0 +1,16 @@
+
+{{toc}}
+
+{{numberrange section:1.}}
+
+{{section doc}}Document
+
+{{section}}First Section
+{{section}}First Sub Section
+{{endsection}}
+{{section}}Second Sub Section
+{{endsection}}
+{{endsection}}
+
+{{endsection}}
+{{sectionref /appendix}}

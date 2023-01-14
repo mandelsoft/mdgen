@@ -195,4 +195,117 @@ var _ = Describe("numberrange", func() {
 			Expect(h6.Label().Name()).To(Equal("1.1-d"))
 		})
 	})
+
+	Context("levels", func() {
+		It("increases level", func() {
+			nr = NewNumberRange("test", "")
+
+			l1 := nr.Next()
+			ns := nr.Sub()
+			l11 := ns.Next()
+			l2 := nr.Next()
+
+			nr.CreateLabels(labels.NewNumbered("test", 0))
+			Expect(l1.Level()).To(Equal(0))
+			Expect(l11.Level()).To(Equal(1))
+			Expect(l2.Level()).To(Equal(0))
+
+			Expect(l1.Label().Level()).To(Equal(0))
+			Expect(l11.Label().Level()).To(Equal(1))
+			Expect(l2.Label().Level()).To(Equal(0))
+		})
+
+		It("increases level with start index", func() {
+			nr = NewNumberRange("test", "")
+
+			l1 := nr.Next()
+			ns := nr.Sub()
+			l11 := ns.Next()
+			l2 := nr.Next()
+
+			nr.CreateLabels(labels.NewNumbered("test", 1))
+			Expect(l1.Level()).To(Equal(0))
+			Expect(l11.Level()).To(Equal(1))
+			Expect(l2.Level()).To(Equal(0))
+
+			Expect(l1.Label().Level()).To(Equal(1))
+			Expect(l11.Label().Level()).To(Equal(2))
+			Expect(l2.Label().Level()).To(Equal(1))
+		})
+
+		It("switches level", func() {
+			nr = NewNumberRange("test", "")
+
+			l1 := nr.Next()
+			ns := nr.Sub()
+			ns.SetWeight(4)
+			l11 := ns.Next()
+			ns1 := ns.Sub()
+			l111 := ns1.Next()
+			l12 := ns.Next()
+			l2 := nr.Next()
+
+			nr.CreateLabels(labels.NewNumbered("test", 0))
+			Expect(l1.Level()).To(Equal(0))
+			Expect(l11.Level()).To(Equal(1))
+			Expect(l111.Level()).To(Equal(2))
+			Expect(l2.Level()).To(Equal(0))
+
+			Expect(l1.Label().Level()).To(Equal(0))
+			Expect(l11.Label().Level()).To(Equal(4))
+			Expect(l111.Label().Level()).To(Equal(5))
+			Expect(l12.Label().Level()).To(Equal(4))
+			Expect(l2.Label().Level()).To(Equal(0))
+		})
+
+		It("switches composed level", func() {
+			nr = NewNumberRange("test", "")
+
+			l1 := nr.Next()
+			ns := nr.Sub()
+			ns.SetRule(".", labels.NewFreeForm("test", format.MustFormatFor("a."), 4))
+			l11 := ns.Next()
+			ns1 := ns.Sub()
+			l111 := ns1.Next()
+			l12 := ns.Next()
+			l2 := nr.Next()
+
+			nr.CreateLabels(labels.NewNumbered("test", 0))
+			Expect(l1.Level()).To(Equal(0))
+			Expect(l11.Level()).To(Equal(1))
+			Expect(l111.Level()).To(Equal(2))
+			Expect(l2.Level()).To(Equal(0))
+
+			Expect(l1.Label().Level()).To(Equal(0))
+			Expect(l11.Label().Level()).To(Equal(4))
+			Expect(l111.Label().Level()).To(Equal(5))
+			Expect(l12.Label().Level()).To(Equal(4))
+			Expect(l2.Label().Level()).To(Equal(0))
+		})
+
+		It("composes level", func() {
+			nr = NewNumberRange("test", "")
+
+			l1 := nr.Next()
+			ns := nr.Sub()
+			ns.SetRule(".", labels.NewFreeForm("test", format.MustFormatFor("a."), -1))
+			l11 := ns.Next()
+			ns1 := ns.Sub()
+			l111 := ns1.Next()
+			l12 := ns.Next()
+			l2 := nr.Next()
+
+			nr.CreateLabels(labels.NewNumbered("test", 0))
+			Expect(l1.Level()).To(Equal(0))
+			Expect(l11.Level()).To(Equal(1))
+			Expect(l111.Level()).To(Equal(2))
+			Expect(l2.Level()).To(Equal(0))
+
+			Expect(l1.Label().Level()).To(Equal(0))
+			Expect(l11.Label().Level()).To(Equal(1))
+			Expect(l111.Label().Level()).To(Equal(2))
+			Expect(l12.Label().Level()).To(Equal(1))
+			Expect(l2.Label().Level()).To(Equal(0))
+		})
+	})
 })

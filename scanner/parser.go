@@ -49,6 +49,7 @@ func NewNodeBase(d Document, location Location) NodeBase {
 type InventoryContainer interface {
 	Inventory
 	SetLabelRule(loc *Location, typ string, abbrev, sep string, l labels.Rule, lvl int) error
+	GetLabelRule(typ string) *LabelRuleInfo
 	SetLabelMaster(typ string, master string, sep string, limit int) error
 }
 
@@ -83,6 +84,10 @@ func NewInventoryScope(i Inventory) InventoryContainer {
 
 func (s *inventoryScope) SetLabelRule(loc *Location, typ string, abbrev, sep string, l labels.Rule, lvl int) error {
 	return fmt.Errorf("no label rule possible at block level")
+}
+
+func (s *inventoryScope) GetLabelRule(typ string) *LabelRuleInfo {
+	return nil
 }
 
 func (s *inventoryScope) SetLabelMaster(typ string, master, sep string, lvl int) error {

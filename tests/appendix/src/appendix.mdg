@@ -1,0 +1,12 @@
+
+{{section /appendix}}Appendix
+{{numberrange section:-A.a.}}
+
+{{section}} Appendix 1
+{{section}} Sub
+{{endsection}}
+{{endsection}}
+
+{{section}} Appendix 2
+{{endsection}}
+{{endsection}}

@@ -9,6 +9,7 @@ package link
 import (
 	"fmt"
 
+	"github.com/mandelsoft/mdgen/render"
 	"github.com/mandelsoft/mdgen/scanner"
 	"github.com/mandelsoft/mdgen/utils"
 )
@@ -100,12 +101,9 @@ func (n *linknode) Emit(ctx scanner.ResolutionContext) error {
 	if err != nil {
 		return err
 	}
-	w := ctx.Writer()
-	fmt.Fprintf(w, "<a href=\"%s\">", link)
-	err = n.NodeSequence.Emit(ctx)
-	if err != nil {
-		return err
+	content := func(ctx scanner.ResolutionContext) error {
+		return n.NodeSequence.Emit(ctx)
 	}
-	fmt.Fprintf(w, "</a>")
+	render.Current.Link(ctx, link, content)
 	return nil
 }

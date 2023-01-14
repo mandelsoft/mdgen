@@ -29,7 +29,11 @@ type Node interface {
 	scanner.LabelResolver
 	scanner.NodeContainer
 
+	EffNode() Node
+
 	GetRangeType() string
+	GetTitle() scanner.NodeSequence
+	GetContent() scanner.NodeSequence
 
 	SetTitleSequence(ns scanner.NodeSequence)
 }
@@ -45,7 +49,7 @@ type Statement[N Node] struct {
 }
 
 func NewStatement[N Node](name string, c NodeCreator[N], titleRequired bool) *Statement[N] {
-	scanner.Keywords.Register("subrange", titleRequired)
+	scanner.Keywords.Register(name, titleRequired)
 	return &Statement[N]{scanner.NewBracketedStatement[N](name, true), titleRequired, c}
 }
 
@@ -68,18 +72,23 @@ func (s *Statement[N]) newNode(p scanner.Parser, e scanner.Element) (Node, error
 	if typ == "" {
 		return nil, e.Errorf("number range type may not be empty")
 	}
-	return s.NewNode(s.Name(), p, e.Location(), typ, tag), nil
+	return s.NewNode(nil, p, e.Location(), typ, tag), nil
 }
 
-func (s *Statement[N]) NewNode(name string, p scanner.Parser, location scanner.Location, typ, tag string) Node {
+func (s *Statement[N]) NewNode(eff Node, p scanner.Parser, location scanner.Location, typ, tag string) Node {
 	sid := p.State.NextId(typ).Id()
-	return &node{
-		name:              name,
+	n := &node{
+		eff:               eff,
+		name:              s.Name(),
 		typ:               typ,
 		TaggedNodeBase:    scanner.NewTaggedNodeBase(sid, tag),
 		NodeContainerBase: scanner.NewContainerBase(s.Name(), p.Document(), location, p.State.Container),
 		LabelRules:        scanner.LabelRules{},
 	}
+	if eff == nil {
+		n.eff = n
+	}
+	return n
 }
 
 func (s *Statement[N]) Start(p scanner.Parser, e scanner.Element) (scanner.Element, error) {
@@ -114,6 +123,7 @@ func (s *Statement[N]) Start(p scanner.Parser, e scanner.Element) (scanner.Eleme
 	if i == 0 && len(ns.GetNodes()) == 0 && s.titleRequired {
 		return nil, e.Errorf("%s title must follow the %s token", s.Name(), s.Name())
 	}
+	n.SetTitleSequence(ns)
 	switch {
 	case i < 0:
 		return nil, e.Errorf("%s title must follow the %s token followed by a newline", s.Name(), s.Name())
@@ -125,7 +135,6 @@ func (s *Statement[N]) Start(p scanner.Parser, e scanner.Element) (scanner.Eleme
 			return scanner.NewText(e.Text()[i+1:], e.Location().SkipLine()), nil
 		}
 	}
-	n.SetTitleSequence(ns)
 	return p.NextElement()
 }
 
@@ -136,7 +145,7 @@ type NodeContext struct {
 	ctx scanner.SubNumberRangeContext
 }
 
-func NewSectionNodeContext(n Node, ctx scanner.ResolutionContext, title scanner.NodeSequence) (*NodeContext, error) {
+func NewNodeContext(n Node, ctx scanner.ResolutionContext, title scanner.NodeSequence) (*NodeContext, error) {
 	base, err := scanner.NewLabeledNodeContextBase(n, ctx, title)
 	if err != nil {
 		return nil, err
@@ -150,10 +159,15 @@ func (c *NodeContext) GetLink() utils2.Link {
 	return scanner.NewLink(c.ctx, c.ctx.GetReferencable(c.Id()).Anchors()...)
 }
 
+func (c *NodeContext) GetContext() scanner.ResolutionContext {
+	return c.ctx
+}
+
 type node struct {
 	scanner.TaggedNodeBase
 	scanner.LabelRules
 	scanner.NodeContainerBase
+	eff   Node
 	title scanner.NodeSequence
 	typ   string
 	name  string
@@ -161,8 +175,20 @@ type node struct {
 
 var _ (Node) = (*node)(nil)
 
+func (n *node) EffNode() Node {
+	return n.eff
+}
+
 func (n *node) GetRangeType() string {
 	return n.typ
+}
+
+func (n *node) GetTitle() scanner.NodeSequence {
+	return n.title
+}
+
+func (n *node) GetContent() scanner.NodeSequence {
+	return n.NodeSequence
 }
 
 func (n *node) SetTitleSequence(ns scanner.NodeSequence) {
@@ -179,29 +205,37 @@ func (n *node) Print(gap string) {
 
 func (n *node) Register(ctx scanner.ResolutionContext) error {
 	var err error
-	nctx, err := NewSectionNodeContext(n, ctx, n.title)
+	nctx, err := NewNodeContext(n.eff, ctx, n.title)
 	if err != nil {
 		return err
 	}
 	nctx.ctx = scanner.NewSubNumberRangeContext(n.typ, ctx, nctx.IdRule(), nctx)
-	ctx.SetNodeContext(n, nctx)
+	ctx.SetNodeContext(n.eff, nctx)
 	return n.NodeSequence.Register(nctx.ctx)
 }
 
 func (n *node) ResolveLabels(ctx scanner.ResolutionContext) error {
-	nctx := scanner.GetNodeContext[*NodeContext](ctx, n)
+	nctx := scanner.GetNodeContext[*NodeContext](ctx, n.eff)
 	err := nctx.ResolveLabels(ctx)
 	if err != nil {
 		return err
 	}
 	subctx := nctx.ctx
-	subctx.SetNumberRange(nctx.NumberRange().Sub())
+	ri := n.GetLabelRule(n.typ)
+	sub := nctx.NumberRange().Sub()
+	if ri != nil {
+		if ri.Level >= 0 {
+			sub.SetWeight(ri.Level)
+		}
+		sub.SetRule(ri.Separator, ri.Rule)
+	}
+	subctx.SetNumberRange(sub)
 
 	return n.NodeSequence.ResolveLabels(subctx)
 }
 
 func (n *node) ResolveValues(ctx scanner.ResolutionContext) error {
-	nctx := scanner.GetNodeContext[*NodeContext](ctx, n)
+	nctx := scanner.GetNodeContext[*NodeContext](ctx, n.eff)
 
 	err := nctx.ResolveValues(ctx)
 	if err != nil {
@@ -211,7 +245,7 @@ func (n *node) ResolveValues(ctx scanner.ResolutionContext) error {
 }
 
 func (n *node) Emit(ctx scanner.ResolutionContext) error {
-	nctx := scanner.GetNodeContext[*NodeContext](ctx, n)
+	nctx := scanner.GetNodeContext[*NodeContext](ctx, n.eff)
 	nctx.EmitAnchors(ctx)
 	return n.NodeSequence.Emit(nctx.ctx)
 }
