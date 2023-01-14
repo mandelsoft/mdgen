@@ -5,13 +5,13 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
-
+opts=( )
 root="$(realpath "$(dirname "${BASH_SOURCE[0]}")/..")"
 
 cd "$root"/tests
 
 if [ "$2" == "-v" ]; then
-   opts="--doc"
+   opts=( "--doc" )
    shift
 fi
 
@@ -25,12 +25,18 @@ execute()
 {
   echo "testing $1..."
   rm -rf "$root/tmp/tests/$1"
+
+  copy="${1%_copy}"
+  if [ "$copy" != "$1" ]; then
+    opts+=( "--copy" )
+  fi
   if [ -n "$opts" ]; then
     "$root"/bin/mdgen $opts "$1/src" "$root/tmp/tests/$1"
   else
     "$root"/bin/mdgen "$1/src" "$root/tmp/tests/$1" >/dev/null
   fi
   diff -ur "$1/doc" "$root/tmp/tests/$1"
+
 }
 
 #set -x

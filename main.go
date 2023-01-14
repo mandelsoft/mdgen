@@ -16,6 +16,7 @@ import (
 
 func Tree() {
 	print := false
+	copy := false
 	args := os.Args[1:]
 	if len(args) > 0 {
 		if args[0] == "--version" {
@@ -25,8 +26,24 @@ func Tree() {
 			os.Exit(0)
 		}
 
+		if args[0] == "--help" {
+			fmt.Printf("mdgen [--doc] [--copy] [<source dir> [<target dir>]]\n")
+			fmt.Printf(`
+Flags:
+  --doc   print doc graph
+  --copy  copy used resources into target tree
+
+mdgen generated GitHub consistently interlinked markdown files for a tree of mdg
+source files (see https://github.com/mandelsoft/mdgen).
+`)
+			os.Exit(0)
+		}
 		if args[0] == "--doc" {
 			print = true
+			args = args[1:]
+		}
+		if args[0] == "--copy" {
+			copy = true
 			args = args[1:]
 		}
 	}
@@ -47,7 +64,7 @@ func Tree() {
 		fmt.Fprintf(os.Stderr, "Error: %s\n", err)
 		os.Exit(1)
 	}
-
+	t.SetCopyMode(copy)
 	if print {
 		t.Print("")
 	}

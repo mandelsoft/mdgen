@@ -25,12 +25,22 @@ type Tree = *tree
 type tree struct {
 	documents  map[string]scanner.Document
 	resolution *Resolution
+
+	path string
+	copy bool
+	fs   vfs.FileSystem
 }
 
-func NewTree() Tree {
+func NewTree(path string, fs vfs.FileSystem) Tree {
 	return &tree{
+		path:      path,
+		fs:        fs,
 		documents: map[string]scanner.Document{},
 	}
+}
+
+func (t *tree) SetCopyMode(b bool) {
+	t.copy = b
 }
 
 func (t *tree) Print(gap string) {
@@ -49,7 +59,7 @@ func (t *tree) GetDocument(refpath string) *DocumentInfo {
 
 func ForFolder(path string, fss ...vfs.FileSystem) (Tree, error) {
 	fs := utils.OptionalDefaulted(osfs.New(), fss...)
-	tr := NewTree()
+	tr := NewTree(path, fs)
 
 	var err error
 
@@ -105,11 +115,14 @@ func scanFile(tr Tree, p string, fs vfs.FileSystem, refpath string) error {
 }
 
 func (t *tree) Resolve() error {
-	res := NewResolution(t.documents)
+	res, err := NewResolution(t.documents, t.path, t.fs, t.copy)
+	if err != nil {
+		return err
+	}
 	t.resolution = res
 
 	fmt.Printf("resolve blocks...\n")
-	err := t.ResolveBlocks(res)
+	err = t.ResolveBlocks(res)
 	if err != nil {
 		return err
 	}
@@ -430,6 +443,7 @@ func (t *tree) ResolveValues(res *Resolution) error {
 }
 
 func (t *tree) Emit(tw TreeWriter) error {
+	t.resolution.targetroot = tw.Root()
 	for _, di := range t.resolution.documents {
 		if di.document.IsTemplate() {
 			continue

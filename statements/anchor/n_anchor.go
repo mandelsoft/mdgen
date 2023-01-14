@@ -46,7 +46,7 @@ func (s *Statement) Start(p scanner.Parser, e scanner.Element) (scanner.Element,
 		tag = tag[1:]
 	}
 	sid := p.State.NextId(typ).Id()
-	n := NewAnchorNode(p.State.Container, p.Document(), e.Location(), sid, tag, omit)
+	n := NewAnchorNode(s.Name(), p.State.Container, p.Document(), e.Location(), sid, tag, omit)
 	if !plain {
 		p.State = p.State.Sub(n)
 	} else {
@@ -72,10 +72,10 @@ type anchornode struct {
 	omit bool
 }
 
-func NewAnchorNode(p scanner.NodeContainer, d scanner.Document, location scanner.Location, sid scanner.TaggedId, tag string, omit bool) AnchorNode {
+func NewAnchorNode(name string, p scanner.NodeContainer, d scanner.Document, location scanner.Location, sid scanner.TaggedId, tag string, omit bool) AnchorNode {
 	return &anchornode{
 		TaggedNodeBase:    scanner.NewTaggedNodeBase(sid, tag),
-		NodeContainerBase: scanner.NewContainerBase("anchor", d, location, p),
+		NodeContainerBase: scanner.NewContainerBase(name, d, location, p),
 		omit:              omit,
 	}
 }

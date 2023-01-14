@@ -16,6 +16,7 @@ import (
 )
 
 type TreeWriter interface {
+	Root() string
 	Document(refpath string) (io.WriteCloser, string, error)
 	Close() error
 }
@@ -42,6 +43,10 @@ func NewFileTreeWriter(path string, fss ...vfs.FileSystem) (TreeWriter, error) {
 		root: path,
 		fs:   fs,
 	}, nil
+}
+
+func (w *fileTreeWriter) Root() string {
+	return w.root
 }
 
 func (w *fileTreeWriter) Document(refpath string) (io.WriteCloser, string, error) {

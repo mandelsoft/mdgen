@@ -428,7 +428,37 @@ This <a href="#/statements">statement</a> centers the lines of the embedded cont
 #### Description
 This <a href="#/statements">statement</a> declares and/or configures a <a href="syntax.md#/numberranges">number range</a>. It can
 only be used at the top-level <a href="syntax.md#/scoped">scope</a> outside of any other statement
-block.
+block to configure/define a new number range. If used in the context of a
+level of the given number range name, it configures the sub level(s)
+local to the actual one.
+
+
+<a/><a id="appendix"/><a id="example-2"/>
+<div align="center"><table><tr><td>
+
+
+**Source:** appendix.mdg
+```
+
+{{section /appendix}}Appendix
+{{numberrange section:-A.a.}}
+
+{{section}} Appendix 1
+{{section}} Sub
+{{endsection}}
+{{endsection}}
+
+{{section}} Appendix 2
+{{endsection}}
+{{endsection}}
+```
+This results in the following [output](../tests/appendix/doc/appendix.md), if linked to a document level 1 numbered
+by arabic  numbers.
+
+</td></tr></table>
+ Example 3-b: Using different numbering in Appendix Section
+</br></br>
+</div>
 
 The format can be specified as described in <a href="syntax.md#/numberranges">→2.5</a>. Optionally the
 heading level can be specified, which should be used for the first hierarch level (default is 1).
@@ -535,7 +565,7 @@ are not escaped.
 
 
   
-<a/><a id="syntaxexpr"/><a id="example-2"/>
+<a/><a id="syntaxexpr"/><a id="example-3"/>
 <div align="center"><table><tr><td>
 
 
@@ -557,7 +587,7 @@ are not escaped.
   </div>
 
   </td></tr></table>
- Example 3-b: An example for a syntax expression
+ Example 3-c: An example for a syntax expression
 </br></br>
 </div>
 

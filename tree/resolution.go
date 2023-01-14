@@ -9,8 +9,10 @@ package tree
 import (
 	"fmt"
 	"path"
+	"strings"
 
 	"github.com/mandelsoft/filepath/pkg/filepath"
+	"github.com/mandelsoft/vfs/pkg/vfs"
 
 	"github.com/mandelsoft/mdgen/labels"
 	"github.com/mandelsoft/mdgen/scanner"
@@ -151,26 +153,47 @@ func (i *DocumentInfo) Walk(f scanner.Resolver) error {
 var _ scanner.RefInfo = (*DocumentInfo)(nil)
 
 type Resolution struct {
-	documents map[string]*DocumentInfo
+	copymode bool
+	absroot  string
+	path     string
+	fs       vfs.VFS
 
+	documents map[string]*DocumentInfo
 	blocktags map[string]*DocumentInfo
-	refindex  map[utils2.Link]scanner.ResolvedRef
+
+	refindex map[utils2.Link]scanner.ResolvedRef
 
 	tagged map[string]map[string]scanner.NodeContext
+
+	internalized  map[string]string
+	internalnames map[string]int
+
+	targetroot string
 
 	current *DocumentInfo
 }
 
 var _ scanner.LookupScope = (*Resolution)(nil)
 
-func NewResolution(docs map[string]scanner.Document) *Resolution {
+func NewResolution(docs map[string]scanner.Document, path string, fs vfs.FileSystem, copy bool) (*Resolution, error) {
+	root, err := vfs.Canonical(fs, path, true)
+	if err != nil {
+		return nil, err
+	}
 	res := &Resolution{
+		absroot:   root,
+		path:      path,
+		fs:        vfs.New(fs),
+		copymode:  copy,
 		documents: map[string]*DocumentInfo{},
 
 		blocktags: map[string]*DocumentInfo{},
 		refindex:  map[utils2.Link]scanner.ResolvedRef{},
 
 		tagged: map[string]map[string]scanner.NodeContext{},
+
+		internalized:  map[string]string{},
+		internalnames: map[string]int{},
 	}
 	for n, d := range docs {
 		di := NewDocumentInfo(res, d)
@@ -180,7 +203,7 @@ func NewResolution(docs map[string]scanner.Document) *Resolution {
 		// declare standard anchorless document link
 		res.refindex[utils2.NewLink(di.GetRefPath(), "")] = NewResolvedRef(di.context, "", di)
 	}
-	return res
+	return res, nil
 }
 
 func (r *Resolution) RegisterTag(typ string, tag string, nctx scanner.NodeContext, explicit bool) error {
@@ -292,6 +315,31 @@ func (r *Resolution) RegisterBlock(anchor string, nctx scanner.BlockNodeContext)
 		fmt.Printf("%s: found absolute block %q\n", nctx.GetDocument().Source(), anchor)
 	}
 	return nil
+}
+
+func (r *Resolution) InternalizeResource(rabs string) (string, error) {
+	if p := r.internalized[rabs]; p != "" {
+		return p, nil
+	}
+	n := r.fs.Base(rabs)
+	i := r.internalnames[n]
+	r.internalnames[n] = i + 1
+
+	idx := strings.LastIndex(n, ".")
+	if idx >= 0 {
+		n = fmt.Sprintf("%s_%03d%s", n[:idx], i, n[idx:])
+	} else {
+		n = fmt.Sprintf("%s_%03d", n, i)
+	}
+	err := r.fs.MkdirAll(r.fs.Join(r.targetroot, "_resources"), 0755)
+	if err != nil {
+		return "", err
+	}
+	n, err = r.fs.Canonical(r.fs.Join(r.targetroot, "_resources", n), false)
+	if err != nil {
+		return "", err
+	}
+	return n, vfs.CopyFile(r.fs, rabs, r.fs, n)
 }
 
 type ids = scanner.Ids
@@ -480,18 +528,40 @@ func (r *ResolutionContext) appendIdsForType(typ string, result map[labels.Label
 	}
 }
 
+func (r *ResolutionContext) HandleResourceLinkPath(src, rp string) (string, error) {
+	var err error
+
+	if r.resolution.copymode {
+		target := filepath.Dir(r.Target())
+		rabs := rp
+		if !r.resolution.fs.IsAbs(rp) {
+			rabs, err = r.resolution.fs.Canonical(r.resolution.fs.Join(r.resolution.fs.Dir(src), rp), true)
+			if err != nil {
+				return "", err
+			}
+			rel, err := r.resolution.fs.Rel(r.resolution.absroot, rabs)
+			if err != nil {
+				return "", err
+			}
+			if rel != ".." && !strings.HasPrefix(rel, "../") {
+				return rp, vfs.CopyFile(r.resolution.fs, rabs, r.resolution.fs, r.resolution.fs.Join(target, rp))
+			}
+		}
+		rp, err = r.resolution.InternalizeResource(rabs)
+		if err != nil {
+			return "", err
+		}
+	}
+	return r.DetermineLinkPath(src, rp)
+}
+
 func (r *ResolutionContext) DetermineLinkPath(src, rp string) (string, error) {
 	target := filepath.Dir(r.Target())
-
 	if !path.IsAbs(rp) && rp != "" {
-		rp = filepath.Join(filepath.Dir(src), rp)
+		rp = r.resolution.fs.Join(r.resolution.fs.Dir(src), rp)
 	}
 	if rp != "" {
-		cp, err := filepath.Canonical(rp, false)
-		if err != nil {
-			return "", fmt.Errorf("cannot determine relative file path from %s to %s : %w", target, rp, err)
-		}
-		rel, err := filepath.Rel(target, cp)
+		rel, err := r.resolution.fs.Rel(target, rp)
 		if err != nil {
 			return "", fmt.Errorf("cannot determine relative file path from %s to %s : %w", target, rp, err)
 		}

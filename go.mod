@@ -6,7 +6,7 @@ require (
 	github.com/Masterminds/semver/v3 v3.2.0
 	github.com/gertd/go-pluralize v0.2.1
 	github.com/mandelsoft/filepath v0.0.0-20220503095057-4432a2285b68
-	github.com/mandelsoft/vfs v0.0.0-20220805210647-bf14a11bfe31
+	github.com/mandelsoft/vfs v0.0.0-20230114230722-fb9b39ce80b9
 	github.com/modern-go/reflect2 v1.0.2
 	github.com/onsi/ginkgo/v2 v2.2.0
 	github.com/onsi/gomega v1.20.2

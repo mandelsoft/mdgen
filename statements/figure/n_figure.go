@@ -80,7 +80,7 @@ type figurenode struct {
 
 func NewFigureNode(p scanner.NodeContainer, d scanner.Document, location scanner.Location, sid scanner.TaggedId, tag string, path string, attrs []string) FigureNode {
 	return &figurenode{
-		AnchorNode: anchor.NewAnchorNode(p, d, location, sid, tag, false),
+		AnchorNode: anchor.NewAnchorNode("figure", p, d, location, sid, tag, false),
 		path:       path,
 		attrs:      attrs,
 	}
@@ -97,7 +97,7 @@ func (n *figurenode) Emit(ctx scanner.ResolutionContext) error {
 	nctx := scanner.GetNodeContext[*anchor.AnchorNodeContext](ctx, n.AnchorNode)
 	info := ctx.GetReferencable(nctx.Id())
 
-	path, err := ctx.DetermineLinkPath(n.Source(), n.path)
+	path, err := ctx.HandleResourceLinkPath(n.Source(), n.path)
 	if err != nil {
 		return n.Errorf("cannot determine target path: %s", err)
 	}

@@ -394,6 +394,7 @@ type Unscoped interface {
 	//GetLabelInfosForType(typ string) map[labels.LabelId]TreeLabelInfo
 	GetIdsForTypeInTree(typ string) map[labels.LabelId]TreeLabelInfo
 	DetermineLinkPath(src, rp string) (string, error)
+	HandleResourceLinkPath(src, rp string) (string, error)
 	DetermineLink(l utils2.Link) (string, error)
 	GetLinkInfo(l utils2.Link) ResolvedRef
 	GetGlobalTags(typ string) []NodeContext

@@ -15,6 +15,10 @@ The usage of the tool is quite simple, it has just two arguments
 `mdgen` &lt;*source folder*&gt; &lt;*target folder*&gt;`
 </div>
 
+Additionally there are two options:
+- `--doc` prints the document graph
+- `--copy` copies used resources (images) from theit source into the generated document tree.
+
 This documentation is generated from the `src` folder of 
 the project [mandelsoft/mdgen](https://github.com/mandelsoft/mdgen).
 

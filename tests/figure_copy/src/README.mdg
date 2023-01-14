@@ -1,0 +1,7 @@
+{{section}}Figures
+
+{{figure markdown.png}}Local Image{{endfigure}}
+
+{{figure ../../../src/markdown.png}}External Image{{endfigure}}
+
+{{endsection}}

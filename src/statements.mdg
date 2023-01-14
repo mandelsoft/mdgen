@@ -325,7 +325,19 @@ This {{term statement}} centers the lines of the embedded content.
 {{arg desc}}
 This {{term statement}} declares and/or configures a {{term numberrange}}. It can
 only be used at the top-level {{term scope}} outside of any other {{term !statement}}
-block.
+block to configure/define a new {{term !numberrange}}. If used in the context of a
+level of the given {{term !numberrange}} name, it configures the sub level(s)
+local to the actual one.
+
+{{labeled example:appendix}}Using different numbering in Appendix Section{{content}}
+**Source:** appendix.mdg
+```
+{{include "../tests/appendix/src/appendix.mdg"}}
+```
+This results in the following [output](../tests/appendix/doc/appendix.md), if linked to a document level 1 numbered
+by arabic  numbers.
+
+{{endlabeled}}
 
 The format can be specified as described in {{ref #/numberranges}}. Optionally the
 heading level can be specified, which should be used for the first hierarch level (default is 1).
