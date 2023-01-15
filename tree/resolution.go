@@ -124,6 +124,10 @@ func (i *DocumentInfo) GetRefPath() string {
 	return i.document.GetRefPath()
 }
 
+func (i *DocumentInfo) GetTargetRefPath() string {
+	return i.document.GetTargetRefPath()
+}
+
 func (i *DocumentInfo) GetParentDocument() scanner.DocumentInfo {
 	if i.structinfo == nil {
 		return nil
@@ -578,10 +582,10 @@ func (r *ResolutionContext) DetermineLink(l utils2.Link) (string, error) {
 	if resolved == nil {
 		return "", fmt.Errorf("cannot resolve link %s", l)
 	}
-	refpath := r.docinfo.document.GetRefPath()
+	refpath := r.docinfo.document.GetTargetRefPath()
 
 	rel := ""
-	rp := resolved.GetRefPath()
+	rp := resolved.GetTargetRefPath()
 	if rp != "" && refpath != rp {
 		rel, err = filepath.Rel(filepath.Dir(refpath), rp+".md")
 		if err != nil {

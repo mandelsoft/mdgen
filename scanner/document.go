@@ -97,7 +97,8 @@ type document struct {
 	NodeContainerBase
 	inventory documentInventory
 
-	template bool
+	template  bool
+	targetref string
 
 	refpath    string
 	references map[string]Node
@@ -112,6 +113,7 @@ func NewDocument(source, refpath string) Document {
 	d := &document{
 		inventory:  documentInventory{NewInventory(), LabelRules{}},
 		refpath:    refpath,
+		targetref:  refpath,
 		references: map[string]Node{},
 	}
 	d.NodeContainerBase = NewContainerBase("document", d, NewLocation(source, 0), d.inventory)
@@ -124,6 +126,10 @@ func (d *document) GetNode() Node {
 
 func (d *document) IsTemplate() bool {
 	return d.template
+}
+
+func (d *document) GetTargetRefPath() string {
+	return d.targetref
 }
 
 func (d *document) Print(gap string) {

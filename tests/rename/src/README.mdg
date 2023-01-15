@@ -1,0 +1,5 @@
+{{section /doc}}Document
+{{sectionref sub}}
+- This is a link to the {{link #/sub}}sub section{{end}}.
+- This is a link to the {{link sub}}sub document{{end}}.
+{{endsection}}

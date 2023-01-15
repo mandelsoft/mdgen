@@ -325,6 +325,10 @@ func (t *refinfo) GetRefPath() string {
 	return t.GetDocument().GetRefPath()
 }
 
+func (t *refinfo) GetTargetRefPath() string {
+	return t.GetDocument().GetTargetRefPath()
+}
+
 func (t *refinfo) Anchors() []string {
 	return t.anchors
 }

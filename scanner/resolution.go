@@ -340,6 +340,7 @@ func (i *treeLabelInfo) Link() utils2.Link {
 
 type RefInfo interface {
 	GetRefPath() string
+	GetTargetRefPath() string
 	Anchors() []string
 	Label() labels.Label
 	Abbrev() string

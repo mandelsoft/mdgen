@@ -444,15 +444,20 @@ func (t *tree) ResolveValues(res *Resolution) error {
 
 func (t *tree) Emit(tw TreeWriter) error {
 	t.resolution.targetroot = tw.Root()
+
 	for _, di := range t.resolution.documents {
 		if di.document.IsTemplate() {
 			continue
 		}
-		w, target, err := tw.Document(di.document.GetRefPath())
+		w, target, err := tw.Document(di.document.GetTargetRefPath())
 		if err != nil {
 			return err
 		}
-		fmt.Printf("writing %s\n", di.document.GetRefPath())
+		if di.document.GetTargetRefPath() == di.document.GetRefPath() {
+			fmt.Printf("writing %s\n", di.document.GetTargetRefPath())
+		} else {
+			fmt.Printf("writing %s[%s]\n", di.document.GetTargetRefPath(), di.document.GetRefPath())
+		}
 		/*
 			toc := scanner.DocTOCIds(di.context, scanner.SECTION_TYPE)
 				for _, c := range toc {

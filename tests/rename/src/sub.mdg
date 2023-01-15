@@ -1,0 +1,5 @@
+{{target /sub/renamed}}
+{{section /sub}}Sub Section
+- This is a link to the {{link #/doc}}main section{{end}}.
+- This is a link to the {{link README}}main document{{end}}.
+{{endsection}}
