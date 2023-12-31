@@ -38,6 +38,8 @@ generation of a document tree.
 
 ### [`escape`](statements.md#/statement/escape)<a id="glossary/statement/escape"/>
 A <a href="#glossary/statement">statement</a> used to apply HTML escaping on its content.
+### [`execute`](statements.md#/statement/execute)<a id="glossary/statement/execute"/>
+A <a href="#glossary/statement">statement</a> used to execute a command and substitute its output.
 ## F
 
 ### [`figure`](statements.md#/statement/figure)<a id="glossary/statement/figure"/>

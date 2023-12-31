@@ -1,0 +1,25 @@
+
+complete file
+```
+{{include  ../data/file}}
+```
+
+marked content
+```
+{{include  ../data/file}}{{pattern snippet}}
+```
+
+line 5
+```
+{{include  ../data/file}}{{range 5}}
+```
+
+line 5-6
+```
+{{include  ../data/file}}{{range 5:6}}
+```
+
+filtered
+```
+{{include ../data/file}}{{pattern filter}}{{filter "(?m)^.*// ?(.*)$"}}
+```

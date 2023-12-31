@@ -12,6 +12,7 @@ import (
 	_ "github.com/mandelsoft/mdgen/statements/blockref"
 	_ "github.com/mandelsoft/mdgen/statements/center"
 	_ "github.com/mandelsoft/mdgen/statements/escape"
+	_ "github.com/mandelsoft/mdgen/statements/execute"
 	_ "github.com/mandelsoft/mdgen/statements/figure"
 	_ "github.com/mandelsoft/mdgen/statements/glossary"
 	_ "github.com/mandelsoft/mdgen/statements/include"

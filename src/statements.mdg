@@ -161,7 +161,7 @@ providing {{term *anchor}} can be used to link to.
   {{arg short}}A {{term statement}} used to add a linked label to the document.{{endarg}}
 {{arg desc}}
 Establish a hyperlink on the label of a referenced element (see {{ref #/anchors}}).
-If the asterisk (`*`) is given a the label is preceded with the abbreviation text of the
+If the asterisk (`*`) is given the label is preceded with the abbreviation text of the
 {{link #/numberranges}}label type{{endlink}}. If additionally the `^` prefix is given, the
 abbreviation text will be converted to upper case first.
 {{endarg}}
@@ -356,17 +356,47 @@ This {{term statement}} outputs a table of contents. If a reference is specified
 the table is limited to the given section.
 {{endarg}}
 
+/###############################################################################]]
+/# statement include
 
 {{blockref include:/statement}}
-  {{arg syn}}`\{{include` <*path argument*> `}}`{{endarg}}
+  {{arg syn}}`\{{include` <*path argument*> `}}` [ `\{{pattern` <*key*> `}}` ] [ `\{{range` [<*start*>][:[*<end*>]] `}}` ] [ `\{{filter` <*regexp*> `}}` ]`{{endarg}}
   {{arg short}}A {{term statement}} used to include the content of a file.{{endarg}}
 {{arg desc}}
 This statement can be used to include the content of a file. The content is
 not interpreted, it is just forwarded to the generated output.
 
+With the optional sub directives `pattern` and `range` some portion of the file
+can be selected:
+- `pattern`: the given key (alnum) is used to select content between lines
+  containing the pattern `--- begin <key> ---` and `--- end <key> ---`.
+- `range`: a line range is used to select the substituted content.
+
+With the `filter` directive a regular expression can be given to filter the selected
+content. It must contain a capturing group to select the content. In line matching
+mode (indicated by the regexp `(?m)`, every line is filtered.
+
+The order of the additional directives does not matter, but only one filter token and
+one of the range tokens may be used.
+
 If interpreted content should be provided in a reusable manner a
 {{term textmodule}} has to be used. Using the {{term statement/template}} statement
 the generation of a markdown document for a {{term sourcedoc}} can be omitted.
+{{endarg}}
+
+/###############################################################################]]
+/# statement execute
+
+{{blockref execute:/statement}}
+  {{arg syn}}`\{{execute` <*cmd*>  { <*arg*> } `}}` [ `\{{pattern` <*key*> `}}` ] [ `\{{range` [<*start*>][:[*<end*>]] `}}` ] [ `\{{filter` <*regexp*> `}}` ]`{{endarg}}
+  {{arg short}}A {{term statement}} used to execute a command and substitute its output.{{endarg}}
+{{arg desc}}
+This statement can be used to execute a command and put the output into the
+markdown file. The content is
+not interpreted, it is just forwarded to the generated output.
+
+The optional sub directives can be used to select a dedicated portion of the output
+according to the {{term statement/include}} command.
 {{endarg}}
 
 /###############################################################################

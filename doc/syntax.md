@@ -99,7 +99,7 @@ regular markdown text.
 A directive consists of a *keyword* and argument strings. It is described by the following syntax:
 <div align=center>
 
-  &#39;`{{`&#39; {&#39;` `&#39;} [&#39;`*`&#39;] &lt;keyword&gt; {&#39;` `&#39; {&#39;` `&#39;} &lt;arg&gt;} {&#39;` `&#39;} &#39;`}}`&#39;
+  &#39;`{{`&#39; {&#39;` `&#39;} [&#39;`*`&#39;] &lt;keyword&gt; {&#39;` `&#39; {&#39;` `&#39;} &lt;arg&gt;} {&#39;` `&#39;} } &#39;`}}`&#39;
 </div>
 
 An argument is a string which may be quoted with double quotes (`"`) to include
@@ -113,7 +113,10 @@ to indicate an optional nested structure (see <a href="statements.md#/statements
 A newline after a directive is removed from the following text.
 
 Directives are used to formulate <a href="statements.md#/statements">statements</a>, which are used by the generator
-to incluence and structure the generated document tree.
+to incluence and structure the generated document tree. A statement consists of
+a main directive followed by content and/or a sequence of sub directives.
+If content is involved typically an appropriate *end* directive finalizes the
+statement.
 
 A typical <a href="#/sourcedoc">source document</a> could like in <a href="#example">→example 2-b</a>.
 

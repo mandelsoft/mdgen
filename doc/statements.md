@@ -36,8 +36,9 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [3.7.1 Statement `numberrange`](#/statement/numberrange)<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [3.7.2 Statement `toc`](#/statement/toc)<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [3.7.3 Statement `include`](#/statement/include)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [3.7.4 Statement `escape`](#/statement/escape)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [3.7.5 Statement `syntax`](#/statement/syntax)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [3.7.4 Statement `execute`](#/statement/execute)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [3.7.5 Statement `escape`](#/statement/escape)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [3.7.6 Statement `syntax`](#/statement/syntax)<br>
 &nbsp;&nbsp;&nbsp;&nbsp; [3.8 Symbols](#/symbols)<br>
 
 The <a href="README.md#section-1">*Markdown Generator*</a> uses special *statements* to control the generation of the markdown files.
@@ -235,7 +236,7 @@ providing <a href="syntax.md#/anchors">anchors</a> can be used to link to.
 
 #### Description
 Establish a hyperlink on the label of a referenced element (see <a href="syntax.md#/anchors">→2.4.1</a>).
-If the asterisk (`*`) is given a the label is preceded with the abbreviation text of the
+If the asterisk (`*`) is given the label is preceded with the abbreviation text of the
 <a href="syntax.md#/numberranges">label type</a>. If additionally the `^` prefix is given, the
 abbreviation text will be converted to upper case first.
 
@@ -484,12 +485,25 @@ the table is limited to the given section.
 <a/><a id="/statement/include"/><a id="section-1-7-3"/>
 #### 3.7.3 Statement `include`
 #### Synopsis
-`{{include` &lt;*path argument*&gt; `}}`
+`{{include` &lt;*path argument*&gt; `}}` [ `{{pattern` &lt;*key*&gt; `}}` ] [ `{{range` [&lt;*start*&gt;][:[*&lt;end*&gt;]] `}}` ] [ `{{filter` &lt;*regexp*&gt; `}}` ]`
 
 
 #### Description
 This statement can be used to include the content of a file. The content is
 not interpreted, it is just forwarded to the generated output.
+
+With the optional sub directives `pattern` and `range` some portion of the file
+can be selected:
+- `pattern`: the given key (alnum) is used to select content between lines
+  containing the pattern `--- begin <key> ---` and `--- end <key> ---`.
+- `range`: a line range is used to select the substituted content.
+
+With the `filter` directive a regular expression can be given to filter the selected
+content. It must contain a capturing group to select the content. In line matching
+mode (indicated by the regexp `(?m)`, every line is filtered.
+
+The order of the additional directives does not matter, but only one filter token and
+one of the range tokens may be used.
 
 If interpreted content should be provided in a reusable manner a
 <a href="syntax.md#/textmodules">text module</a> has to be used. Using the <a href="#/statement/template">`template`</a> statement
@@ -497,8 +511,24 @@ the generation of a markdown document for a <a href="syntax.md#/sourcedoc">sourc
 
 
 
-<a/><a id="/statement/escape"/><a id="section-1-7-4"/>
-#### 3.7.4 Statement `escape`
+<a/><a id="/statement/execute"/><a id="section-1-7-4"/>
+#### 3.7.4 Statement `execute`
+#### Synopsis
+`{{execute` &lt;*cmd*&gt;  { &lt;*arg*&gt; } `}}` [ `{{pattern` &lt;*key*&gt; `}}` ] [ `{{range` [&lt;*start*&gt;][:[*&lt;end*&gt;]] `}}` ] [ `{{filter` &lt;*regexp*&gt; `}}` ]`
+
+
+#### Description
+This statement can be used to execute a command and put the output into the
+markdown file. The content is
+not interpreted, it is just forwarded to the generated output.
+
+The optional sub directives can be used to select a dedicated portion of the output
+according to the <a href="#/statement/include">`include`</a> command.
+
+
+
+<a/><a id="/statement/escape"/><a id="section-1-7-5"/>
+#### 3.7.5 Statement `escape`
 #### Synopsis
 `{{escape}}` &lt;*content*&gt; `{{endescape}}`
 
@@ -509,8 +539,8 @@ are not escaped.
 
 
 
-<a/><a id="/statement/syntax"/><a id="section-1-7-5"/>
-#### 3.7.5 Statement `syntax`
+<a/><a id="/statement/syntax"/><a id="section-1-7-6"/>
+#### 3.7.6 Statement `syntax`
 #### Synopsis
 `{{syntax}}` &lt;*expression*&gt; `{{endsyntax}}`
 

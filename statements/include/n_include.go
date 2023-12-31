@@ -35,7 +35,17 @@ func (s *Statement) Start(p scanner.Parser, e scanner.Element) (scanner.Element,
 
 	n := NewIncludeNode(p.State.Container, p.Document(), e.Location(), tag)
 	p.State.Container.AddNode(n)
-	return p.NextElement()
+	return scanner.ParseElementsUntil(p, func(p scanner.Parser, e scanner.Element) (scanner.Element, error) {
+		switch e.Token() {
+		case "range":
+			return ParseRange(p, &n.ContentHandler, e)
+		case "pattern":
+			return ParsePattern(p, &n.ContentHandler, e)
+		case "filter":
+			return ParseFilter(p, &n.ContentHandler, e)
+		}
+		return e, nil
+	})
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -57,6 +67,39 @@ type IncludeNode = *includenode
 type includenode struct {
 	scanner.NodeBase
 	tag string
+
+	ContentHandler
+}
+
+type ContentHandler struct {
+	extract Extractor
+	filter  Filter
+}
+
+func (n *ContentHandler) Process(data []byte) ([]byte, error) {
+	var err error
+
+	if n.extract != nil {
+		data, err = n.extract.Extract(data)
+		if err != nil {
+			return nil, fmt.Errorf("cannot extract data: %w", err)
+		}
+	}
+	if n.filter != nil {
+		data, err = n.filter.Filter(data)
+		if err != nil {
+			return nil, fmt.Errorf("cannot filter data: %w", err)
+		}
+	}
+	return data, nil
+}
+
+type Extractor interface {
+	Extract(data []byte) ([]byte, error)
+}
+
+type Filter interface {
+	Filter(data []byte) ([]byte, error)
 }
 
 func NewIncludeNode(p scanner.NodeContainer, d scanner.Document, location scanner.Location, tag string) IncludeNode {
@@ -90,6 +133,12 @@ func (n *includenode) Emit(ctx scanner.ResolutionContext) error {
 	if err != nil {
 		return n.Errorf("cannot read include file %q: %s", n.tag, err)
 	}
+
+	data, err = n.Process(data)
+	if err != nil {
+		return n.Errorf("%q: %s", n.tag, err)
+	}
+
 	fmt.Fprintf(ctx.Writer(), "%s\n", string(data))
 	return nil
 }

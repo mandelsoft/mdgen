@@ -78,7 +78,7 @@ The name of a {{term directive}}.
 {{endtermdef}} and argument strings. It is described by the following syntax:
 <div align=center>
 
-  {{escape}}'`\{{`' {'` `'} ['`*`'] <keyword> {'` `' {'` `'} <arg>} {'` `'} '`}}`'{{endescape}}
+  {{escape}}'`\{{`' {'` `'} ['`*`'] <keyword> {'` `' {'` `'} <arg>} {'` `'} } '`}}`'{{endescape}}
 </div>
 
 An argument is a string which may be quoted with double quotes (`"`) to include
@@ -92,7 +92,10 @@ to indicate an optional nested structure (see {{ref #/statements}}).
 A newline after a directive is removed from the following text.
 
 Directives are used to formulate {{term *statement}}, which are used by the generator
-to incluence and structure the generated document tree.
+to incluence and structure the generated document tree. A statement consists of
+a main directive followed by content and/or a sequence of sub directives.
+If content is involved typically an appropriate *end* directive finalizes the
+statement.
 
 A typical {{term sourcedoc}} could like in {{ref *#example}}.
 

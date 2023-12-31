@@ -1,0 +1,15 @@
+
+complete output
+```
+{{execute go run ../cmd snippet "some marked text"}}
+```
+
+marked content
+```
+{{execute go run ../cmd snippet "some marked text"}}{{pattern snippet}}
+```
+
+line 5
+```
+{{execute go run ../cmd snippet "some marked text"}}{{range 5}}
+```
