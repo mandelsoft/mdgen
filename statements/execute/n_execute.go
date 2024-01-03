@@ -7,6 +7,7 @@
 package execute
 
 import (
+	"bytes"
 	"fmt"
 	"os/exec"
 
@@ -96,10 +97,15 @@ func (n *executenode) Register(ctx scanner.ResolutionContext) error {
 func (n *executenode) Emit(ctx scanner.ResolutionContext) error {
 	nctx := scanner.GetNodeContext[*ExecuteNodeContext](ctx, n)
 
+	stderr := &bytes.Buffer{}
 	cmd := exec.Command(nctx.command[0], nctx.command[1:]...)
 	cmd.Dir = nctx.dir
+	cmd.Stderr = stderr
 	data, err := cmd.Output()
 	if err != nil {
+		if len(stderr.Bytes()) > 0 {
+			return fmt.Errorf("cannot execute %v: %w (%s)", nctx.command, err, stderr.String())
+		}
 		return n.Errorf("cannot execute %v: %s", nctx.command, err)
 	}
 
